@@ -36,9 +36,20 @@ test("saved reviews and observations expose edit and delete controls", () => {
   assert.match(records, /milos-observations-v1/);
 });
 
-test("Milos 2.10 still loads and caches v2.8 record management", () => {
-  assert.match(index, /milos-app-version" content="2\.10/);
-  assert.match(index, /milos-record-management-v28\.js\?v=2\.10/);
-  assert.match(sw, /milos-assessor-shell-v2\.10/);
+test("Milos 2.12 still loads and caches v2.8 record management", () => {
+  assert.match(index, /milos-app-version" content="2\.12/);
+  assert.match(index, /milos-record-management-v28\.js\?v=2\.12/);
+  assert.match(index, /milos-auto-trigger-v211\.js\?v=2\.12/);
+  assert.match(index, /milos-auto-v29\.js\?v=2\.12/);
+  for (const legacy of [
+    "milos-observation-auto-v25.js",
+    "milos-review-auto-v26.js",
+    "milos-natural-narrative-v27.js",
+    "milos-observation-prose-v27.js",
+    "milos-review-prose-v27.js"
+  ]) assert.doesNotMatch(index, new RegExp(legacy.replaceAll(".", "\\.")));
+  assert.match(sw, /milos-assessor-shell-v2\.12/);
   assert.match(sw, /milos-record-management-v28\.js/);
+  assert.match(sw, /milos-auto-trigger-v211\.js/);
+  assert.match(sw, /milos-auto-v29\.js/);
 });
