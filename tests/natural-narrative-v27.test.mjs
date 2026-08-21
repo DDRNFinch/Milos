@@ -110,12 +110,10 @@ test("review automatic mode converts changed KSBs into natural course-topic pros
   assert.equal(reports.overallStatus, "On track");
 });
 
-test("Milos 2.7 loads the natural writer after the data-mapping auto modules and caches it offline", () => {
-  const observationAt = index.indexOf("milos-observation-auto-v25.js?v=2.7");
-  const reviewAt = index.indexOf("milos-review-auto-v26.js?v=2.7");
-  const naturalAt = index.indexOf("milos-natural-narrative-v27.js?v=2.7");
-  assert.ok(observationAt > 0 && reviewAt > observationAt && naturalAt > reviewAt);
-  assert.match(index, /milos-app-version\" content=\"2\.7\"/);
-  assert.match(sw, /milos-assessor-shell-v2\.7/);
-  assert.match(sw, /milos-natural-narrative-v27\.js/);
+test("legacy natural-writer behavior remains covered while the active app uses the single current writer", () => {
+  assert.match(index, /milos-app-version\" content=\"2\.12\"/);
+  assert.match(index, /milos-auto-v29\.js\?v=2\.12/);
+  assert.doesNotMatch(index, /milos-natural-narrative-v27\.js\?v=/);
+  assert.match(sw, /milos-assessor-shell-v2\.12/);
+  assert.match(sw, /milos-auto-v29\.js/);
 });
