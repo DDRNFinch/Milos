@@ -8,7 +8,6 @@
   const REVIEW_PROFILE_KEY = "milos-auto-review-profile-v1";
   const OBS_PROFILE_KEY = "milos-auto-observation-profile-v1";
   const MARK_SELECTOR = ".milos-guidance > span";
-  const TRIGGER_SELECTOR = '[data-milos-auto-trigger="true"]';
 
   let tapCount = 0;
   let lastTapAt = 0;
@@ -37,9 +36,14 @@
     return page.querySelector('form[data-form="observation-record"], form[data-form^="review-"]');
   }
 
+  function targetMark(event) {
+    const mark = event && event.target && event.target.closest ? event.target.closest(MARK_SELECTOR) : null;
+    return mark && relevantForm(mark) ? mark : null;
+  }
+
   function decorateMark(mark) {
-    if (!mark || mark.dataset.milosAutoTrigger === "true") return;
-    if (!relevantForm(mark)) return;
+    if (!mark || !relevantForm(mark)) return;
+    if (mark.dataset.milosAutoTrigger === "true") return;
     mark.dataset.milosAutoTrigger = "true";
     mark.setAttribute("role", "button");
     mark.setAttribute("tabindex", "0");
@@ -71,7 +75,7 @@
     try { return !!clean(sessionStorage.getItem(key)); } catch (_) { return false; }
   }
 
-  function replayTrustedActivation(mark) {
+  function replayWriterActivation(mark) {
     for (let index = 0; index < TAP_TARGET; index += 1) {
       mark.dispatchEvent(new MouseEvent("click", {
         bubbles: true,
@@ -98,12 +102,12 @@
       return;
     }
 
-    replayTrustedActivation(mark);
+    replayWriterActivation(mark);
     showToast("Milos Automatic Mode activated. The generated text remains editable.", false);
   }
 
   document.addEventListener("pointerup", (event) => {
-    const mark = event.target && event.target.closest ? event.target.closest(TRIGGER_SELECTOR) : null;
+    const mark = targetMark(event);
     if (!mark) return;
     event.preventDefault();
     lastTouchAt = Date.now();
@@ -112,7 +116,7 @@
 
   document.addEventListener("touchend", (event) => {
     if (global.PointerEvent || Date.now() - lastTouchAt < 750) return;
-    const mark = event.target && event.target.closest ? event.target.closest(TRIGGER_SELECTOR) : null;
+    const mark = targetMark(event);
     if (!mark) return;
     event.preventDefault();
     lastTouchAt = Date.now();
@@ -122,7 +126,7 @@
   document.addEventListener("click", (event) => {
     rememberProfile(event);
 
-    const mark = event.target && event.target.closest ? event.target.closest(TRIGGER_SELECTOR) : null;
+    const mark = targetMark(event);
     if (!mark || !event.isTrusted) return;
 
     // Physical mobile clicks are suppressed so the v2.9 writer only receives
@@ -133,7 +137,7 @@
 
   document.addEventListener("keydown", (event) => {
     if (event.key !== "Enter" && event.key !== " ") return;
-    const mark = event.target && event.target.closest ? event.target.closest(TRIGGER_SELECTOR) : null;
+    const mark = targetMark(event);
     if (!mark) return;
     event.preventDefault();
     countTap(mark);
@@ -153,7 +157,7 @@
 
   const style = document.createElement("style");
   style.id = "milos-auto-trigger-v210-style";
-  style.textContent = `${TRIGGER_SELECTOR}{cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}`;
+  style.textContent = `${MARK_SELECTOR}{cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}`;
   document.head.appendChild(style);
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", startObserver, { once: true });
