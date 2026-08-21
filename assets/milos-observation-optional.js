@@ -37,6 +37,8 @@
     dataUrl,
   }));
 
+  if (!global.document) return;
+
   const textReplacements = new Map([
     [
       "Scan Evia first, then select every category, job and opportunity section you personally observe. More sections can be added during the visit.",
@@ -50,7 +52,7 @@
   ]);
 
   function updateText(root) {
-    if (!root || !global.document || !document.createTreeWalker) return;
+    if (!root || !document.createTreeWalker) return;
     const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
     const nodes = [];
     let node;
