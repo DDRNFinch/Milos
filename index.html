@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#f6f9ff">
+  <meta name="description" content="Milos is a private, course-mapped assessor assistant for learner progress reviews and workplace observations.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Milos">
+  <meta name="milos-app-version" content="1">
+  <title>Milos — Assessor Assistant</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="apple-touch-icon" href="./apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
+  <link rel="stylesheet" href="./styles.css?v=1">
+  <script defer src="./assets/jsQR-1.4.0.js?v=1"></script>
+  <script defer src="./assets/qrcode.js?v=1"></script>
+  <script defer src="./assets/jspdf.umd.min.js?v=1"></script>
+  <script defer src="./assets/milos-core.js?v=1"></script>
+  <script defer src="./assets/milos-qr.js?v=1"></script>
+  <script defer src="./assets/milos-media.js?v=1"></script>
+  <script defer src="./assets/milos-pdf.js?v=1"></script>
+  <script defer src="./assets/milos-app.js?v=1"></script>
+</head>
+<body>
+  <main id="milosApp" class="evia-app milos-app" aria-label="Milos assessor assistant"></main>
+  <noscript>Milos needs JavaScript to store local learner records, scan QR codes and create PDFs.</noscript>
+  <script>
+    if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) {
+      window.addEventListener("load", function () {
+        navigator.serviceWorker.register("./sw.js").catch(function () {});
+      });
+    }
+  </script>
+</body>
+</html>

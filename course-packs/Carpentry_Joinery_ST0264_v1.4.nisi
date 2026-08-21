@@ -1,0 +1,4344 @@
+{
+  "nisiCoursePack": 1,
+  "schemaVersion": 1,
+  "id": "st0264-v1-4",
+  "familyId": "ST0264",
+  "version": "1.4",
+  "title": "Carpentry & Joinery — ST0264 v1.4",
+  "shortTitle": "Carpentry & Joinery",
+  "standard": "ST0264 v1.4",
+  "standardId": "ST0264",
+  "choiceLabel": "Pathway",
+  "courseType": "apprenticeship",
+  "coverageLabel": "KSB",
+  "learningLabel": "OTJ",
+  "fourthLabel": "EPA",
+  "otjMinimumHours": 557,
+  "gatewayBufferMonths": 3,
+  "epaConfigured": true,
+  "pathways": [
+    {
+      "id": "site-carpenter",
+      "title": "Site Carpenter",
+      "compatStorageSuffix": "st0264-site",
+      "codes": [
+        "K1",
+        "K2",
+        "K3",
+        "K4",
+        "K5",
+        "K6",
+        "K7",
+        "K8",
+        "K9",
+        "K10",
+        "K11",
+        "K12",
+        "K13",
+        "K14",
+        "K15",
+        "K16",
+        "K17",
+        "K18",
+        "K19",
+        "K20",
+        "K21",
+        "K22",
+        "K23",
+        "K24",
+        "K25",
+        "K26",
+        "K27",
+        "K28",
+        "K29",
+        "K40",
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5",
+        "S6",
+        "S7",
+        "S8",
+        "S9",
+        "S10",
+        "S11",
+        "S12",
+        "S13",
+        "S14",
+        "S15",
+        "S16",
+        "S17",
+        "S18",
+        "S19",
+        "S20",
+        "S21",
+        "S22",
+        "B1",
+        "B2",
+        "B3",
+        "B4",
+        "B5"
+      ],
+      "codeDescriptions": {
+        "K1": "H&S regulations, standards & guidance",
+        "K2": "PPE, RPE & safety controls",
+        "K3": "Safe systems of work",
+        "K4": "Environmental impact & sustainable resources",
+        "K5": "Building & modern construction principles",
+        "K6": "Digital design & modelling systems",
+        "K7": "Carpentry standards & regulations",
+        "K8": "Drawings & specifications",
+        "K9": "Timber & material characteristics",
+        "K10": "Timber decay & repair",
+        "K11": "Carpentry/joinery products & ironmongery",
+        "K12": "Material estimating & cutting lists",
+        "K13": "Verbal communication & construction terminology",
+        "K14": "Hand tools: use & storage",
+        "K15": "Hand tool maintenance & sharpening",
+        "K16": "Jigs",
+        "K17": "Power tools: use & storage",
+        "K18": "Team working",
+        "K19": "Inclusion, equity & diversity",
+        "K20": "Wellbeing & support",
+        "K21": "Site measuring, marking, fitting, cutting & mitring",
+        "K22": "Structural fixtures & timber sizing",
+        "K23": "Timber sizing tables",
+        "K24": "Splicing & scribing",
+        "K25": "Straight roofs",
+        "K26": "Flat roofs",
+        "K27": "First-fix carpentry",
+        "K28": "Second-fix carpentry",
+        "K29": "Laser levels",
+        "K40": "Employment & self-employment",
+        "S1": "Comply with H&S requirements",
+        "S2": "Use PPE/RPE & safety controls",
+        "S3": "Sustainability & waste management",
+        "S4": "Industry standards & regulations",
+        "S5": "Prepare a safe work area",
+        "S6": "Interpret drawings & specifications",
+        "S7": "Estimate materials & cutting lists",
+        "S8": "Verbal communication",
+        "S9": "Use hand tools",
+        "S10": "Use power tools",
+        "S11": "Maintain & sharpen hand tools",
+        "S12": "Produce jigs",
+        "S13": "Identify wellbeing support",
+        "S14": "First-fix carpentry",
+        "S15": "Structural fixings",
+        "S16": "Use timber sizing tables",
+        "S17": "Second-fix carpentry",
+        "S18": "Rafter roofs",
+        "S19": "Use laser levels",
+        "S20": "Form carpentry connections",
+        "S21": "Measure, mark, cut, mitre, hinge & recess",
+        "S22": "Splice & scribe timber",
+        "B1": "Put H&S and wellbeing first",
+        "B2": "Consider the environment & resources",
+        "B3": "Support an inclusive/diverse culture",
+        "B4": "Seek learning & development",
+        "B5": "Work as part of the wider team"
+      },
+      "siteData": [
+        {
+          "id": "sc_getting_ready",
+          "title": "Getting ready & setting out",
+          "jobs": [
+            {
+              "id": "sc_read_drawings_plan_the_job",
+              "title": "Read drawings & plan the job",
+              "opps": [
+                {
+                  "id": "sc_read_drawings_plan_the_job_1",
+                  "title": "Use the drawing",
+                  "instruction": "Get a photo of the drawing or specification you are working from, keeping personal information out of view.",
+                  "question": "What information are you taking from this drawing for the job you are doing?",
+                  "codes": [
+                    "K8",
+                    "S6"
+                  ],
+                  "bundle": "Getting ready & setting out"
+                },
+                {
+                  "id": "sc_read_drawings_plan_the_job_2",
+                  "title": "Identify key dimensions",
+                  "instruction": "Get a photo showing the dimensions, levels or positions you need to work to.",
+                  "question": "Which dimensions are most important here, and how will you transfer them to the work?",
+                  "codes": [
+                    "K8",
+                    "K21",
+                    "S6",
+                    "S21"
+                  ],
+                  "bundle": "Getting ready & setting out"
+                },
+                {
+                  "id": "sc_read_drawings_plan_the_job_3",
+                  "title": "Plan the work sequence",
+                  "instruction": "Get a photo of the work area, components or notes you are using to plan the job.",
+                  "question": "What order are you planning to do the work in, and why?",
+                  "codes": [
+                    "K5",
+                    "K7",
+                    "B5"
+                  ],
+                  "bundle": "Getting ready & setting out"
+                },
+                {
+                  "id": "sc_read_drawings_plan_the_job_4",
+                  "title": "Use digital design information",
+                  "instruction": "Get a screenshot or photo showing the digital drawing, model or design information you are using, keeping personal information out of view.",
+                  "question": "How is this digital information helping you plan or carry out the carpentry work?",
+                  "codes": [
+                    "K6",
+                    "S6"
+                  ],
+                  "bundle": "Getting ready & setting out"
+                },
+                {
+                  "id": "sc_read_drawings_plan_the_job_5",
+                  "title": "Work to the required standard",
+                  "instruction": "Get a photo showing the part of the work where a drawing, building regulation, British Standard or warranty requirement matters.",
+                  "question": "What requirement are you following here, and how does it affect the work?",
+                  "codes": [
+                    "K7",
+                    "S4"
+                  ],
+                  "bundle": "Getting ready & setting out"
+                }
+              ]
+            },
+            {
+              "id": "sc_measure_mark_out",
+              "title": "Measure & mark out",
+              "opps": [
+                {
+                  "id": "sc_measure_mark_out_1",
+                  "title": "Measure the work",
+                  "instruction": "Get a photo showing the tape, square or measuring point you are using.",
+                  "question": "What are you measuring here, and what dimension are you working to?",
+                  "codes": [
+                    "K21",
+                    "S21"
+                  ],
+                  "bundle": "Getting ready & setting out"
+                },
+                {
+                  "id": "sc_measure_mark_out_2",
+                  "title": "Mark the position",
+                  "instruction": "Get a photo showing your pencil lines, marks or setting-out points on the timber.",
+                  "question": "How did you transfer the measurement accurately onto the timber?",
+                  "codes": [
+                    "K21",
+                    "S21"
+                  ],
+                  "bundle": "Getting ready & setting out"
+                },
+                {
+                  "id": "sc_measure_mark_out_3",
+                  "title": "Check before cutting",
+                  "instruction": "Get a photo showing the marked timber being checked with a square, bevel or another measuring tool.",
+                  "question": "What did you check before making the cut?",
+                  "codes": [
+                    "K14",
+                    "K21",
+                    "S9",
+                    "S21"
+                  ],
+                  "bundle": "Getting ready & setting out"
+                }
+              ]
+            },
+            {
+              "id": "sc_set_up_use_a_laser_level",
+              "title": "Set up & use a laser level",
+              "opps": [
+                {
+                  "id": "sc_set_up_use_a_laser_level_1",
+                  "title": "Set up the laser",
+                  "instruction": "Get a photo showing the laser level set up safely and securely.",
+                  "question": "How did you set up and check the laser before using it?",
+                  "codes": [
+                    "K29",
+                    "S19",
+                    "S5"
+                  ],
+                  "bundle": "Getting ready & setting out"
+                },
+                {
+                  "id": "sc_set_up_use_a_laser_level_2",
+                  "title": "Transfer the level",
+                  "instruction": "Get a photo showing the laser line being used to mark or check the work.",
+                  "question": "What level or position are you transferring from the laser?",
+                  "codes": [
+                    "K29",
+                    "S19",
+                    "S21"
+                  ],
+                  "bundle": "Getting ready & setting out"
+                },
+                {
+                  "id": "sc_set_up_use_a_laser_level_3",
+                  "title": "Check the result",
+                  "instruction": "Get a photo showing the work checked against the laser line.",
+                  "question": "What did the laser help you confirm about the finished position?",
+                  "codes": [
+                    "K29",
+                    "S19",
+                    "B5"
+                  ],
+                  "bundle": "Getting ready & setting out"
+                }
+              ]
+            },
+            {
+              "id": "sc_select_check_timber_materials",
+              "title": "Select & check timber/materials",
+              "opps": [
+                {
+                  "id": "sc_select_check_timber_materials_1",
+                  "title": "Choose the timber",
+                  "instruction": "Get a photo showing the timber or timber-based product selected for the job.",
+                  "question": "What material have you selected, and why is it suitable for this work?",
+                  "codes": [
+                    "K9",
+                    "S7"
+                  ],
+                  "bundle": "Getting ready & setting out"
+                },
+                {
+                  "id": "sc_select_check_timber_materials_2",
+                  "title": "Check condition",
+                  "instruction": "Get a photo showing the timber being checked for damage, moisture, twist, bow or other defects.",
+                  "question": "What did you check before deciding this timber was suitable to use?",
+                  "codes": [
+                    "K9",
+                    "K10"
+                  ],
+                  "bundle": "Getting ready & setting out"
+                },
+                {
+                  "id": "sc_select_check_timber_materials_3",
+                  "title": "Check associated products",
+                  "instruction": "Get a photo showing fixings, ironmongery, adhesive, preservative or another product needed for the job.",
+                  "question": "What is this product for, and why is it suitable here?",
+                  "codes": [
+                    "K11",
+                    "S7"
+                  ],
+                  "bundle": "Getting ready & setting out"
+                }
+              ]
+            },
+            {
+              "id": "sc_estimate_materials_make_a_cutting_list",
+              "title": "Estimate materials & make a cutting list",
+              "opps": [
+                {
+                  "id": "sc_estimate_materials_make_a_cutting_list_1",
+                  "title": "Work out the quantity",
+                  "instruction": "Get a photo of the drawing, area or dimensions you used to calculate the timber needed.",
+                  "question": "How did you work out how much material was required?",
+                  "codes": [
+                    "K12",
+                    "S7"
+                  ],
+                  "bundle": "Getting ready & setting out"
+                },
+                {
+                  "id": "sc_estimate_materials_make_a_cutting_list_2",
+                  "title": "Produce the cutting list",
+                  "instruction": "Get a photo of your cutting list with personal information kept out of view.",
+                  "question": "How did you decide the sizes and quantities shown on the cutting list?",
+                  "codes": [
+                    "K12",
+                    "S7"
+                  ],
+                  "bundle": "Getting ready & setting out"
+                },
+                {
+                  "id": "sc_estimate_materials_make_a_cutting_list_3",
+                  "title": "Allow for waste",
+                  "instruction": "Get a photo showing how the timber lengths or sheets will be cut efficiently.",
+                  "question": "What did you do to reduce waste when planning the cuts?",
+                  "codes": [
+                    "K4",
+                    "K12",
+                    "S3",
+                    "B2"
+                  ],
+                  "bundle": "Getting ready & setting out"
+                }
+              ]
+            },
+            {
+              "id": "sc_size_timber_from_sizing_tables",
+              "title": "Size timber from sizing tables",
+              "opps": [
+                {
+                  "id": "sc_size_timber_from_sizing_tables_1",
+                  "title": "Use the sizing table",
+                  "instruction": "Get a photo of the sizing table or approved information you are using.",
+                  "question": "What information are you taking from the table?",
+                  "codes": [
+                    "K22",
+                    "K23",
+                    "S16"
+                  ],
+                  "bundle": "Getting ready & setting out"
+                },
+                {
+                  "id": "sc_size_timber_from_sizing_tables_2",
+                  "title": "Choose the timber size",
+                  "instruction": "Get a photo showing the timber size selected for the structural work.",
+                  "question": "Why is this timber size suitable for the span or load here?",
+                  "codes": [
+                    "K22",
+                    "K23",
+                    "S16"
+                  ],
+                  "bundle": "Getting ready & setting out"
+                },
+                {
+                  "id": "sc_size_timber_from_sizing_tables_3",
+                  "title": "Check against the job",
+                  "instruction": "Get a photo showing the selected timber against the drawing or actual work.",
+                  "question": "What did you check to make sure the chosen size matches the job requirements?",
+                  "codes": [
+                    "K7",
+                    "K22",
+                    "S6",
+                    "S16"
+                  ],
+                  "bundle": "Getting ready & setting out"
+                }
+              ]
+            },
+            {
+              "id": "sc_prepare_tools_work_area",
+              "title": "Prepare tools & work area",
+              "opps": [
+                {
+                  "id": "sc_prepare_tools_work_area_1",
+                  "title": "Set up a safe work area",
+                  "instruction": "Get a photo showing the area clear, organised and ready for carpentry work.",
+                  "question": "What hazards did you check for before starting?",
+                  "codes": [
+                    "K1",
+                    "K3",
+                    "S1",
+                    "S5",
+                    "B1"
+                  ],
+                  "bundle": "Getting ready & setting out"
+                },
+                {
+                  "id": "sc_prepare_tools_work_area_2",
+                  "title": "Select the hand tools",
+                  "instruction": "Get a photo showing the hand tools chosen for this job.",
+                  "question": "Which tools have you selected, and what will each one be used for?",
+                  "codes": [
+                    "K14",
+                    "S9"
+                  ],
+                  "bundle": "Getting ready & setting out"
+                },
+                {
+                  "id": "sc_prepare_tools_work_area_3",
+                  "title": "Select the power tools",
+                  "instruction": "Get a photo showing the power tools, guards or dust controls prepared for the job. Do not take the photo while operating the tool.",
+                  "question": "What checks and controls are needed before using these tools?",
+                  "codes": [
+                    "K2",
+                    "K17",
+                    "S2",
+                    "S10"
+                  ],
+                  "bundle": "Getting ready & setting out"
+                }
+              ]
+            },
+            {
+              "id": "sc_make_a_jig",
+              "title": "Make a jig",
+              "opps": [
+                {
+                  "id": "sc_make_a_jig_1",
+                  "title": "Set out the jig",
+                  "instruction": "Get a photo showing the jig marked out before cutting or assembly.",
+                  "question": "What measurements does the jig need to control?",
+                  "codes": [
+                    "K16",
+                    "S12",
+                    "S21"
+                  ],
+                  "bundle": "Getting ready & setting out"
+                },
+                {
+                  "id": "sc_make_a_jig_2",
+                  "title": "Build the jig",
+                  "instruction": "Get a photo or short video showing the jig being made or assembled.",
+                  "question": "How did you make sure the jig stayed accurate and square?",
+                  "codes": [
+                    "K16",
+                    "S12"
+                  ],
+                  "bundle": "Getting ready & setting out"
+                },
+                {
+                  "id": "sc_make_a_jig_3",
+                  "title": "Use the jig",
+                  "instruction": "Get a photo showing the jig positioned on the work or component.",
+                  "question": "What does this jig help you repeat accurately?",
+                  "codes": [
+                    "K16",
+                    "S12"
+                  ],
+                  "bundle": "Getting ready & setting out"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sc_first_fix",
+          "title": "First fix & structural work",
+          "jobs": [
+            {
+              "id": "sc_build_load_bearing_studwork",
+              "title": "Build load-bearing studwork",
+              "opps": [
+                {
+                  "id": "sc_build_load_bearing_studwork_1",
+                  "title": "Set out the wall",
+                  "instruction": "Get a photo showing the sole plate, head plate or stud positions marked out.",
+                  "question": "How did you set out the wall and decide the stud positions?",
+                  "codes": [
+                    "K21",
+                    "K27",
+                    "S14",
+                    "S21"
+                  ],
+                  "bundle": "First fix & structural work"
+                },
+                {
+                  "id": "sc_build_load_bearing_studwork_2",
+                  "title": "Form the structural frame",
+                  "instruction": "Get a photo or short video showing studs, plates, noggins or openings being assembled.",
+                  "question": "How are the members connected and kept in the correct position?",
+                  "codes": [
+                    "K22",
+                    "K27",
+                    "S14",
+                    "S20"
+                  ],
+                  "bundle": "First fix & structural work"
+                },
+                {
+                  "id": "sc_build_load_bearing_studwork_3",
+                  "title": "Check the frame",
+                  "instruction": "Get a photo showing the studwork being checked for line, level, plumb or square.",
+                  "question": "What checks did you make before the frame was fixed permanently?",
+                  "codes": [
+                    "K7",
+                    "S14",
+                    "S21",
+                    "B5"
+                  ],
+                  "bundle": "First fix & structural work"
+                }
+              ]
+            },
+            {
+              "id": "sc_build_a_timber_partition",
+              "title": "Build a timber partition",
+              "opps": [
+                {
+                  "id": "sc_build_a_timber_partition_1",
+                  "title": "Set out the partition",
+                  "instruction": "Get a photo showing the wall line and stud positions.",
+                  "question": "How did you set out the partition from the drawing or room dimensions?",
+                  "codes": [
+                    "K8",
+                    "K21",
+                    "K27",
+                    "S6",
+                    "S14"
+                  ],
+                  "bundle": "First fix & structural work"
+                },
+                {
+                  "id": "sc_build_a_timber_partition_2",
+                  "title": "Build the timber frame",
+                  "instruction": "Get a photo or short video showing studs, plates and noggins being fitted.",
+                  "question": "How did you keep the studs spaced and the frame square?",
+                  "codes": [
+                    "K27",
+                    "S14",
+                    "S20"
+                  ],
+                  "bundle": "First fix & structural work"
+                },
+                {
+                  "id": "sc_build_a_timber_partition_3",
+                  "title": "Check openings & services",
+                  "instruction": "Get a photo showing a doorway, service position or other detail within the partition.",
+                  "question": "What did you allow for before the partition was closed up?",
+                  "codes": [
+                    "K5",
+                    "K27",
+                    "S14"
+                  ],
+                  "bundle": "First fix & structural work"
+                }
+              ]
+            },
+            {
+              "id": "sc_build_a_metal_stud_partition",
+              "title": "Build a metal stud partition",
+              "opps": [
+                {
+                  "id": "sc_build_a_metal_stud_partition_1",
+                  "title": "Set out the track",
+                  "instruction": "Get a photo showing floor/ceiling track positions marked or fixed.",
+                  "question": "How did you set out the position of this partition?",
+                  "codes": [
+                    "K8",
+                    "K27",
+                    "S6",
+                    "S14"
+                  ],
+                  "bundle": "First fix & structural work"
+                },
+                {
+                  "id": "sc_build_a_metal_stud_partition_2",
+                  "title": "Fit studs & openings",
+                  "instruction": "Get a photo showing the metal studs, door opening or bracing detail.",
+                  "question": "How did you keep the studs correctly spaced and positioned?",
+                  "codes": [
+                    "K27",
+                    "S14"
+                  ],
+                  "bundle": "First fix & structural work"
+                },
+                {
+                  "id": "sc_build_a_metal_stud_partition_3",
+                  "title": "Check the partition",
+                  "instruction": "Get a photo showing the frame checked for plumb, line or opening size.",
+                  "question": "What checks did you make before boarding or handing over the frame?",
+                  "codes": [
+                    "K7",
+                    "S14",
+                    "B5"
+                  ],
+                  "bundle": "First fix & structural work"
+                }
+              ]
+            },
+            {
+              "id": "sc_install_structural_fixings",
+              "title": "Install structural fixings",
+              "opps": [
+                {
+                  "id": "sc_install_structural_fixings_1",
+                  "title": "Identify the fixing point",
+                  "instruction": "Get a photo showing where the structural fixing is required.",
+                  "question": "What is being fixed here, and what load or movement does the fixing need to resist?",
+                  "codes": [
+                    "K22",
+                    "S15"
+                  ],
+                  "bundle": "First fix & structural work"
+                },
+                {
+                  "id": "sc_install_structural_fixings_2",
+                  "title": "Show the fixing used",
+                  "instruction": "Get a close photo of the bolt, screw, bracket, strap or other structural fixing.",
+                  "question": "Why is this fixing suitable for this connection?",
+                  "codes": [
+                    "K11",
+                    "K22",
+                    "S15",
+                    "S20"
+                  ],
+                  "bundle": "First fix & structural work"
+                },
+                {
+                  "id": "sc_install_structural_fixings_3",
+                  "title": "Check the completed fixing",
+                  "instruction": "Get a photo showing the fixing fully installed.",
+                  "question": "What did you check to make sure the fixing was correctly installed and secure?",
+                  "codes": [
+                    "K7",
+                    "S15",
+                    "B5"
+                  ],
+                  "bundle": "First fix & structural work"
+                }
+              ]
+            },
+            {
+              "id": "sc_form_timber_connections",
+              "title": "Form timber connections",
+              "opps": [
+                {
+                  "id": "sc_form_timber_connections_1",
+                  "title": "Prepare the connection",
+                  "instruction": "Get a photo showing the members marked, drilled, cut or positioned ready to connect.",
+                  "question": "How did you prepare the timber so the connection would fit correctly?",
+                  "codes": [
+                    "K21",
+                    "S20",
+                    "S21"
+                  ],
+                  "bundle": "First fix & structural work"
+                },
+                {
+                  "id": "sc_form_timber_connections_2",
+                  "title": "Make the connection",
+                  "instruction": "Get a close photo or short video showing the joint, nails, screws, bolts or adhesive connection.",
+                  "question": "Why did you use this connection method here?",
+                  "codes": [
+                    "K11",
+                    "S20"
+                  ],
+                  "bundle": "First fix & structural work"
+                },
+                {
+                  "id": "sc_form_timber_connections_3",
+                  "title": "Check the connection",
+                  "instruction": "Get a photo showing the completed connection.",
+                  "question": "What did you check before deciding the connection was secure?",
+                  "codes": [
+                    "S20",
+                    "B5"
+                  ],
+                  "bundle": "First fix & structural work"
+                }
+              ]
+            },
+            {
+              "id": "sc_splice_timber",
+              "title": "Splice timber",
+              "opps": [
+                {
+                  "id": "sc_splice_timber_1",
+                  "title": "Mark out the splice",
+                  "instruction": "Get a photo showing the splice marked onto the timber.",
+                  "question": "How did you decide the length and position of the splice?",
+                  "codes": [
+                    "K24",
+                    "S22",
+                    "S21"
+                  ],
+                  "bundle": "First fix & structural work"
+                },
+                {
+                  "id": "sc_splice_timber_2",
+                  "title": "Form the splice",
+                  "instruction": "Get a photo or short video showing the splice being cut or fitted.",
+                  "question": "What technique are you using to make the two pieces fit together?",
+                  "codes": [
+                    "K24",
+                    "S22"
+                  ],
+                  "bundle": "First fix & structural work"
+                },
+                {
+                  "id": "sc_splice_timber_3",
+                  "title": "Secure the splice",
+                  "instruction": "Get a photo showing the completed splice and fixings.",
+                  "question": "How is the splice fixed, and what did you check before finishing?",
+                  "codes": [
+                    "K24",
+                    "S20",
+                    "S22"
+                  ],
+                  "bundle": "First fix & structural work"
+                }
+              ]
+            },
+            {
+              "id": "sc_scribe_timber",
+              "title": "Scribe timber",
+              "opps": [
+                {
+                  "id": "sc_scribe_timber_1",
+                  "title": "Transfer the shape",
+                  "instruction": "Get a photo showing the timber being scribed to the wall, floor or adjoining surface.",
+                  "question": "How did you transfer the shape or irregular line onto the timber?",
+                  "codes": [
+                    "K24",
+                    "S22"
+                  ],
+                  "bundle": "First fix & structural work"
+                },
+                {
+                  "id": "sc_scribe_timber_2",
+                  "title": "Cut to the scribe",
+                  "instruction": "Get a photo or short video showing the scribed line being cut or adjusted.",
+                  "question": "How did you avoid cutting past the scribed line?",
+                  "codes": [
+                    "K21",
+                    "K24",
+                    "S21",
+                    "S22"
+                  ],
+                  "bundle": "First fix & structural work"
+                },
+                {
+                  "id": "sc_scribe_timber_3",
+                  "title": "Check the fit",
+                  "instruction": "Get a photo showing the timber fitted to the surface after scribing.",
+                  "question": "What tells you the scribe is accurate enough?",
+                  "codes": [
+                    "K24",
+                    "S22",
+                    "B5"
+                  ],
+                  "bundle": "First fix & structural work"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sc_roof",
+          "title": "Roof work",
+          "jobs": [
+            {
+              "id": "sc_set_out_a_roof",
+              "title": "Set out a roof",
+              "opps": [
+                {
+                  "id": "sc_set_out_a_roof_1",
+                  "title": "Read the roof information",
+                  "instruction": "Get a photo of the roof drawing, dimensions or approved setting-out information.",
+                  "question": "Which dimensions or angles are you taking from this information?",
+                  "codes": [
+                    "K8",
+                    "K25",
+                    "S6"
+                  ],
+                  "bundle": "Roof work"
+                },
+                {
+                  "id": "sc_set_out_a_roof_2",
+                  "title": "Mark the roof geometry",
+                  "instruction": "Get a photo showing ridge, wall plate, rafter positions or cuts being marked out.",
+                  "question": "How did you work out the position or angle you are marking?",
+                  "codes": [
+                    "K21",
+                    "K25",
+                    "S18",
+                    "S21"
+                  ],
+                  "bundle": "Roof work"
+                },
+                {
+                  "id": "sc_set_out_a_roof_3",
+                  "title": "Check the set-out",
+                  "instruction": "Get a photo showing the roof setting out checked before cutting or fixing.",
+                  "question": "What did you check before starting to cut or install the roof members?",
+                  "codes": [
+                    "K25",
+                    "S18",
+                    "B5"
+                  ],
+                  "bundle": "Roof work"
+                }
+              ]
+            },
+            {
+              "id": "sc_install_a_trussed_roof",
+              "title": "Install a trussed roof",
+              "opps": [
+                {
+                  "id": "sc_install_a_trussed_roof_1",
+                  "title": "Position the first truss",
+                  "instruction": "Get a photo showing the first truss positioned and temporarily secured.",
+                  "question": "How did you set the first truss to the correct position and plumb?",
+                  "codes": [
+                    "K25",
+                    "S18"
+                  ],
+                  "bundle": "Roof work"
+                },
+                {
+                  "id": "sc_install_a_trussed_roof_2",
+                  "title": "Set truss spacing & bracing",
+                  "instruction": "Get a photo showing truss spacing, temporary bracing or restraint.",
+                  "question": "How are you maintaining the correct spacing and stability while installing the trusses?",
+                  "codes": [
+                    "K25",
+                    "S18",
+                    "S20",
+                    "B1"
+                  ],
+                  "bundle": "Roof work"
+                },
+                {
+                  "id": "sc_install_a_trussed_roof_3",
+                  "title": "Check the roof line",
+                  "instruction": "Get a photo showing the installed trusses checked for alignment.",
+                  "question": "What checks did you make before the roof was ready for the next stage?",
+                  "codes": [
+                    "K7",
+                    "K25",
+                    "S18",
+                    "B5"
+                  ],
+                  "bundle": "Roof work"
+                }
+              ]
+            },
+            {
+              "id": "sc_cut_install_a_traditional_roof",
+              "title": "Cut & install a traditional roof",
+              "opps": [
+                {
+                  "id": "sc_cut_install_a_traditional_roof_1",
+                  "title": "Mark a rafter",
+                  "instruction": "Get a photo showing a rafter marked for plumb cut, seat cut or length.",
+                  "question": "How did you work out and mark these cuts?",
+                  "codes": [
+                    "K21",
+                    "K25",
+                    "S18",
+                    "S21"
+                  ],
+                  "bundle": "Roof work"
+                },
+                {
+                  "id": "sc_cut_install_a_traditional_roof_2",
+                  "title": "Cut the rafter",
+                  "instruction": "Get a photo or short video showing the rafter being cut safely.",
+                  "question": "What checks did you make before cutting the rafter?",
+                  "codes": [
+                    "K17",
+                    "K25",
+                    "S10",
+                    "S18"
+                  ],
+                  "bundle": "Roof work"
+                },
+                {
+                  "id": "sc_cut_install_a_traditional_roof_3",
+                  "title": "Fit the rafter",
+                  "instruction": "Get a photo showing the rafter fitted at ridge and wall plate.",
+                  "question": "How did you check the rafter fitted correctly and followed the roof line?",
+                  "codes": [
+                    "K25",
+                    "S18",
+                    "S20"
+                  ],
+                  "bundle": "Roof work"
+                }
+              ]
+            },
+            {
+              "id": "sc_form_eaves_verge",
+              "title": "Form eaves & verge",
+              "opps": [
+                {
+                  "id": "sc_form_eaves_verge_1",
+                  "title": "Set out the eaves/verge",
+                  "instruction": "Get a photo showing the rafter ends, verge line or overhang marked.",
+                  "question": "What measurement or line are you working to here?",
+                  "codes": [
+                    "K21",
+                    "K25",
+                    "S18",
+                    "S21"
+                  ],
+                  "bundle": "Roof work"
+                },
+                {
+                  "id": "sc_form_eaves_verge_2",
+                  "title": "Cut & form the detail",
+                  "instruction": "Get a photo or short video showing the eaves or verge detail being formed.",
+                  "question": "How are you keeping the cuts consistent along the roof?",
+                  "codes": [
+                    "K25",
+                    "S18",
+                    "S21"
+                  ],
+                  "bundle": "Roof work"
+                },
+                {
+                  "id": "sc_form_eaves_verge_3",
+                  "title": "Check the finished line",
+                  "instruction": "Get a photo showing the completed eaves or verge line.",
+                  "question": "What did you check for alignment and projection before finishing?",
+                  "codes": [
+                    "K25",
+                    "S18",
+                    "B5"
+                  ],
+                  "bundle": "Roof work"
+                }
+              ]
+            },
+            {
+              "id": "sc_fit_loft_access",
+              "title": "Fit loft access",
+              "opps": [
+                {
+                  "id": "sc_fit_loft_access_1",
+                  "title": "Set out the opening",
+                  "instruction": "Get a photo showing the loft opening position and size marked out.",
+                  "question": "How did you decide the position and size of the opening?",
+                  "codes": [
+                    "K8",
+                    "K25",
+                    "S6",
+                    "S18"
+                  ],
+                  "bundle": "Roof work"
+                },
+                {
+                  "id": "sc_fit_loft_access_2",
+                  "title": "Form the trimmed opening",
+                  "instruction": "Get a photo showing trimmers, joists or framing around the loft access.",
+                  "question": "How is the opening supported and connected to the surrounding structure?",
+                  "codes": [
+                    "K22",
+                    "K25",
+                    "S15",
+                    "S18",
+                    "S20"
+                  ],
+                  "bundle": "Roof work"
+                },
+                {
+                  "id": "sc_fit_loft_access_3",
+                  "title": "Fit & check the access",
+                  "instruction": "Get a photo showing the loft access fitted.",
+                  "question": "What did you check to make sure the access is square, secure and operates correctly?",
+                  "codes": [
+                    "K7",
+                    "S18",
+                    "B5"
+                  ],
+                  "bundle": "Roof work"
+                }
+              ]
+            },
+            {
+              "id": "sc_build_a_flat_roof",
+              "title": "Build a flat roof",
+              "opps": [
+                {
+                  "id": "sc_build_a_flat_roof_1",
+                  "title": "Set out the roof structure",
+                  "instruction": "Get a photo showing joist positions, falls or roof dimensions being set out.",
+                  "question": "How did you set out the roof to achieve the required size and fall?",
+                  "codes": [
+                    "K21",
+                    "K26",
+                    "S18",
+                    "S21"
+                  ],
+                  "bundle": "Roof work"
+                },
+                {
+                  "id": "sc_build_a_flat_roof_2",
+                  "title": "Install the roof members",
+                  "instruction": "Get a photo showing flat-roof joists, supports or connections.",
+                  "question": "How are the joists supported and fixed?",
+                  "codes": [
+                    "K22",
+                    "K26",
+                    "S15",
+                    "S18",
+                    "S20"
+                  ],
+                  "bundle": "Roof work"
+                },
+                {
+                  "id": "sc_build_a_flat_roof_3",
+                  "title": "Check the fall & deck support",
+                  "instruction": "Get a photo showing the roof checked before covering.",
+                  "question": "How did you check the fall and make sure the deck will be properly supported?",
+                  "codes": [
+                    "K26",
+                    "S18",
+                    "B5"
+                  ],
+                  "bundle": "Roof work"
+                }
+              ]
+            },
+            {
+              "id": "sc_fit_firrings_roof_deck",
+              "title": "Fit firrings & roof deck",
+              "opps": [
+                {
+                  "id": "sc_fit_firrings_roof_deck_1",
+                  "title": "Set out the firrings",
+                  "instruction": "Get a photo showing firrings positioned or marked to create the fall.",
+                  "question": "How did you decide the direction and amount of fall?",
+                  "codes": [
+                    "K26",
+                    "S18",
+                    "S21"
+                  ],
+                  "bundle": "Roof work"
+                },
+                {
+                  "id": "sc_fit_firrings_roof_deck_2",
+                  "title": "Fix the firrings",
+                  "instruction": "Get a photo showing the firrings fixed to the roof structure.",
+                  "question": "How are the firrings fixed and kept in the correct position?",
+                  "codes": [
+                    "K26",
+                    "S18",
+                    "S20"
+                  ],
+                  "bundle": "Roof work"
+                },
+                {
+                  "id": "sc_fit_firrings_roof_deck_3",
+                  "title": "Fit the roof deck",
+                  "instruction": "Get a photo showing the deck laid with joints and edges supported.",
+                  "question": "What did you check about board joints, fixings and support before finishing?",
+                  "codes": [
+                    "K9",
+                    "K26",
+                    "S18",
+                    "B5"
+                  ],
+                  "bundle": "Roof work"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sc_floors_stairs",
+          "title": "Floors & stairs",
+          "jobs": [
+            {
+              "id": "sc_install_floor_joists",
+              "title": "Install floor joists",
+              "opps": [
+                {
+                  "id": "sc_install_floor_joists_1",
+                  "title": "Set out joist positions",
+                  "instruction": "Get a photo showing joist centres, bearing positions or trimming marked out.",
+                  "question": "How did you set out the joist positions and spacing?",
+                  "codes": [
+                    "K22",
+                    "K27",
+                    "S14",
+                    "S21"
+                  ],
+                  "bundle": "Floors & stairs"
+                },
+                {
+                  "id": "sc_install_floor_joists_2",
+                  "title": "Install & connect the joists",
+                  "instruction": "Get a photo showing joists, hangers, bearings or fixings.",
+                  "question": "How are the joists supported and fixed at this point?",
+                  "codes": [
+                    "K22",
+                    "K27",
+                    "S14",
+                    "S15",
+                    "S20"
+                  ],
+                  "bundle": "Floors & stairs"
+                },
+                {
+                  "id": "sc_install_floor_joists_3",
+                  "title": "Check line & level",
+                  "instruction": "Get a photo showing the joists being checked before covering.",
+                  "question": "What did you check to make sure the floor structure was level and correctly positioned?",
+                  "codes": [
+                    "K27",
+                    "S14",
+                    "S21",
+                    "B5"
+                  ],
+                  "bundle": "Floors & stairs"
+                }
+              ]
+            },
+            {
+              "id": "sc_fit_floor_joist_coverings",
+              "title": "Fit floor joist coverings",
+              "opps": [
+                {
+                  "id": "sc_fit_floor_joist_coverings_1",
+                  "title": "Plan the board layout",
+                  "instruction": "Get a photo showing sheet or board positions before fixing.",
+                  "question": "How did you plan the layout so joints are supported and waste is reduced?",
+                  "codes": [
+                    "K4",
+                    "K9",
+                    "K27",
+                    "S3",
+                    "S14"
+                  ],
+                  "bundle": "Floors & stairs"
+                },
+                {
+                  "id": "sc_fit_floor_joist_coverings_2",
+                  "title": "Cut & fit the covering",
+                  "instruction": "Get a photo or short video showing boards being measured, cut or fitted.",
+                  "question": "What allowance did you make for edges, joints or openings?",
+                  "codes": [
+                    "K21",
+                    "K27",
+                    "S14",
+                    "S21"
+                  ],
+                  "bundle": "Floors & stairs"
+                },
+                {
+                  "id": "sc_fit_floor_joist_coverings_3",
+                  "title": "Fix the covering",
+                  "instruction": "Get a photo showing the board fixings and supported joints.",
+                  "question": "How did you decide the fixing pattern and what did you check before finishing?",
+                  "codes": [
+                    "K27",
+                    "S14",
+                    "S20"
+                  ],
+                  "bundle": "Floors & stairs"
+                }
+              ]
+            },
+            {
+              "id": "sc_set_out_install_a_straight_staircase",
+              "title": "Set out & install a straight staircase",
+              "opps": [
+                {
+                  "id": "sc_set_out_install_a_straight_staircase_1",
+                  "title": "Set out the stair position",
+                  "instruction": "Get a photo showing the stair opening, landing position or fixing lines.",
+                  "question": "How did you confirm the stair would fit the opening correctly?",
+                  "codes": [
+                    "K8",
+                    "K27",
+                    "S6",
+                    "S14",
+                    "S21"
+                  ],
+                  "bundle": "Floors & stairs"
+                },
+                {
+                  "id": "sc_set_out_install_a_straight_staircase_2",
+                  "title": "Position the staircase",
+                  "instruction": "Get a photo showing the flight being positioned or temporarily supported.",
+                  "question": "What reference points did you use to get the stair in the correct position?",
+                  "codes": [
+                    "K27",
+                    "S14"
+                  ],
+                  "bundle": "Floors & stairs"
+                },
+                {
+                  "id": "sc_set_out_install_a_straight_staircase_3",
+                  "title": "Fix & check the staircase",
+                  "instruction": "Get a photo showing the installed flight and structural fixings.",
+                  "question": "How is the staircase fixed, and what did you check before completing it?",
+                  "codes": [
+                    "K22",
+                    "K27",
+                    "S15",
+                    "S14",
+                    "B5"
+                  ],
+                  "bundle": "Floors & stairs"
+                }
+              ]
+            },
+            {
+              "id": "sc_fit_a_handrail",
+              "title": "Fit a handrail",
+              "opps": [
+                {
+                  "id": "sc_fit_a_handrail_1",
+                  "title": "Set out the handrail",
+                  "instruction": "Get a photo showing the handrail height, angle or fixing positions marked.",
+                  "question": "How did you set the height and position of the handrail?",
+                  "codes": [
+                    "K21",
+                    "K28",
+                    "S17",
+                    "S21"
+                  ],
+                  "bundle": "Floors & stairs"
+                },
+                {
+                  "id": "sc_fit_a_handrail_2",
+                  "title": "Cut & join the rail",
+                  "instruction": "Get a photo or short video showing a cut, joint or end detail.",
+                  "question": "How did you mark and cut the rail to fit the stair accurately?",
+                  "codes": [
+                    "K21",
+                    "S17",
+                    "S21"
+                  ],
+                  "bundle": "Floors & stairs"
+                },
+                {
+                  "id": "sc_fit_a_handrail_3",
+                  "title": "Fix & check the rail",
+                  "instruction": "Get a photo showing the completed handrail and fixings.",
+                  "question": "What did you check for alignment, height and secure fixing?",
+                  "codes": [
+                    "K7",
+                    "K28",
+                    "S17",
+                    "S20"
+                  ],
+                  "bundle": "Floors & stairs"
+                }
+              ]
+            },
+            {
+              "id": "sc_fit_spindles",
+              "title": "Fit spindles",
+              "opps": [
+                {
+                  "id": "sc_fit_spindles_1",
+                  "title": "Set out spindle spacing",
+                  "instruction": "Get a photo showing the spindle positions or spacing marks on the base/handrail.",
+                  "question": "How did you work out the spacing so the gaps are even and meet the required standard?",
+                  "codes": [
+                    "K7",
+                    "K21",
+                    "K28",
+                    "S17",
+                    "S21"
+                  ],
+                  "bundle": "Floors & stairs"
+                },
+                {
+                  "id": "sc_fit_spindles_2",
+                  "title": "Cut the spindles to fit",
+                  "instruction": "Get a photo or short video showing a spindle marked or cut to the correct length/angle.",
+                  "question": "How did you mark and cut each spindle so it fitted between the rail and base?",
+                  "codes": [
+                    "K21",
+                    "K28",
+                    "S17",
+                    "S21"
+                  ],
+                  "bundle": "Floors & stairs"
+                },
+                {
+                  "id": "sc_fit_spindles_3",
+                  "title": "Fix the spindles",
+                  "instruction": "Get a close photo showing how the spindles are fixed into the handrail and base.",
+                  "question": "How did you fix them securely and keep them straight while working along the flight?",
+                  "codes": [
+                    "K28",
+                    "S17",
+                    "S20"
+                  ],
+                  "bundle": "Floors & stairs"
+                },
+                {
+                  "id": "sc_fit_spindles_4",
+                  "title": "Check the finished balustrade",
+                  "instruction": "Get a photo showing the completed run of spindles.",
+                  "question": "What did you check for spacing, alignment and secure fixing before finishing?",
+                  "codes": [
+                    "K7",
+                    "K28",
+                    "S17",
+                    "B5"
+                  ],
+                  "bundle": "Floors & stairs"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sc_doors",
+          "title": "Doors & mouldings",
+          "jobs": [
+            {
+              "id": "sc_hang_an_internal_door",
+              "title": "Hang an internal door",
+              "opps": [
+                {
+                  "id": "sc_hang_an_internal_door_1",
+                  "title": "Check the opening & door",
+                  "instruction": "Get a photo showing the door and opening before hanging.",
+                  "question": "What did you check about the opening and door before starting?",
+                  "codes": [
+                    "K11",
+                    "K21",
+                    "K28",
+                    "S17"
+                  ],
+                  "bundle": "Doors & mouldings"
+                },
+                {
+                  "id": "sc_hang_an_internal_door_2",
+                  "title": "Mark & recess the hinges",
+                  "instruction": "Get a close photo showing the hinge positions or recesses.",
+                  "question": "How did you set out the hinges and control the recess depth?",
+                  "codes": [
+                    "K14",
+                    "K21",
+                    "S9",
+                    "S17",
+                    "S21"
+                  ],
+                  "bundle": "Doors & mouldings"
+                },
+                {
+                  "id": "sc_hang_an_internal_door_3",
+                  "title": "Hang & adjust the door",
+                  "instruction": "Get a photo showing the door hung in the opening.",
+                  "question": "How did you adjust the door to achieve even margins and correct operation?",
+                  "codes": [
+                    "K28",
+                    "S17",
+                    "S21"
+                  ],
+                  "bundle": "Doors & mouldings"
+                },
+                {
+                  "id": "sc_hang_an_internal_door_4",
+                  "title": "Final operation check",
+                  "instruction": "Get a photo showing the finished door, margins and latch side.",
+                  "question": "What final checks did you make before you were happy with the door?",
+                  "codes": [
+                    "K7",
+                    "S17",
+                    "B5"
+                  ],
+                  "bundle": "Doors & mouldings"
+                }
+              ]
+            },
+            {
+              "id": "sc_hang_an_external_door",
+              "title": "Hang an external door",
+              "opps": [
+                {
+                  "id": "sc_hang_an_external_door_1",
+                  "title": "Check frame, threshold & door",
+                  "instruction": "Get a photo showing the external opening and door before hanging.",
+                  "question": "What did you check before fitting the external door?",
+                  "codes": [
+                    "K5",
+                    "K11",
+                    "K28",
+                    "S17"
+                  ],
+                  "bundle": "Doors & mouldings"
+                },
+                {
+                  "id": "sc_hang_an_external_door_2",
+                  "title": "Set out hinges & clearances",
+                  "instruction": "Get a close photo showing hinge positions or door clearances.",
+                  "question": "How did you decide the hinge positions and required clearances?",
+                  "codes": [
+                    "K21",
+                    "K28",
+                    "S17",
+                    "S21"
+                  ],
+                  "bundle": "Doors & mouldings"
+                },
+                {
+                  "id": "sc_hang_an_external_door_3",
+                  "title": "Hang & secure the door",
+                  "instruction": "Get a photo showing the door hung and operating.",
+                  "question": "How did you make sure the door was secure, weather-conscious and operating correctly?",
+                  "codes": [
+                    "K5",
+                    "K28",
+                    "S17",
+                    "S20"
+                  ],
+                  "bundle": "Doors & mouldings"
+                },
+                {
+                  "id": "sc_hang_an_external_door_4",
+                  "title": "Check the completed fit",
+                  "instruction": "Get a photo showing the finished external door and frame.",
+                  "question": "What did you check around the margins, threshold and operation before finishing?",
+                  "codes": [
+                    "K7",
+                    "S17",
+                    "B5"
+                  ],
+                  "bundle": "Doors & mouldings"
+                }
+              ]
+            },
+            {
+              "id": "sc_fit_hinges_recesses",
+              "title": "Fit hinges & recesses",
+              "opps": [
+                {
+                  "id": "sc_fit_hinges_recesses_1",
+                  "title": "Mark hinge positions",
+                  "instruction": "Get a photo showing hinge positions marked on the door and/or frame.",
+                  "question": "How did you decide and transfer the hinge positions?",
+                  "codes": [
+                    "K21",
+                    "S21"
+                  ],
+                  "bundle": "Doors & mouldings"
+                },
+                {
+                  "id": "sc_fit_hinges_recesses_2",
+                  "title": "Form the recess",
+                  "instruction": "Get a close photo or short video showing the recess being cut.",
+                  "question": "How did you control the depth and keep the recess edges accurate?",
+                  "codes": [
+                    "K14",
+                    "K21",
+                    "S9",
+                    "S21"
+                  ],
+                  "bundle": "Doors & mouldings"
+                },
+                {
+                  "id": "sc_fit_hinges_recesses_3",
+                  "title": "Fit the hinge",
+                  "instruction": "Get a close photo showing the hinge fixed into the recess.",
+                  "question": "What did you check to make sure the hinge sat correctly and the screws were suitable?",
+                  "codes": [
+                    "K11",
+                    "S17",
+                    "S20"
+                  ],
+                  "bundle": "Doors & mouldings"
+                }
+              ]
+            },
+            {
+              "id": "sc_fit_skirting",
+              "title": "Fit skirting",
+              "opps": [
+                {
+                  "id": "sc_fit_skirting_1",
+                  "title": "Measure & plan the run",
+                  "instruction": "Get a photo showing the wall length, corner or opening being measured.",
+                  "question": "How did you plan the lengths and joints for this run of skirting?",
+                  "codes": [
+                    "K12",
+                    "K21",
+                    "S17",
+                    "S21"
+                  ],
+                  "bundle": "Doors & mouldings"
+                },
+                {
+                  "id": "sc_fit_skirting_2",
+                  "title": "Cut the joint",
+                  "instruction": "Get a photo or short video showing a mitre, scribe or straight joint being formed.",
+                  "question": "Why did you use this type of joint at this position?",
+                  "codes": [
+                    "K21",
+                    "K24",
+                    "S17",
+                    "S21",
+                    "S22"
+                  ],
+                  "bundle": "Doors & mouldings"
+                },
+                {
+                  "id": "sc_fit_skirting_3",
+                  "title": "Fix & finish the skirting",
+                  "instruction": "Get a photo showing the skirting fixed to the wall.",
+                  "question": "What did you check for line, joints and fixing before finishing?",
+                  "codes": [
+                    "K28",
+                    "S17",
+                    "S20",
+                    "B5"
+                  ],
+                  "bundle": "Doors & mouldings"
+                }
+              ]
+            },
+            {
+              "id": "sc_fit_architrave",
+              "title": "Fit architrave",
+              "opps": [
+                {
+                  "id": "sc_fit_architrave_1",
+                  "title": "Set the margins",
+                  "instruction": "Get a photo showing the margin/reveal marked around the frame.",
+                  "question": "How did you set a consistent margin around the lining or frame?",
+                  "codes": [
+                    "K21",
+                    "K28",
+                    "S17",
+                    "S21"
+                  ],
+                  "bundle": "Doors & mouldings"
+                },
+                {
+                  "id": "sc_fit_architrave_2",
+                  "title": "Cut the mitres",
+                  "instruction": "Get a photo or short video showing the head/leg mitres being cut or offered up.",
+                  "question": "How did you mark and cut the mitres so the joint closed properly?",
+                  "codes": [
+                    "K21",
+                    "S17",
+                    "S21"
+                  ],
+                  "bundle": "Doors & mouldings"
+                },
+                {
+                  "id": "sc_fit_architrave_3",
+                  "title": "Fix & check the architrave",
+                  "instruction": "Get a photo showing the completed architrave.",
+                  "question": "What did you check about the margins, mitres and fixings before finishing?",
+                  "codes": [
+                    "K28",
+                    "S17",
+                    "S20",
+                    "B5"
+                  ],
+                  "bundle": "Doors & mouldings"
+                }
+              ]
+            },
+            {
+              "id": "sc_fit_a_window_board",
+              "title": "Fit a window board",
+              "opps": [
+                {
+                  "id": "sc_fit_a_window_board_1",
+                  "title": "Measure the opening",
+                  "instruction": "Get a photo showing the window opening or board being measured.",
+                  "question": "What dimensions and projections did you allow for?",
+                  "codes": [
+                    "K21",
+                    "K28",
+                    "S17",
+                    "S21"
+                  ],
+                  "bundle": "Doors & mouldings"
+                },
+                {
+                  "id": "sc_fit_a_window_board_2",
+                  "title": "Scribe/cut the board",
+                  "instruction": "Get a photo showing the board marked or cut around reveals or walls.",
+                  "question": "How did you mark the board so it fitted the opening accurately?",
+                  "codes": [
+                    "K21",
+                    "K24",
+                    "S17",
+                    "S22"
+                  ],
+                  "bundle": "Doors & mouldings"
+                },
+                {
+                  "id": "sc_fit_a_window_board_3",
+                  "title": "Fit & check the board",
+                  "instruction": "Get a photo showing the board fixed in position.",
+                  "question": "What did you check for level, projection and fit before finishing?",
+                  "codes": [
+                    "K28",
+                    "S17",
+                    "S20",
+                    "B5"
+                  ],
+                  "bundle": "Doors & mouldings"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sc_finish",
+          "title": "Fitments, finishing & site work",
+          "jobs": [
+            {
+              "id": "sc_build_a_service_encasement",
+              "title": "Build a service encasement",
+              "opps": [
+                {
+                  "id": "sc_build_a_service_encasement_1",
+                  "title": "Set out the encasement",
+                  "instruction": "Get a photo showing the service and framing lines before building.",
+                  "question": "How did you decide the size and position of the encasement?",
+                  "codes": [
+                    "K5",
+                    "K21",
+                    "K28",
+                    "S17"
+                  ],
+                  "bundle": "Fitments, finishing & site work"
+                },
+                {
+                  "id": "sc_build_a_service_encasement_2",
+                  "title": "Build the frame",
+                  "instruction": "Get a photo showing the timber frame around the service.",
+                  "question": "How did you keep clearance from the service and the frame square?",
+                  "codes": [
+                    "K5",
+                    "K28",
+                    "S17",
+                    "S20"
+                  ],
+                  "bundle": "Fitments, finishing & site work"
+                },
+                {
+                  "id": "sc_build_a_service_encasement_3",
+                  "title": "Fit the covering",
+                  "instruction": "Get a photo showing the encasement covered and finished.",
+                  "question": "What did you check before closing the service in?",
+                  "codes": [
+                    "K7",
+                    "K28",
+                    "S17",
+                    "B5"
+                  ],
+                  "bundle": "Fitments, finishing & site work"
+                }
+              ]
+            },
+            {
+              "id": "sc_fit_cladding",
+              "title": "Fit cladding",
+              "opps": [
+                {
+                  "id": "sc_fit_cladding_1",
+                  "title": "Set out the cladding",
+                  "instruction": "Get a photo showing the first line, datum or board positions.",
+                  "question": "How did you set out the cladding so the finished lines would be consistent?",
+                  "codes": [
+                    "K21",
+                    "K28",
+                    "S17",
+                    "S21"
+                  ],
+                  "bundle": "Fitments, finishing & site work"
+                },
+                {
+                  "id": "sc_fit_cladding_2",
+                  "title": "Cut around a detail",
+                  "instruction": "Get a photo showing cladding cut around a corner, opening or obstruction.",
+                  "question": "How did you measure and transfer this detail onto the cladding?",
+                  "codes": [
+                    "K21",
+                    "S17",
+                    "S21"
+                  ],
+                  "bundle": "Fitments, finishing & site work"
+                },
+                {
+                  "id": "sc_fit_cladding_3",
+                  "title": "Fix & check the cladding",
+                  "instruction": "Get a photo showing the fixed cladding.",
+                  "question": "What did you check about alignment, joints and fixings before finishing?",
+                  "codes": [
+                    "K28",
+                    "S17",
+                    "S20",
+                    "B5"
+                  ],
+                  "bundle": "Fitments, finishing & site work"
+                }
+              ]
+            },
+            {
+              "id": "sc_fit_wall_units",
+              "title": "Fit wall units",
+              "opps": [
+                {
+                  "id": "sc_fit_wall_units_1",
+                  "title": "Set out unit positions",
+                  "instruction": "Get a photo showing datum lines, fixing positions or unit locations.",
+                  "question": "How did you decide the height and position of the wall units?",
+                  "codes": [
+                    "K8",
+                    "K21",
+                    "K28",
+                    "S6",
+                    "S17"
+                  ],
+                  "bundle": "Fitments, finishing & site work"
+                },
+                {
+                  "id": "sc_fit_wall_units_2",
+                  "title": "Fix the units",
+                  "instruction": "Get a photo showing the unit fixings or hanging system.",
+                  "question": "Why are these fixings suitable for the wall and unit?",
+                  "codes": [
+                    "K11",
+                    "K28",
+                    "S17",
+                    "S20"
+                  ],
+                  "bundle": "Fitments, finishing & site work"
+                },
+                {
+                  "id": "sc_fit_wall_units_3",
+                  "title": "Level & align the units",
+                  "instruction": "Get a photo showing adjoining units checked for level and alignment.",
+                  "question": "What did you adjust to get the units level, aligned and secure?",
+                  "codes": [
+                    "K28",
+                    "S17",
+                    "S21",
+                    "B5"
+                  ],
+                  "bundle": "Fitments, finishing & site work"
+                }
+              ]
+            },
+            {
+              "id": "sc_fit_floor_units_fitments",
+              "title": "Fit floor units & fitments",
+              "opps": [
+                {
+                  "id": "sc_fit_floor_units_fitments_1",
+                  "title": "Set out the base units",
+                  "instruction": "Get a photo showing the unit run, datum or positions marked.",
+                  "question": "How did you plan the position and level of the units?",
+                  "codes": [
+                    "K8",
+                    "K21",
+                    "K28",
+                    "S6",
+                    "S17"
+                  ],
+                  "bundle": "Fitments, finishing & site work"
+                },
+                {
+                  "id": "sc_fit_floor_units_fitments_2",
+                  "title": "Scribe or adjust a fitment",
+                  "instruction": "Get a photo showing a unit/end panel being scribed or adjusted to fit.",
+                  "question": "How did you transfer the wall or floor shape onto the fitment?",
+                  "codes": [
+                    "K24",
+                    "S17",
+                    "S22"
+                  ],
+                  "bundle": "Fitments, finishing & site work"
+                },
+                {
+                  "id": "sc_fit_floor_units_fitments_3",
+                  "title": "Join & secure the units",
+                  "instruction": "Get a photo showing units connected and fixed.",
+                  "question": "How did you keep the units level, aligned and securely connected?",
+                  "codes": [
+                    "K28",
+                    "S17",
+                    "S20",
+                    "B5"
+                  ],
+                  "bundle": "Fitments, finishing & site work"
+                }
+              ]
+            },
+            {
+              "id": "sc_scribe_fitments_to_walls_or_floors",
+              "title": "Scribe fitments to walls or floors",
+              "opps": [
+                {
+                  "id": "sc_scribe_fitments_to_walls_or_floors_1",
+                  "title": "Transfer the irregular shape",
+                  "instruction": "Get a photo showing the fitment being scribed to the wall or floor.",
+                  "question": "How did you transfer the uneven shape accurately onto the fitment?",
+                  "codes": [
+                    "K24",
+                    "S22"
+                  ],
+                  "bundle": "Fitments, finishing & site work"
+                },
+                {
+                  "id": "sc_scribe_fitments_to_walls_or_floors_2",
+                  "title": "Cut to the scribe line",
+                  "instruction": "Get a photo or short video showing the scribed edge being cut or adjusted.",
+                  "question": "What technique did you use to keep the cut accurate?",
+                  "codes": [
+                    "K21",
+                    "K24",
+                    "S21",
+                    "S22"
+                  ],
+                  "bundle": "Fitments, finishing & site work"
+                },
+                {
+                  "id": "sc_scribe_fitments_to_walls_or_floors_3",
+                  "title": "Check the fitted edge",
+                  "instruction": "Get a photo showing the fitment installed against the wall or floor.",
+                  "question": "What tells you the scribed fit is acceptable?",
+                  "codes": [
+                    "K24",
+                    "S22",
+                    "B5"
+                  ],
+                  "bundle": "Fitments, finishing & site work"
+                }
+              ]
+            },
+            {
+              "id": "sc_repair_or_replace_damaged_timber",
+              "title": "Repair or replace damaged timber",
+              "opps": [
+                {
+                  "id": "sc_repair_or_replace_damaged_timber_1",
+                  "title": "Identify the defect",
+                  "instruction": "Get a photo showing the damaged, decayed or defective timber before repair.",
+                  "question": "What defect have you found, and what do you think caused it?",
+                  "codes": [
+                    "K10"
+                  ],
+                  "bundle": "Fitments, finishing & site work"
+                },
+                {
+                  "id": "sc_repair_or_replace_damaged_timber_2",
+                  "title": "Prepare the repair",
+                  "instruction": "Get a photo showing damaged material removed or the replacement piece prepared.",
+                  "question": "Why did you choose this repair or replacement method?",
+                  "codes": [
+                    "K10",
+                    "K21"
+                  ],
+                  "bundle": "Fitments, finishing & site work"
+                },
+                {
+                  "id": "sc_repair_or_replace_damaged_timber_3",
+                  "title": "Complete the repair",
+                  "instruction": "Get a photo showing the repaired or replaced timber.",
+                  "question": "What did you check to make sure the repair was sound and matched the surrounding work?",
+                  "codes": [
+                    "K10",
+                    "B5"
+                  ],
+                  "bundle": "Fitments, finishing & site work"
+                }
+              ]
+            },
+            {
+              "id": "sc_protect_finished_work_materials",
+              "title": "Protect finished work & materials",
+              "opps": [
+                {
+                  "id": "sc_protect_finished_work_materials_1",
+                  "title": "Protect stored timber",
+                  "instruction": "Get a photo showing timber stored off the ground, covered or otherwise protected.",
+                  "question": "What are you protecting the timber from here?",
+                  "codes": [
+                    "K4",
+                    "K9",
+                    "B2"
+                  ],
+                  "bundle": "Fitments, finishing & site work"
+                },
+                {
+                  "id": "sc_protect_finished_work_materials_2",
+                  "title": "Protect finished carpentry",
+                  "instruction": "Get a photo showing a door, stair, unit or other finished item protected from site damage.",
+                  "question": "What damage could happen if this work was left unprotected?",
+                  "codes": [
+                    "K4",
+                    "B2",
+                    "B5"
+                  ],
+                  "bundle": "Fitments, finishing & site work"
+                },
+                {
+                  "id": "sc_protect_finished_work_materials_3",
+                  "title": "Keep the area clean",
+                  "instruction": "Get a photo showing waste separated and the work area left tidy.",
+                  "question": "How are you reducing damage, waste and hazards at the end of the task?",
+                  "codes": [
+                    "K1",
+                    "K4",
+                    "S3",
+                    "S5",
+                    "B1",
+                    "B2"
+                  ],
+                  "bundle": "Fitments, finishing & site work"
+                }
+              ]
+            },
+            {
+              "id": "sc_maintain_sharpen_hand_tools",
+              "title": "Maintain & sharpen hand tools",
+              "opps": [
+                {
+                  "id": "sc_maintain_sharpen_hand_tools_1",
+                  "title": "Check the tool condition",
+                  "instruction": "Get a photo showing the hand tool before maintenance.",
+                  "question": "What signs tell you this tool needs cleaning, adjustment or sharpening?",
+                  "codes": [
+                    "K14",
+                    "K15",
+                    "S9",
+                    "S11"
+                  ],
+                  "bundle": "Fitments, finishing & site work"
+                },
+                {
+                  "id": "sc_maintain_sharpen_hand_tools_2",
+                  "title": "Sharpen or maintain the tool",
+                  "instruction": "Get a photo showing the sharpening or maintenance setup.",
+                  "question": "What method are you using to restore the tool safely?",
+                  "codes": [
+                    "K15",
+                    "S11"
+                  ],
+                  "bundle": "Fitments, finishing & site work"
+                },
+                {
+                  "id": "sc_maintain_sharpen_hand_tools_3",
+                  "title": "Check after maintenance",
+                  "instruction": "Get a photo showing the tool ready for storage or use.",
+                  "question": "How did you check the tool was in good condition before putting it back into use?",
+                  "codes": [
+                    "K14",
+                    "K15",
+                    "S11"
+                  ],
+                  "bundle": "Fitments, finishing & site work"
+                }
+              ]
+            },
+            {
+              "id": "sc_work_with_the_site_team",
+              "title": "Work with the site team",
+              "opps": [
+                {
+                  "id": "sc_work_with_the_site_team_1",
+                  "title": "Coordinate the job",
+                  "instruction": "Get a photo showing the work area or interface with another trade, without photographing people unnecessarily.",
+                  "question": "Who else does this work affect, and what did you need to agree with them?",
+                  "codes": [
+                    "K13",
+                    "K18",
+                    "S8",
+                    "B5"
+                  ],
+                  "bundle": "Fitments, finishing & site work"
+                },
+                {
+                  "id": "sc_work_with_the_site_team_2",
+                  "title": "Communicate a change or issue",
+                  "instruction": "Get a photo of the relevant part of the work, drawing or detail that needed discussion.",
+                  "question": "How did you explain the issue or change to the team?",
+                  "codes": [
+                    "K13",
+                    "S8",
+                    "B5"
+                  ],
+                  "bundle": "Fitments, finishing & site work"
+                },
+                {
+                  "id": "sc_work_with_the_site_team_3",
+                  "title": "Check the handover point",
+                  "instruction": "Get a photo showing work ready for the next trade or stage.",
+                  "question": "What did you check before handing this area over?",
+                  "codes": [
+                    "K18",
+                    "B5"
+                  ],
+                  "bundle": "Fitments, finishing & site work"
+                },
+                {
+                  "id": "sc_work_with_the_site_team_4",
+                  "title": "Inclusion & respect",
+                  "instruction": "",
+                  "question": "Give an example of how you make sure people are treated fairly and respectfully while you work.",
+                  "codes": [
+                    "K19",
+                    "B3"
+                  ],
+                  "bundle": "Fitments, finishing & site work",
+                  "media": "talk"
+                },
+                {
+                  "id": "sc_work_with_the_site_team_5",
+                  "title": "Wellbeing & support",
+                  "instruction": "",
+                  "question": "If you or someone else was struggling physically or mentally at work, what support could you use?",
+                  "codes": [
+                    "K20",
+                    "S13",
+                    "B1"
+                  ],
+                  "bundle": "Fitments, finishing & site work",
+                  "media": "talk"
+                },
+                {
+                  "id": "sc_work_with_the_site_team_6",
+                  "title": "Learning & development",
+                  "instruction": "",
+                  "question": "Tell me about something you have learned or practised recently that improved your carpentry or joinery work.",
+                  "codes": [
+                    "B4"
+                  ],
+                  "bundle": "Fitments, finishing & site work",
+                  "media": "talk"
+                },
+                {
+                  "id": "sc_work_with_the_site_team_7",
+                  "title": "Work & career",
+                  "instruction": "",
+                  "question": "What is the difference between being employed and self-employed, and what responsibilities come with self-employment?",
+                  "codes": [
+                    "K40"
+                  ],
+                  "bundle": "Fitments, finishing & site work",
+                  "media": "talk"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "architectural-joiner",
+      "title": "Architectural Joiner",
+      "compatStorageSuffix": "st0264-aj",
+      "codes": [
+        "K1",
+        "K2",
+        "K3",
+        "K4",
+        "K5",
+        "K6",
+        "K7",
+        "K8",
+        "K9",
+        "K10",
+        "K11",
+        "K12",
+        "K13",
+        "K14",
+        "K15",
+        "K16",
+        "K17",
+        "K18",
+        "K19",
+        "K20",
+        "K30",
+        "K31",
+        "K32",
+        "K33",
+        "K34",
+        "K35",
+        "K36",
+        "K37",
+        "K38",
+        "K39",
+        "K40",
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5",
+        "S6",
+        "S7",
+        "S8",
+        "S9",
+        "S10",
+        "S11",
+        "S12",
+        "S13",
+        "S23",
+        "S24",
+        "S25",
+        "S26",
+        "S27",
+        "S28",
+        "S29",
+        "S30",
+        "B1",
+        "B2",
+        "B3",
+        "B4",
+        "B5"
+      ],
+      "codeDescriptions": {
+        "K1": "H&S regulations, standards & guidance",
+        "K2": "PPE, RPE & safety controls",
+        "K3": "Safe systems of work",
+        "K4": "Environmental impact & sustainable resources",
+        "K5": "Building & modern construction principles",
+        "K6": "Digital design & modelling systems",
+        "K7": "Carpentry standards & regulations",
+        "K8": "Drawings & specifications",
+        "K9": "Timber & material characteristics",
+        "K10": "Timber decay & repair",
+        "K11": "Carpentry/joinery products & ironmongery",
+        "K12": "Material estimating & cutting lists",
+        "K13": "Verbal communication & construction terminology",
+        "K14": "Hand tools: use & storage",
+        "K15": "Hand tool maintenance & sharpening",
+        "K16": "Jigs",
+        "K17": "Power tools: use & storage",
+        "K18": "Team working",
+        "K19": "Inclusion, equity & diversity",
+        "K20": "Wellbeing & support",
+        "K30": "Fire-door assembly requirements",
+        "K31": "Fixed workshop machinery",
+        "K32": "Setting out & marking out",
+        "K33": "Timber joints",
+        "K34": "Timber windows",
+        "K35": "Joinery connections",
+        "K36": "First-fix manufacture",
+        "K37": "Second-fix manufacture",
+        "K38": "Finishing",
+        "K39": "Joinery ironmongery",
+        "K40": "Employment & self-employment",
+        "S1": "Comply with H&S requirements",
+        "S2": "Use PPE/RPE & safety controls",
+        "S3": "Sustainability & waste management",
+        "S4": "Industry standards & regulations",
+        "S5": "Prepare a safe work area",
+        "S6": "Interpret drawings & specifications",
+        "S7": "Estimate materials & cutting lists",
+        "S8": "Verbal communication",
+        "S9": "Use hand tools",
+        "S10": "Use power tools",
+        "S11": "Maintain & sharpen hand tools",
+        "S12": "Produce jigs",
+        "S13": "Identify wellbeing support",
+        "S23": "Setting rods & marking out",
+        "S24": "Make basic timber joints",
+        "S25": "Form joinery connections",
+        "S26": "Manufacture timber windows",
+        "S27": "First-fix manufacture",
+        "S28": "Second-fix manufacture",
+        "S29": "Fit joinery ironmongery",
+        "S30": "Operate fixed machinery",
+        "B1": "Put H&S and wellbeing first",
+        "B2": "Consider the environment & resources",
+        "B3": "Support an inclusive/diverse culture",
+        "B4": "Seek learning & development",
+        "B5": "Work as part of the wider team"
+      },
+      "siteData": [
+        {
+          "id": "aj_getting_ready",
+          "title": "Getting ready & setting out",
+          "jobs": [
+            {
+              "id": "aj_read_drawings_plan_the_manufacture",
+              "title": "Read drawings & plan the manufacture",
+              "opps": [
+                {
+                  "id": "aj_read_drawings_plan_the_manufacture_1",
+                  "title": "Use the joinery drawing",
+                  "instruction": "Get a photo of the drawing or specification you are manufacturing from, keeping personal information out of view.",
+                  "question": "What information are you taking from this drawing before you start manufacturing?",
+                  "codes": [
+                    "K8",
+                    "S6"
+                  ],
+                  "bundle": "Getting ready & setting out"
+                },
+                {
+                  "id": "aj_read_drawings_plan_the_manufacture_2",
+                  "title": "Identify component sizes",
+                  "instruction": "Get a photo showing the dimensions or component schedule you need.",
+                  "question": "Which component sizes are critical to the finished product?",
+                  "codes": [
+                    "K8",
+                    "K32",
+                    "S6",
+                    "S23"
+                  ],
+                  "bundle": "Getting ready & setting out"
+                },
+                {
+                  "id": "aj_read_drawings_plan_the_manufacture_3",
+                  "title": "Plan the machining sequence",
+                  "instruction": "Get a photo of the components, cutting list or work area you are planning.",
+                  "question": "What order will you machine and assemble the components, and why?",
+                  "codes": [
+                    "K31",
+                    "K32",
+                    "B5"
+                  ],
+                  "bundle": "Getting ready & setting out"
+                },
+                {
+                  "id": "aj_read_drawings_plan_the_manufacture_4",
+                  "title": "Use digital design information",
+                  "instruction": "Get a screenshot or photo showing the digital drawing, model or design information you are using, keeping personal information out of view.",
+                  "question": "How is this digital information helping you manufacture the product?",
+                  "codes": [
+                    "K6",
+                    "S6"
+                  ],
+                  "bundle": "Getting ready & setting out"
+                },
+                {
+                  "id": "aj_read_drawings_plan_the_manufacture_5",
+                  "title": "Work to the required standard",
+                  "instruction": "Get a photo showing the drawing, specification or product detail where an industry requirement matters.",
+                  "question": "What standard or requirement are you following here, and how does it affect the product?",
+                  "codes": [
+                    "K7",
+                    "S4"
+                  ],
+                  "bundle": "Getting ready & setting out"
+                },
+                {
+                  "id": "aj_read_drawings_plan_the_manufacture_6",
+                  "title": "How the product fits the building",
+                  "instruction": "Get a photo of the joinery product, drawing or detail showing where it will be used in the building.",
+                  "question": "What part of the building will this product form, and what does it need to work with?",
+                  "codes": [
+                    "K5"
+                  ],
+                  "bundle": "Getting ready & setting out"
+                }
+              ]
+            },
+            {
+              "id": "aj_produce_a_setting_rod",
+              "title": "Produce a setting rod",
+              "opps": [
+                {
+                  "id": "aj_produce_a_setting_rod_1",
+                  "title": "Prepare the rod",
+                  "instruction": "Get a photo showing the rod material and reference information before marking out.",
+                  "question": "What information are you transferring onto the rod?",
+                  "codes": [
+                    "K32",
+                    "S23"
+                  ],
+                  "bundle": "Getting ready & setting out"
+                },
+                {
+                  "id": "aj_produce_a_setting_rod_2",
+                  "title": "Mark full-size details",
+                  "instruction": "Get a photo showing the full-size profiles, joints or component positions on the rod.",
+                  "question": "How did you make sure the full-size setting out stayed accurate?",
+                  "codes": [
+                    "K32",
+                    "S23"
+                  ],
+                  "bundle": "Getting ready & setting out"
+                },
+                {
+                  "id": "aj_produce_a_setting_rod_3",
+                  "title": "Use the rod to check components",
+                  "instruction": "Get a photo showing a component being checked against the rod.",
+                  "question": "What dimensions or positions are you checking from the rod?",
+                  "codes": [
+                    "K32",
+                    "S23",
+                    "B5"
+                  ],
+                  "bundle": "Getting ready & setting out"
+                }
+              ]
+            },
+            {
+              "id": "aj_mark_out_timber_components",
+              "title": "Mark out timber components",
+              "opps": [
+                {
+                  "id": "aj_mark_out_timber_components_1",
+                  "title": "Reference faces & edges",
+                  "instruction": "Get a photo showing face side/edge or other reference marks on the timber.",
+                  "question": "Why is it important to keep consistent reference faces and edges?",
+                  "codes": [
+                    "K32",
+                    "S23"
+                  ],
+                  "bundle": "Getting ready & setting out"
+                },
+                {
+                  "id": "aj_mark_out_timber_components_2",
+                  "title": "Mark joint positions",
+                  "instruction": "Get a photo showing joints, shoulders, rebates or lengths marked onto components.",
+                  "question": "How did you transfer the setting-out information onto this component?",
+                  "codes": [
+                    "K32",
+                    "K33",
+                    "S23"
+                  ],
+                  "bundle": "Getting ready & setting out"
+                },
+                {
+                  "id": "aj_mark_out_timber_components_3",
+                  "title": "Check matching parts",
+                  "instruction": "Get a photo showing paired or matching components marked together.",
+                  "question": "What did you do to avoid mixing up or mismatching components?",
+                  "codes": [
+                    "K32",
+                    "S23",
+                    "B5"
+                  ],
+                  "bundle": "Getting ready & setting out"
+                }
+              ]
+            },
+            {
+              "id": "aj_select_check_timber_materials",
+              "title": "Select & check timber/materials",
+              "opps": [
+                {
+                  "id": "aj_select_check_timber_materials_1",
+                  "title": "Choose the timber",
+                  "instruction": "Get a photo showing the timber or timber-based product selected for the job.",
+                  "question": "What material have you selected, and why is it suitable for this work?",
+                  "codes": [
+                    "K9",
+                    "S7"
+                  ],
+                  "bundle": "Getting ready & setting out"
+                },
+                {
+                  "id": "aj_select_check_timber_materials_2",
+                  "title": "Check condition",
+                  "instruction": "Get a photo showing the timber being checked for damage, moisture, twist, bow or other defects.",
+                  "question": "What did you check before deciding this timber was suitable to use?",
+                  "codes": [
+                    "K9",
+                    "K10"
+                  ],
+                  "bundle": "Getting ready & setting out"
+                },
+                {
+                  "id": "aj_select_check_timber_materials_3",
+                  "title": "Check associated products",
+                  "instruction": "Get a photo showing fixings, ironmongery, adhesive, preservative or another product needed for the job.",
+                  "question": "What is this product for, and why is it suitable here?",
+                  "codes": [
+                    "K11",
+                    "S7"
+                  ],
+                  "bundle": "Getting ready & setting out"
+                }
+              ]
+            },
+            {
+              "id": "aj_estimate_materials_make_a_cutting_list",
+              "title": "Estimate materials & make a cutting list",
+              "opps": [
+                {
+                  "id": "aj_estimate_materials_make_a_cutting_list_1",
+                  "title": "Work out the quantity",
+                  "instruction": "Get a photo of the drawing, area or dimensions you used to calculate the timber needed.",
+                  "question": "How did you work out how much material was required?",
+                  "codes": [
+                    "K12",
+                    "S7"
+                  ],
+                  "bundle": "Getting ready & setting out"
+                },
+                {
+                  "id": "aj_estimate_materials_make_a_cutting_list_2",
+                  "title": "Produce the cutting list",
+                  "instruction": "Get a photo of your cutting list with personal information kept out of view.",
+                  "question": "How did you decide the sizes and quantities shown on the cutting list?",
+                  "codes": [
+                    "K12",
+                    "S7"
+                  ],
+                  "bundle": "Getting ready & setting out"
+                },
+                {
+                  "id": "aj_estimate_materials_make_a_cutting_list_3",
+                  "title": "Allow for waste",
+                  "instruction": "Get a photo showing how the timber lengths or sheets will be cut efficiently.",
+                  "question": "What did you do to reduce waste when planning the cuts?",
+                  "codes": [
+                    "K4",
+                    "K12",
+                    "S3",
+                    "B2"
+                  ],
+                  "bundle": "Getting ready & setting out"
+                }
+              ]
+            },
+            {
+              "id": "aj_prepare_tools_machines_work_area",
+              "title": "Prepare tools, machines & work area",
+              "opps": [
+                {
+                  "id": "aj_prepare_tools_machines_work_area_1",
+                  "title": "Prepare a safe machine area",
+                  "instruction": "Get a photo showing the machine area clear, extraction connected and guards in place.",
+                  "question": "What hazards and controls did you check before using the machinery?",
+                  "codes": [
+                    "K1",
+                    "K2",
+                    "K3",
+                    "K31",
+                    "S1",
+                    "S2",
+                    "S5",
+                    "S30",
+                    "B1"
+                  ],
+                  "bundle": "Getting ready & setting out"
+                },
+                {
+                  "id": "aj_prepare_tools_machines_work_area_2",
+                  "title": "Inspect the machine",
+                  "instruction": "Get a photo showing the fixed machine before operation, with it switched off.",
+                  "question": "What checks do you carry out before operating this machine?",
+                  "codes": [
+                    "K31",
+                    "S30"
+                  ],
+                  "bundle": "Getting ready & setting out"
+                },
+                {
+                  "id": "aj_prepare_tools_machines_work_area_3",
+                  "title": "Prepare hand and power tools",
+                  "instruction": "Get a photo showing the additional tools selected for the job.",
+                  "question": "Which tools are needed and how will they be used safely?",
+                  "codes": [
+                    "K14",
+                    "K17",
+                    "S9",
+                    "S10"
+                  ],
+                  "bundle": "Getting ready & setting out"
+                }
+              ]
+            },
+            {
+              "id": "aj_make_a_jig",
+              "title": "Make a jig",
+              "opps": [
+                {
+                  "id": "aj_make_a_jig_1",
+                  "title": "Set out the jig",
+                  "instruction": "Get a photo showing the jig marked out before cutting or assembly.",
+                  "question": "What measurements does the jig need to control?",
+                  "codes": [
+                    "K16",
+                    "S12"
+                  ],
+                  "bundle": "Getting ready & setting out"
+                },
+                {
+                  "id": "aj_make_a_jig_2",
+                  "title": "Build the jig",
+                  "instruction": "Get a photo or short video showing the jig being made or assembled.",
+                  "question": "How did you make sure the jig stayed accurate and square?",
+                  "codes": [
+                    "K16",
+                    "S12"
+                  ],
+                  "bundle": "Getting ready & setting out"
+                },
+                {
+                  "id": "aj_make_a_jig_3",
+                  "title": "Use the jig",
+                  "instruction": "Get a photo showing the jig positioned on the work or component.",
+                  "question": "What does this jig help you repeat accurately?",
+                  "codes": [
+                    "K16",
+                    "S12"
+                  ],
+                  "bundle": "Getting ready & setting out"
+                }
+              ]
+            },
+            {
+              "id": "aj_maintain_sharpen_hand_tools",
+              "title": "Maintain & sharpen hand tools",
+              "opps": [
+                {
+                  "id": "aj_maintain_sharpen_hand_tools_1",
+                  "title": "Check the tool condition",
+                  "instruction": "Get a photo showing the hand tool before maintenance.",
+                  "question": "What signs tell you this tool needs cleaning, adjustment or sharpening?",
+                  "codes": [
+                    "K14",
+                    "K15",
+                    "S9",
+                    "S11"
+                  ],
+                  "bundle": "Getting ready & setting out"
+                },
+                {
+                  "id": "aj_maintain_sharpen_hand_tools_2",
+                  "title": "Sharpen or maintain the tool",
+                  "instruction": "Get a photo showing the sharpening or maintenance setup.",
+                  "question": "What method are you using to restore the tool safely?",
+                  "codes": [
+                    "K15",
+                    "S11"
+                  ],
+                  "bundle": "Getting ready & setting out"
+                },
+                {
+                  "id": "aj_maintain_sharpen_hand_tools_3",
+                  "title": "Check after maintenance",
+                  "instruction": "Get a photo showing the tool ready for storage or use.",
+                  "question": "How did you check the tool was in good condition before putting it back into use?",
+                  "codes": [
+                    "K14",
+                    "K15",
+                    "S11"
+                  ],
+                  "bundle": "Getting ready & setting out"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "aj_machining",
+          "title": "Machining & joints",
+          "jobs": [
+            {
+              "id": "aj_crosscut_timber_components",
+              "title": "Crosscut timber components",
+              "opps": [
+                {
+                  "id": "aj_crosscut_timber_components_1",
+                  "title": "Set the crosscut length",
+                  "instruction": "Get a photo showing the stop, mark or dimension before cutting.",
+                  "question": "How did you set the machine to produce the required component length?",
+                  "codes": [
+                    "K31",
+                    "K32",
+                    "S23",
+                    "S30"
+                  ],
+                  "bundle": "Machining & joints"
+                },
+                {
+                  "id": "aj_crosscut_timber_components_2",
+                  "title": "Prepare the crosscut saw",
+                  "instruction": "Get a photo showing the guard, extraction and timber support before operation.",
+                  "question": "What checks did you make before starting the saw?",
+                  "codes": [
+                    "K2",
+                    "K31",
+                    "S2",
+                    "S30"
+                  ],
+                  "bundle": "Machining & joints"
+                },
+                {
+                  "id": "aj_crosscut_timber_components_3",
+                  "title": "Check the cut component",
+                  "instruction": "Get a photo showing the cut end and component length being checked.",
+                  "question": "What did you check for length, square and cut quality?",
+                  "codes": [
+                    "K31",
+                    "S30",
+                    "B5"
+                  ],
+                  "bundle": "Machining & joints"
+                }
+              ]
+            },
+            {
+              "id": "aj_prepare_timber_using_planer_thicknesser",
+              "title": "Prepare timber using planer & thicknesser",
+              "opps": [
+                {
+                  "id": "aj_prepare_timber_using_planer_thicknesser_1",
+                  "title": "Check the timber before machining",
+                  "instruction": "Get a photo showing the timber being inspected before planing.",
+                  "question": "What defects or grain direction did you check before machining?",
+                  "codes": [
+                    "K9",
+                    "K31",
+                    "S30"
+                  ],
+                  "bundle": "Machining & joints"
+                },
+                {
+                  "id": "aj_prepare_timber_using_planer_thicknesser_2",
+                  "title": "Create a flat face & edge",
+                  "instruction": "Get a photo showing the timber after surfacing on the planer.",
+                  "question": "Why do you establish a true face and edge before thicknessing?",
+                  "codes": [
+                    "K31",
+                    "S30"
+                  ],
+                  "bundle": "Machining & joints"
+                },
+                {
+                  "id": "aj_prepare_timber_using_planer_thicknesser_3",
+                  "title": "Machine to final size",
+                  "instruction": "Get a photo showing the component thickness/width being checked after machining.",
+                  "question": "How did you confirm the finished size was correct and consistent?",
+                  "codes": [
+                    "K31",
+                    "K32",
+                    "S30",
+                    "B5"
+                  ],
+                  "bundle": "Machining & joints"
+                }
+              ]
+            },
+            {
+              "id": "aj_cut_components_on_the_band_saw",
+              "title": "Cut components on the band saw",
+              "opps": [
+                {
+                  "id": "aj_cut_components_on_the_band_saw_1",
+                  "title": "Mark the cut",
+                  "instruction": "Get a photo showing the shape or cut line on the timber.",
+                  "question": "How did you mark the component before taking it to the band saw?",
+                  "codes": [
+                    "K32",
+                    "S23"
+                  ],
+                  "bundle": "Machining & joints"
+                },
+                {
+                  "id": "aj_cut_components_on_the_band_saw_2",
+                  "title": "Prepare the band saw",
+                  "instruction": "Get a photo showing blade guard height, table area and extraction before operation.",
+                  "question": "What machine checks did you make before cutting?",
+                  "codes": [
+                    "K31",
+                    "S30"
+                  ],
+                  "bundle": "Machining & joints"
+                },
+                {
+                  "id": "aj_cut_components_on_the_band_saw_3",
+                  "title": "Check the sawn component",
+                  "instruction": "Get a photo showing the component after band-sawing.",
+                  "question": "What did you check about the cut before the next machining stage?",
+                  "codes": [
+                    "K31",
+                    "S30",
+                    "B5"
+                  ],
+                  "bundle": "Machining & joints"
+                }
+              ]
+            },
+            {
+              "id": "aj_machine_mortises",
+              "title": "Machine mortises",
+              "opps": [
+                {
+                  "id": "aj_machine_mortises_1",
+                  "title": "Mark mortise positions",
+                  "instruction": "Get a photo showing the mortise positions on the component.",
+                  "question": "How did you set out the mortise length, width and position?",
+                  "codes": [
+                    "K32",
+                    "K33",
+                    "S23",
+                    "S24"
+                  ],
+                  "bundle": "Machining & joints"
+                },
+                {
+                  "id": "aj_machine_mortises_2",
+                  "title": "Set the mortiser",
+                  "instruction": "Get a photo showing the machine stops, fence or component position before operation.",
+                  "question": "How did you set the machine so the mortise would be the correct size and position?",
+                  "codes": [
+                    "K31",
+                    "K33",
+                    "S30"
+                  ],
+                  "bundle": "Machining & joints"
+                },
+                {
+                  "id": "aj_machine_mortises_3",
+                  "title": "Check the mortise",
+                  "instruction": "Get a close photo showing the completed mortise.",
+                  "question": "What did you check before moving on to make the matching tenon?",
+                  "codes": [
+                    "K33",
+                    "S24",
+                    "B5"
+                  ],
+                  "bundle": "Machining & joints"
+                }
+              ]
+            },
+            {
+              "id": "aj_make_a_mortise_tenon_joint",
+              "title": "Make a mortise & tenon joint",
+              "opps": [
+                {
+                  "id": "aj_make_a_mortise_tenon_joint_1",
+                  "title": "Mark the joint",
+                  "instruction": "Get a photo showing the mortise and tenon set out on the matching components.",
+                  "question": "How did you make sure both parts of the joint would line up?",
+                  "codes": [
+                    "K32",
+                    "K33",
+                    "S23",
+                    "S24"
+                  ],
+                  "bundle": "Machining & joints"
+                },
+                {
+                  "id": "aj_make_a_mortise_tenon_joint_2",
+                  "title": "Produce the mortise & tenon",
+                  "instruction": "Get a photo or short video showing one part of the joint being machined or cut.",
+                  "question": "What method are you using to control the size of the joint?",
+                  "codes": [
+                    "K31",
+                    "K33",
+                    "S24",
+                    "S30"
+                  ],
+                  "bundle": "Machining & joints"
+                },
+                {
+                  "id": "aj_make_a_mortise_tenon_joint_3",
+                  "title": "Dry-fit the joint",
+                  "instruction": "Get a photo showing the joint assembled without final adhesive.",
+                  "question": "What tells you the joint is tight enough without being forced?",
+                  "codes": [
+                    "K33",
+                    "S24",
+                    "B5"
+                  ],
+                  "bundle": "Machining & joints"
+                }
+              ]
+            },
+            {
+              "id": "aj_make_a_dovetail_joint",
+              "title": "Make a dovetail joint",
+              "opps": [
+                {
+                  "id": "aj_make_a_dovetail_joint_1",
+                  "title": "Set out the dovetail",
+                  "instruction": "Get a photo showing tails/pins or dovetail lines marked onto the timber.",
+                  "question": "How did you set out the angle and spacing of the dovetail?",
+                  "codes": [
+                    "K32",
+                    "K33",
+                    "S23",
+                    "S24"
+                  ],
+                  "bundle": "Machining & joints"
+                },
+                {
+                  "id": "aj_make_a_dovetail_joint_2",
+                  "title": "Cut the joint",
+                  "instruction": "Get a photo or short video showing the dovetail being cut or chiselled.",
+                  "question": "How are you keeping the cut to the waste side of the line?",
+                  "codes": [
+                    "K14",
+                    "K33",
+                    "S9",
+                    "S24"
+                  ],
+                  "bundle": "Machining & joints"
+                },
+                {
+                  "id": "aj_make_a_dovetail_joint_3",
+                  "title": "Fit the dovetail",
+                  "instruction": "Get a photo showing the dry-assembled joint.",
+                  "question": "What did you check about the fit and shoulder lines?",
+                  "codes": [
+                    "K33",
+                    "S24",
+                    "B5"
+                  ],
+                  "bundle": "Machining & joints"
+                }
+              ]
+            },
+            {
+              "id": "aj_make_a_bridle_joint",
+              "title": "Make a bridle joint",
+              "opps": [
+                {
+                  "id": "aj_make_a_bridle_joint_1",
+                  "title": "Set out the bridle",
+                  "instruction": "Get a photo showing the joint marked on both components.",
+                  "question": "How did you set the joint out so both parts would finish flush?",
+                  "codes": [
+                    "K32",
+                    "K33",
+                    "S23",
+                    "S24"
+                  ],
+                  "bundle": "Machining & joints"
+                },
+                {
+                  "id": "aj_make_a_bridle_joint_2",
+                  "title": "Cut the joint",
+                  "instruction": "Get a photo or short video showing the open mortise or tenon being produced.",
+                  "question": "What method are you using to keep the joint sides straight and accurate?",
+                  "codes": [
+                    "K33",
+                    "S24"
+                  ],
+                  "bundle": "Machining & joints"
+                },
+                {
+                  "id": "aj_make_a_bridle_joint_3",
+                  "title": "Dry-fit the joint",
+                  "instruction": "Get a photo showing the assembled bridle joint.",
+                  "question": "What did you check before the joint was ready for glue or final assembly?",
+                  "codes": [
+                    "K33",
+                    "S24",
+                    "B5"
+                  ],
+                  "bundle": "Machining & joints"
+                }
+              ]
+            },
+            {
+              "id": "aj_make_a_halving_joint",
+              "title": "Make a halving joint",
+              "opps": [
+                {
+                  "id": "aj_make_a_halving_joint_1",
+                  "title": "Mark the halving depth",
+                  "instruction": "Get a photo showing the halving joint marked on both pieces.",
+                  "question": "How did you mark the depth so the finished faces would sit flush?",
+                  "codes": [
+                    "K32",
+                    "K33",
+                    "S23",
+                    "S24"
+                  ],
+                  "bundle": "Machining & joints"
+                },
+                {
+                  "id": "aj_make_a_halving_joint_2",
+                  "title": "Remove the waste",
+                  "instruction": "Get a photo or short video showing the halving being cut or cleaned out.",
+                  "question": "How did you control the depth and keep the joint flat?",
+                  "codes": [
+                    "K14",
+                    "K33",
+                    "S9",
+                    "S24"
+                  ],
+                  "bundle": "Machining & joints"
+                },
+                {
+                  "id": "aj_make_a_halving_joint_3",
+                  "title": "Check the assembled joint",
+                  "instruction": "Get a photo showing the two pieces fitted together.",
+                  "question": "What did you check for fit, flushness and square?",
+                  "codes": [
+                    "K33",
+                    "S24",
+                    "B5"
+                  ],
+                  "bundle": "Machining & joints"
+                }
+              ]
+            },
+            {
+              "id": "aj_form_dowel_biscuit_staple_or_adhesive_connection",
+              "title": "Form dowel, biscuit, staple or adhesive connections",
+              "opps": [
+                {
+                  "id": "aj_form_dowel_biscuit_staple_or_adhesive_connection_1",
+                  "title": "Mark the connection positions",
+                  "instruction": "Get a photo showing dowel, biscuit, staple or adhesive positions marked out.",
+                  "question": "How did you make sure the matching components would align?",
+                  "codes": [
+                    "K35",
+                    "S25"
+                  ],
+                  "bundle": "Machining & joints"
+                },
+                {
+                  "id": "aj_form_dowel_biscuit_staple_or_adhesive_connection_2",
+                  "title": "Prepare the connection",
+                  "instruction": "Get a photo showing holes, slots, adhesive spread or staple setup before assembly.",
+                  "question": "Why is this connection method suitable for this product?",
+                  "codes": [
+                    "K11",
+                    "K35",
+                    "S25"
+                  ],
+                  "bundle": "Machining & joints"
+                },
+                {
+                  "id": "aj_form_dowel_biscuit_staple_or_adhesive_connection_3",
+                  "title": "Assemble & clamp",
+                  "instruction": "Get a photo showing the components aligned, clamped or secured.",
+                  "question": "What did you check before leaving the connection to set or moving on?",
+                  "codes": [
+                    "K35",
+                    "S25",
+                    "B5"
+                  ],
+                  "bundle": "Machining & joints"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "aj_windows",
+          "title": "Windows",
+          "jobs": [
+            {
+              "id": "aj_set_out_a_timber_window",
+              "title": "Set out a timber window",
+              "opps": [
+                {
+                  "id": "aj_set_out_a_timber_window_1",
+                  "title": "Set out the overall frame",
+                  "instruction": "Get a photo showing the setting rod/drawing and overall frame dimensions.",
+                  "question": "Which overall dimensions are you setting out first?",
+                  "codes": [
+                    "K32",
+                    "K34",
+                    "S23"
+                  ],
+                  "bundle": "Windows"
+                },
+                {
+                  "id": "aj_set_out_a_timber_window_2",
+                  "title": "Set out joints & rebates",
+                  "instruction": "Get a photo showing joint positions and glazing/rebate details on the rod or components.",
+                  "question": "How did you locate the joints and rebates from the design information?",
+                  "codes": [
+                    "K32",
+                    "K34",
+                    "S23"
+                  ],
+                  "bundle": "Windows"
+                },
+                {
+                  "id": "aj_set_out_a_timber_window_3",
+                  "title": "Check the set-out",
+                  "instruction": "Get a photo showing the rod or marked components being checked before machining.",
+                  "question": "What did you check before starting manufacture?",
+                  "codes": [
+                    "K34",
+                    "S23",
+                    "B5"
+                  ],
+                  "bundle": "Windows"
+                }
+              ]
+            },
+            {
+              "id": "aj_machine_window_frame_components",
+              "title": "Machine window frame components",
+              "opps": [
+                {
+                  "id": "aj_machine_window_frame_components_1",
+                  "title": "Prepare frame sections",
+                  "instruction": "Get a photo showing the frame timber machined to section size.",
+                  "question": "How did you check the section size before jointing?",
+                  "codes": [
+                    "K31",
+                    "K34",
+                    "S26",
+                    "S30"
+                  ],
+                  "bundle": "Windows"
+                },
+                {
+                  "id": "aj_machine_window_frame_components_2",
+                  "title": "Machine the joints",
+                  "instruction": "Get a photo or short video showing a frame joint being produced.",
+                  "question": "What joint are you making, and how are you keeping matching components accurate?",
+                  "codes": [
+                    "K33",
+                    "K34",
+                    "S24",
+                    "S26"
+                  ],
+                  "bundle": "Windows"
+                },
+                {
+                  "id": "aj_machine_window_frame_components_3",
+                  "title": "Check the components",
+                  "instruction": "Get a photo showing frame members checked before assembly.",
+                  "question": "What did you check about length, section and joint position?",
+                  "codes": [
+                    "K34",
+                    "S26",
+                    "B5"
+                  ],
+                  "bundle": "Windows"
+                }
+              ]
+            },
+            {
+              "id": "aj_machine_casement_components",
+              "title": "Machine casement components",
+              "opps": [
+                {
+                  "id": "aj_machine_casement_components_1",
+                  "title": "Prepare casement sections",
+                  "instruction": "Get a photo showing the casement timber machined to the required section.",
+                  "question": "What dimensions are you checking on this section?",
+                  "codes": [
+                    "K31",
+                    "K34",
+                    "S26",
+                    "S30"
+                  ],
+                  "bundle": "Windows"
+                },
+                {
+                  "id": "aj_machine_casement_components_2",
+                  "title": "Machine joints & profiles",
+                  "instruction": "Get a photo or short video showing a joint, rebate or profile being machined.",
+                  "question": "How did you set the machine so the components would match?",
+                  "codes": [
+                    "K31",
+                    "K33",
+                    "K34",
+                    "S26",
+                    "S30"
+                  ],
+                  "bundle": "Windows"
+                },
+                {
+                  "id": "aj_machine_casement_components_3",
+                  "title": "Check matching components",
+                  "instruction": "Get a photo showing stiles/rails paired before assembly.",
+                  "question": "What did you do to make sure the casement components match correctly?",
+                  "codes": [
+                    "K34",
+                    "S26",
+                    "B5"
+                  ],
+                  "bundle": "Windows"
+                }
+              ]
+            },
+            {
+              "id": "aj_form_glazing_rebates",
+              "title": "Form glazing rebates",
+              "opps": [
+                {
+                  "id": "aj_form_glazing_rebates_1",
+                  "title": "Mark the rebate limits",
+                  "instruction": "Get a photo showing where the glazing rebate starts/stops on the component.",
+                  "question": "How did you identify the correct rebate position and size?",
+                  "codes": [
+                    "K32",
+                    "K34",
+                    "S23",
+                    "S26"
+                  ],
+                  "bundle": "Windows"
+                },
+                {
+                  "id": "aj_form_glazing_rebates_2",
+                  "title": "Machine the rebate",
+                  "instruction": "Get a photo or short video showing the rebate being formed.",
+                  "question": "How did you control the rebate depth and width?",
+                  "codes": [
+                    "K31",
+                    "K34",
+                    "S26",
+                    "S30"
+                  ],
+                  "bundle": "Windows"
+                },
+                {
+                  "id": "aj_form_glazing_rebates_3",
+                  "title": "Check the glazing detail",
+                  "instruction": "Get a close photo showing the completed rebate.",
+                  "question": "What did you check to make sure the glazing detail was suitable?",
+                  "codes": [
+                    "K34",
+                    "S26",
+                    "B5"
+                  ],
+                  "bundle": "Windows"
+                }
+              ]
+            },
+            {
+              "id": "aj_assemble_the_frame_casement",
+              "title": "Assemble the frame & casement",
+              "opps": [
+                {
+                  "id": "aj_assemble_the_frame_casement_1",
+                  "title": "Dry assemble the frame",
+                  "instruction": "Get a photo showing the frame components dry-fitted before glue.",
+                  "question": "What did you check before applying adhesive?",
+                  "codes": [
+                    "K34",
+                    "K35",
+                    "S25",
+                    "S26"
+                  ],
+                  "bundle": "Windows"
+                },
+                {
+                  "id": "aj_assemble_the_frame_casement_2",
+                  "title": "Glue & clamp square",
+                  "instruction": "Get a photo showing the frame or casement clamped during assembly.",
+                  "question": "How did you keep the assembly square while the joints were pulled together?",
+                  "codes": [
+                    "K35",
+                    "S25",
+                    "S26"
+                  ],
+                  "bundle": "Windows"
+                },
+                {
+                  "id": "aj_assemble_the_frame_casement_3",
+                  "title": "Check operation & fit",
+                  "instruction": "Get a photo showing the casement fitted in the frame.",
+                  "question": "What did you check about gaps, alignment and operation?",
+                  "codes": [
+                    "K34",
+                    "S26",
+                    "B5"
+                  ],
+                  "bundle": "Windows"
+                }
+              ]
+            },
+            {
+              "id": "aj_fit_window_ironmongery",
+              "title": "Fit window ironmongery",
+              "opps": [
+                {
+                  "id": "aj_fit_window_ironmongery_1",
+                  "title": "Set out the ironmongery",
+                  "instruction": "Get a photo showing hinge, stay or fastener positions marked.",
+                  "question": "How did you decide the correct position for this ironmongery?",
+                  "codes": [
+                    "K39",
+                    "S29"
+                  ],
+                  "bundle": "Windows"
+                },
+                {
+                  "id": "aj_fit_window_ironmongery_2",
+                  "title": "Recess or drill the fittings",
+                  "instruction": "Get a photo showing the prepared recesses or holes.",
+                  "question": "How did you make sure the ironmongery sat accurately without damaging the product?",
+                  "codes": [
+                    "K14",
+                    "K39",
+                    "S9",
+                    "S29"
+                  ],
+                  "bundle": "Windows"
+                },
+                {
+                  "id": "aj_fit_window_ironmongery_3",
+                  "title": "Fit & test the hardware",
+                  "instruction": "Get a photo showing the ironmongery fitted to the window.",
+                  "question": "What did you test after fitting the hardware?",
+                  "codes": [
+                    "K39",
+                    "S29",
+                    "B5"
+                  ],
+                  "bundle": "Windows"
+                }
+              ]
+            },
+            {
+              "id": "aj_check_finish_the_window",
+              "title": "Check & finish the window",
+              "opps": [
+                {
+                  "id": "aj_check_finish_the_window_1",
+                  "title": "Check dimensions & square",
+                  "instruction": "Get a photo showing the window measured diagonally or checked for square.",
+                  "question": "What tolerances or dimensions are you checking here?",
+                  "codes": [
+                    "K34",
+                    "S26"
+                  ],
+                  "bundle": "Windows"
+                },
+                {
+                  "id": "aj_check_finish_the_window_2",
+                  "title": "Check joints & surfaces",
+                  "instruction": "Get a close photo showing the joint lines and prepared surfaces.",
+                  "question": "What defects are you looking for before applying the finish?",
+                  "codes": [
+                    "K34",
+                    "K38",
+                    "S26"
+                  ],
+                  "bundle": "Windows"
+                },
+                {
+                  "id": "aj_check_finish_the_window_3",
+                  "title": "Apply/prepare the finish",
+                  "instruction": "Get a photo showing sanding, preservative or another specified finish.",
+                  "question": "What finish is being used and how are you preparing the timber for it?",
+                  "codes": [
+                    "K38",
+                    "B2"
+                  ],
+                  "bundle": "Windows"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "aj_doors",
+          "title": "Doors, frames & linings",
+          "jobs": [
+            {
+              "id": "aj_set_out_a_door_frame_or_lining",
+              "title": "Set out a door, frame or lining",
+              "opps": [
+                {
+                  "id": "aj_set_out_a_door_frame_or_lining_1",
+                  "title": "Set out overall size",
+                  "instruction": "Get a photo showing the rod/drawing with the overall door, frame or lining size.",
+                  "question": "Which overall dimensions control this product?",
+                  "codes": [
+                    "K32",
+                    "K36",
+                    "K37",
+                    "S23"
+                  ],
+                  "bundle": "Doors, frames & linings"
+                },
+                {
+                  "id": "aj_set_out_a_door_frame_or_lining_2",
+                  "title": "Set out joints & rebates",
+                  "instruction": "Get a photo showing joint, stop or rebate positions.",
+                  "question": "How did you locate these details from the drawing or rod?",
+                  "codes": [
+                    "K32",
+                    "K36",
+                    "K37",
+                    "S23"
+                  ],
+                  "bundle": "Doors, frames & linings"
+                },
+                {
+                  "id": "aj_set_out_a_door_frame_or_lining_3",
+                  "title": "Check before machining",
+                  "instruction": "Get a photo showing the set-out being checked before components are machined.",
+                  "question": "What did you check to avoid carrying a marking-out error into manufacture?",
+                  "codes": [
+                    "K32",
+                    "S23",
+                    "B5"
+                  ],
+                  "bundle": "Doors, frames & linings"
+                }
+              ]
+            },
+            {
+              "id": "aj_manufacture_a_door_frame",
+              "title": "Manufacture a door frame",
+              "opps": [
+                {
+                  "id": "aj_manufacture_a_door_frame_1",
+                  "title": "Machine frame sections",
+                  "instruction": "Get a photo showing the jamb/head sections prepared to size/profile.",
+                  "question": "What section sizes or rebates are you checking?",
+                  "codes": [
+                    "K31",
+                    "K36",
+                    "S27",
+                    "S30"
+                  ],
+                  "bundle": "Doors, frames & linings"
+                },
+                {
+                  "id": "aj_manufacture_a_door_frame_2",
+                  "title": "Form frame joints",
+                  "instruction": "Get a photo or short video showing the head/jamb joint being produced.",
+                  "question": "What joint or connection are you using to assemble the frame?",
+                  "codes": [
+                    "K33",
+                    "K35",
+                    "K36",
+                    "S24",
+                    "S25",
+                    "S27"
+                  ],
+                  "bundle": "Doors, frames & linings"
+                },
+                {
+                  "id": "aj_manufacture_a_door_frame_3",
+                  "title": "Assemble & check the frame",
+                  "instruction": "Get a photo showing the frame assembled and checked for square.",
+                  "question": "How did you confirm the frame was square and to the correct overall size?",
+                  "codes": [
+                    "K36",
+                    "S27",
+                    "B5"
+                  ],
+                  "bundle": "Doors, frames & linings"
+                }
+              ]
+            },
+            {
+              "id": "aj_manufacture_a_door_lining",
+              "title": "Manufacture a door lining",
+              "opps": [
+                {
+                  "id": "aj_manufacture_a_door_lining_1",
+                  "title": "Machine lining components",
+                  "instruction": "Get a photo showing the lining head/jambs prepared to section.",
+                  "question": "What dimensions are you working to for the lining?",
+                  "codes": [
+                    "K31",
+                    "K36",
+                    "S27",
+                    "S30"
+                  ],
+                  "bundle": "Doors, frames & linings"
+                },
+                {
+                  "id": "aj_manufacture_a_door_lining_2",
+                  "title": "Form the head joint/rebate",
+                  "instruction": "Get a close photo showing the joint or housing detail.",
+                  "question": "How did you make sure the head and jambs would assemble to the correct width?",
+                  "codes": [
+                    "K33",
+                    "K36",
+                    "S24",
+                    "S27"
+                  ],
+                  "bundle": "Doors, frames & linings"
+                },
+                {
+                  "id": "aj_manufacture_a_door_lining_3",
+                  "title": "Assemble & check the lining",
+                  "instruction": "Get a photo showing the lining assembled or laid out for checking.",
+                  "question": "What did you check before the lining was ready to leave the workshop?",
+                  "codes": [
+                    "K36",
+                    "S27",
+                    "B5"
+                  ],
+                  "bundle": "Doors, frames & linings"
+                }
+              ]
+            },
+            {
+              "id": "aj_manufacture_a_timber_door",
+              "title": "Manufacture a timber door",
+              "opps": [
+                {
+                  "id": "aj_manufacture_a_timber_door_1",
+                  "title": "Set out the door components",
+                  "instruction": "Get a photo showing stiles, rails or panels marked from the rod/drawing.",
+                  "question": "How did you transfer the door dimensions and joint positions onto the components?",
+                  "codes": [
+                    "K32",
+                    "K37",
+                    "S23",
+                    "S28"
+                  ],
+                  "bundle": "Doors, frames & linings"
+                },
+                {
+                  "id": "aj_manufacture_a_timber_door_2",
+                  "title": "Machine the door joints",
+                  "instruction": "Get a photo or short video showing a mortise, tenon or other door joint being made.",
+                  "question": "How did you keep the matching joints accurate?",
+                  "codes": [
+                    "K31",
+                    "K33",
+                    "K37",
+                    "S24",
+                    "S28",
+                    "S30"
+                  ],
+                  "bundle": "Doors, frames & linings"
+                },
+                {
+                  "id": "aj_manufacture_a_timber_door_3",
+                  "title": "Assemble & check the door",
+                  "instruction": "Get a photo showing the door clamped or assembled.",
+                  "question": "What did you check for square, dimensions and joint closure?",
+                  "codes": [
+                    "K35",
+                    "K37",
+                    "S25",
+                    "S28",
+                    "B5"
+                  ],
+                  "bundle": "Doors, frames & linings"
+                }
+              ]
+            },
+            {
+              "id": "aj_work_on_a_fire_door_assembly",
+              "title": "Work on a fire door assembly",
+              "opps": [
+                {
+                  "id": "aj_work_on_a_fire_door_assembly_1",
+                  "title": "Identify the fire-door requirements",
+                  "instruction": "Get a photo of the approved specification, label or permitted product information without personal data.",
+                  "question": "What fire-door requirement are you working to here?",
+                  "codes": [
+                    "K30",
+                    "S6"
+                  ],
+                  "bundle": "Doors, frames & linings"
+                },
+                {
+                  "id": "aj_work_on_a_fire_door_assembly_2",
+                  "title": "Prepare the approved components",
+                  "instruction": "Get a photo showing the door/frame components or approved ironmongery ready for the assembly.",
+                  "question": "Why is it important to use the specified components on a fire-door assembly?",
+                  "codes": [
+                    "K11",
+                    "K30"
+                  ],
+                  "bundle": "Doors, frames & linings"
+                },
+                {
+                  "id": "aj_work_on_a_fire_door_assembly_3",
+                  "title": "Check the assembly details",
+                  "instruction": "Get a photo showing a relevant rebate, seal location, hinge preparation or frame detail.",
+                  "question": "What did you check to avoid compromising the fire performance of the assembly?",
+                  "codes": [
+                    "K7",
+                    "K30",
+                    "B5"
+                  ],
+                  "bundle": "Doors, frames & linings"
+                }
+              ]
+            },
+            {
+              "id": "aj_fit_hinges",
+              "title": "Fit hinges",
+              "opps": [
+                {
+                  "id": "aj_fit_hinges_1",
+                  "title": "Mark hinge positions",
+                  "instruction": "Get a photo showing hinge positions marked on the door/frame component.",
+                  "question": "How did you decide and transfer the hinge positions?",
+                  "codes": [
+                    "K39",
+                    "S29"
+                  ],
+                  "bundle": "Doors, frames & linings"
+                },
+                {
+                  "id": "aj_fit_hinges_2",
+                  "title": "Form the hinge recess",
+                  "instruction": "Get a close photo or short video showing the recess being cut.",
+                  "question": "How did you control the depth so the hinge sits correctly?",
+                  "codes": [
+                    "K14",
+                    "K39",
+                    "S9",
+                    "S29"
+                  ],
+                  "bundle": "Doors, frames & linings"
+                },
+                {
+                  "id": "aj_fit_hinges_3",
+                  "title": "Fit & check the hinge",
+                  "instruction": "Get a close photo showing the hinge installed.",
+                  "question": "What did you check before moving on to the next fitting?",
+                  "codes": [
+                    "K39",
+                    "S29",
+                    "B5"
+                  ],
+                  "bundle": "Doors, frames & linings"
+                }
+              ]
+            },
+            {
+              "id": "aj_fit_locks_handles_latches",
+              "title": "Fit locks, handles & latches",
+              "opps": [
+                {
+                  "id": "aj_fit_locks_handles_latches_1",
+                  "title": "Set out the lock/latch",
+                  "instruction": "Get a photo showing centres, backset or fitting positions marked on the door.",
+                  "question": "How did you set out the lock or latch position?",
+                  "codes": [
+                    "K39",
+                    "S29"
+                  ],
+                  "bundle": "Doors, frames & linings"
+                },
+                {
+                  "id": "aj_fit_locks_handles_latches_2",
+                  "title": "Prepare the recesses & holes",
+                  "instruction": "Get a photo showing the mortise, spindle hole or faceplate recess.",
+                  "question": "How did you control the position and depth of the preparation?",
+                  "codes": [
+                    "K14",
+                    "K39",
+                    "S9",
+                    "S29"
+                  ],
+                  "bundle": "Doors, frames & linings"
+                },
+                {
+                  "id": "aj_fit_locks_handles_latches_3",
+                  "title": "Fit & operate the ironmongery",
+                  "instruction": "Get a photo showing the lock, handles or latch fitted.",
+                  "question": "What did you test to make sure the ironmongery works correctly?",
+                  "codes": [
+                    "K39",
+                    "S29",
+                    "B5"
+                  ],
+                  "bundle": "Doors, frames & linings"
+                }
+              ]
+            },
+            {
+              "id": "aj_assemble_check_the_finished_product",
+              "title": "Assemble & check the finished product",
+              "opps": [
+                {
+                  "id": "aj_assemble_check_the_finished_product_1",
+                  "title": "Dry check the components",
+                  "instruction": "Get a photo showing the product assembled or laid out before final fixing/gluing.",
+                  "question": "What did you check before final assembly?",
+                  "codes": [
+                    "K35",
+                    "S25"
+                  ],
+                  "bundle": "Doors, frames & linings"
+                },
+                {
+                  "id": "aj_assemble_check_the_finished_product_2",
+                  "title": "Complete the final assembly",
+                  "instruction": "Get a photo showing the product clamped, fixed or connected.",
+                  "question": "How did you keep the assembly square and prevent components moving?",
+                  "codes": [
+                    "K35",
+                    "S25"
+                  ],
+                  "bundle": "Doors, frames & linings"
+                },
+                {
+                  "id": "aj_assemble_check_the_finished_product_3",
+                  "title": "Final quality check",
+                  "instruction": "Get a photo showing the finished product being measured or inspected.",
+                  "question": "What defects, dimensions or operation did you check before sign-off?",
+                  "codes": [
+                    "K37",
+                    "B5"
+                  ],
+                  "bundle": "Doors, frames & linings"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "aj_stairs",
+          "title": "Stairs & balustrades",
+          "jobs": [
+            {
+              "id": "aj_set_out_a_straight_staircase",
+              "title": "Set out a straight staircase",
+              "opps": [
+                {
+                  "id": "aj_set_out_a_straight_staircase_1",
+                  "title": "Produce the stair set-out",
+                  "instruction": "Get a photo showing the stair rod/drawing with going, rise and component positions.",
+                  "question": "What dimensions control the rise and going of this staircase?",
+                  "codes": [
+                    "K32",
+                    "K36",
+                    "S23",
+                    "S27"
+                  ],
+                  "bundle": "Stairs & balustrades"
+                },
+                {
+                  "id": "aj_set_out_a_straight_staircase_2",
+                  "title": "Mark strings & components",
+                  "instruction": "Get a photo showing tread/riser positions marked onto the strings or components.",
+                  "question": "How did you transfer the stair set-out accurately onto the timber?",
+                  "codes": [
+                    "K32",
+                    "K36",
+                    "S23",
+                    "S27"
+                  ],
+                  "bundle": "Stairs & balustrades"
+                },
+                {
+                  "id": "aj_set_out_a_straight_staircase_3",
+                  "title": "Check the total rise/going",
+                  "instruction": "Get a photo showing the set-out checked against the required overall dimensions.",
+                  "question": "What did you check before starting to machine the stair components?",
+                  "codes": [
+                    "K36",
+                    "S27",
+                    "B5"
+                  ],
+                  "bundle": "Stairs & balustrades"
+                }
+              ]
+            },
+            {
+              "id": "aj_machine_stair_components",
+              "title": "Machine stair components",
+              "opps": [
+                {
+                  "id": "aj_machine_stair_components_1",
+                  "title": "Prepare strings/treads/risers",
+                  "instruction": "Get a photo showing the components machined to basic size.",
+                  "question": "How did you check the section and length before profiling or jointing?",
+                  "codes": [
+                    "K31",
+                    "K36",
+                    "S27",
+                    "S30"
+                  ],
+                  "bundle": "Stairs & balustrades"
+                },
+                {
+                  "id": "aj_machine_stair_components_2",
+                  "title": "Machine housings or joints",
+                  "instruction": "Get a photo or short video showing a stair housing, tenon or other joint being machined.",
+                  "question": "How did you set the machine so repeated joints stayed consistent?",
+                  "codes": [
+                    "K31",
+                    "K33",
+                    "K36",
+                    "S24",
+                    "S27",
+                    "S30"
+                  ],
+                  "bundle": "Stairs & balustrades"
+                },
+                {
+                  "id": "aj_machine_stair_components_3",
+                  "title": "Check matching parts",
+                  "instruction": "Get a photo showing stair components checked against the rod or each other.",
+                  "question": "What did you check before assembly?",
+                  "codes": [
+                    "K36",
+                    "S27",
+                    "B5"
+                  ],
+                  "bundle": "Stairs & balustrades"
+                }
+              ]
+            },
+            {
+              "id": "aj_manufacture_a_straight_staircase",
+              "title": "Manufacture a straight staircase",
+              "opps": [
+                {
+                  "id": "aj_manufacture_a_straight_staircase_1",
+                  "title": "Dry assemble the stair",
+                  "instruction": "Get a photo showing strings, treads and risers being dry assembled.",
+                  "question": "What did you check before applying adhesive or wedges?",
+                  "codes": [
+                    "K36",
+                    "S27"
+                  ],
+                  "bundle": "Stairs & balustrades"
+                },
+                {
+                  "id": "aj_manufacture_a_straight_staircase_2",
+                  "title": "Glue/wedge the staircase",
+                  "instruction": "Get a photo showing the staircase clamped, wedged or secured during assembly.",
+                  "question": "How did you keep the stair square and joints tight during assembly?",
+                  "codes": [
+                    "K35",
+                    "K36",
+                    "S25",
+                    "S27"
+                  ],
+                  "bundle": "Stairs & balustrades"
+                },
+                {
+                  "id": "aj_manufacture_a_straight_staircase_3",
+                  "title": "Final stair check",
+                  "instruction": "Get a photo showing the completed flight being measured or inspected.",
+                  "question": "What did you check about dimensions, joint closure and overall quality?",
+                  "codes": [
+                    "K36",
+                    "S27",
+                    "B5"
+                  ],
+                  "bundle": "Stairs & balustrades"
+                }
+              ]
+            },
+            {
+              "id": "aj_manufacture_spindles",
+              "title": "Manufacture spindles",
+              "opps": [
+                {
+                  "id": "aj_manufacture_spindles_1",
+                  "title": "Set the spindle section",
+                  "instruction": "Get a photo showing spindle blanks prepared to the required size.",
+                  "question": "What finished section are you machining the spindles to?",
+                  "codes": [
+                    "K31",
+                    "K37",
+                    "S28",
+                    "S30"
+                  ],
+                  "bundle": "Stairs & balustrades"
+                },
+                {
+                  "id": "aj_manufacture_spindles_2",
+                  "title": "Machine the spindle profile",
+                  "instruction": "Get a photo or short video showing the spindle profile being produced.",
+                  "question": "How did you keep the profile consistent from one spindle to the next?",
+                  "codes": [
+                    "K31",
+                    "K37",
+                    "S28",
+                    "S30"
+                  ],
+                  "bundle": "Stairs & balustrades"
+                },
+                {
+                  "id": "aj_manufacture_spindles_3",
+                  "title": "Check the batch",
+                  "instruction": "Get a photo showing several finished spindles checked together.",
+                  "question": "What did you check for size, profile and surface quality?",
+                  "codes": [
+                    "K37",
+                    "S28",
+                    "B5"
+                  ],
+                  "bundle": "Stairs & balustrades"
+                }
+              ]
+            },
+            {
+              "id": "aj_manufacture_handrail_balustrade_components",
+              "title": "Manufacture handrail/balustrade components",
+              "opps": [
+                {
+                  "id": "aj_manufacture_handrail_balustrade_components_1",
+                  "title": "Set out the components",
+                  "instruction": "Get a photo showing handrail/balustrade dimensions or joints marked.",
+                  "question": "How did you set out the component from the stair design?",
+                  "codes": [
+                    "K32",
+                    "K37",
+                    "S23",
+                    "S28"
+                  ],
+                  "bundle": "Stairs & balustrades"
+                },
+                {
+                  "id": "aj_manufacture_handrail_balustrade_components_2",
+                  "title": "Machine the profile/joints",
+                  "instruction": "Get a photo or short video showing the component being profiled or jointed.",
+                  "question": "How did you control the profile or joint so matching parts will fit?",
+                  "codes": [
+                    "K31",
+                    "K33",
+                    "K37",
+                    "S24",
+                    "S28",
+                    "S30"
+                  ],
+                  "bundle": "Stairs & balustrades"
+                },
+                {
+                  "id": "aj_manufacture_handrail_balustrade_components_3",
+                  "title": "Check the finished components",
+                  "instruction": "Get a photo showing the handrail/balustrade components checked before assembly.",
+                  "question": "What did you check before the components were ready for assembly?",
+                  "codes": [
+                    "K37",
+                    "S28",
+                    "B5"
+                  ],
+                  "bundle": "Stairs & balustrades"
+                }
+              ]
+            },
+            {
+              "id": "aj_assemble_stairs_balustrades",
+              "title": "Assemble stairs & balustrades",
+              "opps": [
+                {
+                  "id": "aj_assemble_stairs_balustrades_1",
+                  "title": "Set out component positions",
+                  "instruction": "Get a photo showing spindle/rail positions or assembly marks.",
+                  "question": "How did you set out the positions so the finished spacing is consistent?",
+                  "codes": [
+                    "K32",
+                    "K37",
+                    "S23",
+                    "S28"
+                  ],
+                  "bundle": "Stairs & balustrades"
+                },
+                {
+                  "id": "aj_assemble_stairs_balustrades_2",
+                  "title": "Connect the components",
+                  "instruction": "Get a photo showing joints, dowels, adhesive or other connections during assembly.",
+                  "question": "Why is this connection method suitable for the stair/balustrade product?",
+                  "codes": [
+                    "K35",
+                    "K37",
+                    "S25",
+                    "S28"
+                  ],
+                  "bundle": "Stairs & balustrades"
+                },
+                {
+                  "id": "aj_assemble_stairs_balustrades_3",
+                  "title": "Check the assembly",
+                  "instruction": "Get a photo showing the completed assembly.",
+                  "question": "What did you check about alignment, spacing, joints and overall quality?",
+                  "codes": [
+                    "K37",
+                    "S28",
+                    "B5"
+                  ],
+                  "bundle": "Stairs & balustrades"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "aj_finish",
+          "title": "Units, mouldings & finishing",
+          "jobs": [
+            {
+              "id": "aj_manufacture_a_wall_unit",
+              "title": "Manufacture a wall unit",
+              "opps": [
+                {
+                  "id": "aj_manufacture_a_wall_unit_1",
+                  "title": "Set out the unit components",
+                  "instruction": "Get a photo showing side, top, bottom, shelf or door components marked/cut to size.",
+                  "question": "How did you work out the component sizes from the drawing?",
+                  "codes": [
+                    "K8",
+                    "K32",
+                    "K37",
+                    "S6",
+                    "S23",
+                    "S28"
+                  ],
+                  "bundle": "Units, mouldings & finishing"
+                },
+                {
+                  "id": "aj_manufacture_a_wall_unit_2",
+                  "title": "Form the unit connections",
+                  "instruction": "Get a photo showing dowels, biscuits, housings, staples or adhesive ready for assembly.",
+                  "question": "Why is this connection method suitable for the unit?",
+                  "codes": [
+                    "K35",
+                    "K37",
+                    "S25",
+                    "S28"
+                  ],
+                  "bundle": "Units, mouldings & finishing"
+                },
+                {
+                  "id": "aj_manufacture_a_wall_unit_3",
+                  "title": "Assemble & check the unit",
+                  "instruction": "Get a photo showing the unit assembled and checked.",
+                  "question": "What did you check for square, dimensions and fit of the components?",
+                  "codes": [
+                    "K37",
+                    "S28",
+                    "B5"
+                  ],
+                  "bundle": "Units, mouldings & finishing"
+                }
+              ]
+            },
+            {
+              "id": "aj_manufacture_a_floor_unit",
+              "title": "Manufacture a floor unit",
+              "opps": [
+                {
+                  "id": "aj_manufacture_a_floor_unit_1",
+                  "title": "Prepare the carcass components",
+                  "instruction": "Get a photo showing the floor-unit panels or timber parts prepared to size.",
+                  "question": "Which dimensions are most important to the carcass?",
+                  "codes": [
+                    "K32",
+                    "K37",
+                    "S23",
+                    "S28"
+                  ],
+                  "bundle": "Units, mouldings & finishing"
+                },
+                {
+                  "id": "aj_manufacture_a_floor_unit_2",
+                  "title": "Connect the carcass",
+                  "instruction": "Get a photo showing the connection method during assembly.",
+                  "question": "How did you keep the unit square while joining the components?",
+                  "codes": [
+                    "K35",
+                    "S25",
+                    "S28"
+                  ],
+                  "bundle": "Units, mouldings & finishing"
+                },
+                {
+                  "id": "aj_manufacture_a_floor_unit_3",
+                  "title": "Check doors/drawers/openings",
+                  "instruction": "Get a photo showing the finished unit or opening dimensions.",
+                  "question": "What did you check before the unit was ready for doors, drawers or ironmongery?",
+                  "codes": [
+                    "K37",
+                    "S28",
+                    "B5"
+                  ],
+                  "bundle": "Units, mouldings & finishing"
+                }
+              ]
+            },
+            {
+              "id": "aj_produce_timber_mouldings",
+              "title": "Produce timber mouldings",
+              "opps": [
+                {
+                  "id": "aj_produce_timber_mouldings_1",
+                  "title": "Prepare the blank",
+                  "instruction": "Get a photo showing the timber prepared to the correct section before profiling.",
+                  "question": "What size and condition does the timber need to be before machining the moulding?",
+                  "codes": [
+                    "K9",
+                    "K31",
+                    "K37",
+                    "S28",
+                    "S30"
+                  ],
+                  "bundle": "Units, mouldings & finishing"
+                },
+                {
+                  "id": "aj_produce_timber_mouldings_2",
+                  "title": "Machine the profile",
+                  "instruction": "Get a photo or short video showing the moulding being produced safely.",
+                  "question": "How did you set the machine to produce the required profile consistently?",
+                  "codes": [
+                    "K31",
+                    "K37",
+                    "S28",
+                    "S30"
+                  ],
+                  "bundle": "Units, mouldings & finishing"
+                },
+                {
+                  "id": "aj_produce_timber_mouldings_3",
+                  "title": "Check the moulding",
+                  "instruction": "Get a photo showing the finished profile checked against a sample, drawing or matching piece.",
+                  "question": "What did you check about the profile and surface finish?",
+                  "codes": [
+                    "K37",
+                    "S28",
+                    "B5"
+                  ],
+                  "bundle": "Units, mouldings & finishing"
+                }
+              ]
+            },
+            {
+              "id": "aj_fit_drawer_runners_ironmongery",
+              "title": "Fit drawer runners & ironmongery",
+              "opps": [
+                {
+                  "id": "aj_fit_drawer_runners_ironmongery_1",
+                  "title": "Set out runner positions",
+                  "instruction": "Get a photo showing the runner or ironmongery positions marked inside the unit.",
+                  "question": "How did you set the height and setback for the runners?",
+                  "codes": [
+                    "K39",
+                    "S29"
+                  ],
+                  "bundle": "Units, mouldings & finishing"
+                },
+                {
+                  "id": "aj_fit_drawer_runners_ironmongery_2",
+                  "title": "Fix the runners",
+                  "instruction": "Get a photo showing the runners fitted to the carcass/drawer.",
+                  "question": "How did you keep both sides level, parallel and aligned?",
+                  "codes": [
+                    "K39",
+                    "S29"
+                  ],
+                  "bundle": "Units, mouldings & finishing"
+                },
+                {
+                  "id": "aj_fit_drawer_runners_ironmongery_3",
+                  "title": "Test the drawer",
+                  "instruction": "Get a photo showing the drawer installed on the runners.",
+                  "question": "What did you test and adjust before the drawer was finished?",
+                  "codes": [
+                    "K39",
+                    "S29",
+                    "B5"
+                  ],
+                  "bundle": "Units, mouldings & finishing"
+                }
+              ]
+            },
+            {
+              "id": "aj_sand_a_manufactured_product",
+              "title": "Sand a manufactured product",
+              "opps": [
+                {
+                  "id": "aj_sand_a_manufactured_product_1",
+                  "title": "Inspect before sanding",
+                  "instruction": "Get a photo showing joints, glue marks or machining marks before sanding.",
+                  "question": "What defects or marks are you removing at this stage?",
+                  "codes": [
+                    "K38"
+                  ],
+                  "bundle": "Units, mouldings & finishing"
+                },
+                {
+                  "id": "aj_sand_a_manufactured_product_2",
+                  "title": "Sand through the stages",
+                  "instruction": "Get a photo showing the sanding setup, abrasive or product during sanding.",
+                  "question": "How are you choosing the abrasive and sanding direction?",
+                  "codes": [
+                    "K17",
+                    "K38",
+                    "S10"
+                  ],
+                  "bundle": "Units, mouldings & finishing"
+                },
+                {
+                  "id": "aj_sand_a_manufactured_product_3",
+                  "title": "Check the prepared surface",
+                  "instruction": "Get a close photo showing the surface ready for finish.",
+                  "question": "How do you know the surface is ready for the next finishing process?",
+                  "codes": [
+                    "K38",
+                    "B5"
+                  ],
+                  "bundle": "Units, mouldings & finishing"
+                }
+              ]
+            },
+            {
+              "id": "aj_apply_finish_or_preservative",
+              "title": "Apply finish or preservative",
+              "opps": [
+                {
+                  "id": "aj_apply_finish_or_preservative_1",
+                  "title": "Prepare the product",
+                  "instruction": "Get a photo showing the product clean and ready before applying the finish.",
+                  "question": "What preparation is needed before this finish can be applied?",
+                  "codes": [
+                    "K38"
+                  ],
+                  "bundle": "Units, mouldings & finishing"
+                },
+                {
+                  "id": "aj_apply_finish_or_preservative_2",
+                  "title": "Apply the finish",
+                  "instruction": "Get a photo showing painting, oiling, waxing, polishing or preservative application.",
+                  "question": "What finish are you using and why is it suitable for this product?",
+                  "codes": [
+                    "K11",
+                    "K38",
+                    "B2"
+                  ],
+                  "bundle": "Units, mouldings & finishing"
+                },
+                {
+                  "id": "aj_apply_finish_or_preservative_3",
+                  "title": "Check the finish",
+                  "instruction": "Get a photo showing the finished surface after application.",
+                  "question": "What did you check for coverage, defects and final appearance?",
+                  "codes": [
+                    "K38",
+                    "B5"
+                  ],
+                  "bundle": "Units, mouldings & finishing"
+                }
+              ]
+            },
+            {
+              "id": "aj_final_assembly_quality_check",
+              "title": "Final assembly & quality check",
+              "opps": [
+                {
+                  "id": "aj_final_assembly_quality_check_1",
+                  "title": "Complete final connections",
+                  "instruction": "Get a photo showing final joints, fixings or adhesive connections.",
+                  "question": "What final connection work is being completed here?",
+                  "codes": [
+                    "K35",
+                    "S25"
+                  ],
+                  "bundle": "Units, mouldings & finishing"
+                },
+                {
+                  "id": "aj_final_assembly_quality_check_2",
+                  "title": "Check dimensions & square",
+                  "instruction": "Get a photo showing the product measured, diagonals checked or operation tested.",
+                  "question": "Which dimensions or tolerances are you confirming?",
+                  "codes": [
+                    "K7",
+                    "B5"
+                  ],
+                  "bundle": "Units, mouldings & finishing"
+                },
+                {
+                  "id": "aj_final_assembly_quality_check_3",
+                  "title": "Inspect final quality",
+                  "instruction": "Get a photo showing the completed product ready for storage or dispatch.",
+                  "question": "What defects, damage or finish issues did you look for before sign-off?",
+                  "codes": [
+                    "K38",
+                    "B5"
+                  ],
+                  "bundle": "Units, mouldings & finishing"
+                }
+              ]
+            },
+            {
+              "id": "aj_protect_store_finished_products",
+              "title": "Protect & store finished products",
+              "opps": [
+                {
+                  "id": "aj_protect_store_finished_products_1",
+                  "title": "Protect the product",
+                  "instruction": "Get a photo showing corners, faces or ironmongery protected from damage.",
+                  "question": "What parts of the product are most vulnerable during storage or transport?",
+                  "codes": [
+                    "K4",
+                    "B2"
+                  ],
+                  "bundle": "Units, mouldings & finishing"
+                },
+                {
+                  "id": "aj_protect_store_finished_products_2",
+                  "title": "Store safely",
+                  "instruction": "Get a photo showing the product stored securely and supported correctly.",
+                  "question": "How are you preventing distortion, moisture damage or accidental damage?",
+                  "codes": [
+                    "K4",
+                    "K9",
+                    "B2"
+                  ],
+                  "bundle": "Units, mouldings & finishing"
+                },
+                {
+                  "id": "aj_protect_store_finished_products_3",
+                  "title": "Manage waste & offcuts",
+                  "instruction": "Get a photo showing reusable timber/offcuts separated from waste.",
+                  "question": "What can be reused or recycled from this job?",
+                  "codes": [
+                    "K4",
+                    "S3",
+                    "B2"
+                  ],
+                  "bundle": "Units, mouldings & finishing"
+                }
+              ]
+            },
+            {
+              "id": "aj_work_with_the_workshop_team",
+              "title": "Work with the workshop team",
+              "opps": [
+                {
+                  "id": "aj_work_with_the_workshop_team_1",
+                  "title": "Coordinate the manufacture",
+                  "instruction": "Get a photo showing the product/work area or shared machine stage without unnecessarily photographing people.",
+                  "question": "Who else needs to know what stage this product is at?",
+                  "codes": [
+                    "K13",
+                    "K18",
+                    "S8",
+                    "B5"
+                  ],
+                  "bundle": "Units, mouldings & finishing"
+                },
+                {
+                  "id": "aj_work_with_the_workshop_team_2",
+                  "title": "Communicate a problem",
+                  "instruction": "Get a photo of the component, drawing or defect that required discussion.",
+                  "question": "How did you explain the problem and agree what to do next?",
+                  "codes": [
+                    "K13",
+                    "S8",
+                    "B5"
+                  ],
+                  "bundle": "Units, mouldings & finishing"
+                },
+                {
+                  "id": "aj_work_with_the_workshop_team_3",
+                  "title": "Prepare for handover",
+                  "instruction": "Get a photo showing components or a product ready for the next person/stage.",
+                  "question": "What did you check before handing the work over?",
+                  "codes": [
+                    "K18",
+                    "B5"
+                  ],
+                  "bundle": "Units, mouldings & finishing"
+                },
+                {
+                  "id": "aj_work_with_the_workshop_team_4",
+                  "title": "Inclusion & respect",
+                  "instruction": "",
+                  "question": "Give an example of how you make sure people are treated fairly and respectfully while you work.",
+                  "codes": [
+                    "K19",
+                    "B3"
+                  ],
+                  "bundle": "Units, mouldings & finishing",
+                  "media": "talk"
+                },
+                {
+                  "id": "aj_work_with_the_workshop_team_5",
+                  "title": "Wellbeing & support",
+                  "instruction": "",
+                  "question": "If you or someone else was struggling physically or mentally at work, what support could you use?",
+                  "codes": [
+                    "K20",
+                    "S13",
+                    "B1"
+                  ],
+                  "bundle": "Units, mouldings & finishing",
+                  "media": "talk"
+                },
+                {
+                  "id": "aj_work_with_the_workshop_team_6",
+                  "title": "Learning & development",
+                  "instruction": "",
+                  "question": "Tell me about something you have learned or practised recently that improved your carpentry or joinery work.",
+                  "codes": [
+                    "B4"
+                  ],
+                  "bundle": "Units, mouldings & finishing",
+                  "media": "talk"
+                },
+                {
+                  "id": "aj_work_with_the_workshop_team_7",
+                  "title": "Work & career",
+                  "instruction": "",
+                  "question": "What is the difference between being employed and self-employed, and what responsibilities come with self-employment?",
+                  "codes": [
+                    "K40"
+                  ],
+                  "bundle": "Units, mouldings & finishing",
+                  "media": "talk"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
