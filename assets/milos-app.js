@@ -49,8 +49,8 @@
     "learner-detail": "This profile joins the name you entered locally to the learner's anonymous Evia progress record. Scan a new QR whenever you need the latest course position.",
     reviews: "Choose a learner to conduct and record a three-way apprenticeship progress review. Milos carries the latest Evia progress and targets into the review.",
     "review-wizard": "Complete each review step in order. The provider and apprentice signatures are required before the professional PDF is created.",
-    observations: "Choose a learner, then follow the same course, job and evidence route used in Evia. Only criteria personally observed as competent are returned to Evia.",
-    "observation-wizard": "Work through one observation at a time. Select the exact course criteria, record what you saw, attach media if useful, then sign the assessment decision.",
+    observations: "Choose a learner, then follow the same course, job and evidence routes used in Evia. One observation can cover several sections, and only criteria personally observed as competent are returned to Evia.",
+    "observation-wizard": "Select every section you observe, including additional areas noticed while the observation is underway. Milos keeps the mapped criteria, notes and media together in one signed record.",
     more: "This area keeps assessor settings, privacy information and future Milos tools together without crowding the main menu.",
     settings: "Your assessor name and organisation stay on this device and are used on review and observation PDFs.",
     privacy: "Milos has no accounts, analytics or cloud database. Learner names, signatures and media remain in this browser on this device.",
@@ -283,7 +283,7 @@
         ${optionRow("Private by design", "Offline storage and QR safeguards", "open-privacy")}
         ${optionRow("Future Milos tools", "More features will appear here", "future-tools")}
       </div>
-      <div class="milos-version">Milos Beta · v1</div>
+      <div class="milos-version">Milos Beta · v1.1</div>
     </div>`;
   }
 
@@ -387,7 +387,22 @@
     }
     if (state.view === "review-complete") { navigate("reviews", "root"); return; }
     if (state.view === "observation-wizard" && state.observationDraft) {
-      if (state.observationDraft.step > 0) { state.observationDraft.step -= 1; render(); return; }
+      const draft = state.observationDraft;
+      if (draft.step === 1 && draft.sectionPickerReturnStep) {
+        draft.step = Number(draft.sectionPickerReturnStep);
+        draft.sectionPickerReturnStep = null;
+        render();
+        return;
+      }
+      if (draft.step === 5) {
+        const form = app.querySelector('form[data-form="observation-record"]');
+        if (form) captureObservationRecord(form);
+      }
+      if (draft.step === 4) {
+        const form = app.querySelector('form[data-form="observation-criteria"]');
+        if (form) captureObservationCriteria(form);
+      }
+      if (draft.step > 0) { draft.step -= 1; render(); return; }
       navigate("observations", "root"); return;
     }
     if (state.view === "observation-complete") { navigate("observations", "root"); return; }
@@ -553,7 +568,7 @@
     const learnerProfiles = profiles();
     const saved = observations().slice().sort((a, b) => (b.completedAt || b.createdAt || 0) - (a.completedAt || a.createdAt || 0));
     return `<div class="milos-page">
-      ${guidance("Observe against the learner's live course.", "Scan Evia first, then follow its category, job and opportunity route to map exactly what you personally observe.")}
+      ${guidance("Observe against the learner's live course.", "Scan Evia first, then select every category, job and opportunity section you personally observe. More sections can be added during the visit.")}
       <div class="milos-list">${learnerProfiles.map((profile) => {
         const latest = C.observationsForProfile(profile.id)[0];
         const note = latest ? `Last observation ${C.formatDate(latest.observationDate, false)} · ${(latest.observedCodes || []).length} observed` : `${profileStatus(profile)} · No observation yet`;
@@ -562,19 +577,88 @@
       ${!learnerProfiles.length ? emptyState("Add a learner first", "A local learner profile is needed before you can conduct an observation.", "new-learner", "Add learner") : ""}
       ${saved.length ? `<section class="milos-section"><div class="milos-section-heading"><span>Completed observations</span><small>${saved.length}</small></div><div class="milos-history-list">${saved.map((observation) => {
         const profile = C.getProfile(observation.profileId);
-        return `<button type="button" data-action="observation-history" data-id="${h(observation.id)}"><span><strong>${h(profile ? profile.name : "Removed learner")}</strong><small>${h(C.formatDate(observation.observationDate, false))} · ${h(observation.opportunityTitle || observation.jobTitle || "Course observation")}</small></span><em>${(observation.observedCodes || []).length} ${h(observation.coverageLabel || "items")}</em></button>`;
+        return `<button type="button" data-action="observation-history" data-id="${h(observation.id)}"><span><strong>${h(profile ? profile.name : "Removed learner")}</strong><small>${h(C.formatDate(observation.observationDate, false))} · ${h(observationSectionLabel(observation))}</small></span><em>${(observation.observedCodes || []).length} ${h(observation.coverageLabel || "items")}</em></button>`;
       }).join("")}</div></section>` : ""}
     </div>`;
   }
 
   function observationSelection(draft, course) {
     const categories = Array.isArray(course && course.siteData) ? course.siteData : [];
-    const category = categories.find((item) => item.id === draft.categoryId) || null;
+    const categoryId = Object.prototype.hasOwnProperty.call(draft, "pickerCategoryId") ? draft.pickerCategoryId : draft.categoryId;
+    const category = categories.find((item) => item.id === categoryId) || null;
     const jobs = category && Array.isArray(category.jobs) ? category.jobs : [];
-    const job = jobs.find((item) => item.id === draft.jobId) || null;
+    const jobId = Object.prototype.hasOwnProperty.call(draft, "pickerJobId") ? draft.pickerJobId : draft.jobId;
+    const job = jobs.find((item) => item.id === jobId) || null;
     const opportunities = job && Array.isArray(job.opps) ? job.opps : [];
-    const opportunity = opportunities.find((item) => item.id === draft.opportunityId) || null;
+    const opportunity = opportunities.find((item) => item.id === draft.pickerOpportunityId) || null;
     return { categories, category, jobs, job, opportunities, opportunity };
+  }
+
+  function observationSections(draft) {
+    return C.normaliseObservationSections(draft && draft.sections);
+  }
+
+  function observationSectionLabel(record) {
+    const sections = observationSections(record);
+    if (!sections.length) return record && (record.opportunityTitle || record.jobTitle) || "Course observation";
+    if (sections.length === 1) return sections[0].opportunityTitle;
+    return `${sections[0].opportunityTitle} + ${sections.length - 1} more`;
+  }
+
+  function syncObservationDraft(draft, course) {
+    draft.sections = observationSections(draft);
+    draft.criteria = C.mergeObservationCriteria(draft.sections, draft.criteria, course);
+    const first = draft.sections[0] || null;
+    Object.assign(draft, first ? {
+      categoryId: first.categoryId,
+      categoryTitle: first.categoryTitle,
+      jobId: first.jobId,
+      jobTitle: first.jobTitle,
+      opportunityId: first.opportunityId,
+      opportunityTitle: first.opportunityTitle,
+      instruction: first.instruction,
+      question: [...new Set(draft.sections.map((section) => section.question).filter(Boolean))].join(" "),
+    } : {
+      categoryId: "",
+      categoryTitle: "",
+      jobId: "",
+      jobTitle: "",
+      opportunityId: "",
+      opportunityTitle: "",
+      instruction: "",
+      question: "",
+    });
+    return draft;
+  }
+
+  function buildObservationSection(category, job, opportunity, course) {
+    const codes = C.cleanCodes(opportunity && opportunity.codes || []).filter((code) => !course.codes.length || course.codes.includes(code));
+    return C.normaliseObservationSections([{
+      categoryId: category.id,
+      categoryTitle: category.title,
+      jobId: job.id,
+      jobTitle: job.title,
+      opportunityId: opportunity.id,
+      opportunityTitle: opportunity.title,
+      instruction: opportunity.instruction || "",
+      question: opportunity.question || "",
+      codes,
+    }])[0] || null;
+  }
+
+  function selectedObservationSections(draft, course, removable) {
+    const sections = observationSections(draft);
+    if (!sections.length) return "";
+    return `<section class="milos-selected-sections"><div class="milos-section-heading"><span>Selected observation sections</span><small>${sections.length}</small></div><div class="milos-selected-section-list">${sections.map((section) => `<article class="milos-selected-section"><span><small>${h(section.categoryTitle)} · ${h(section.jobTitle)}</small><strong>${h(section.opportunityTitle)}</strong><em>${section.codes.length} mapped ${h(course.coverageLabel)} ${section.codes.length === 1 ? "item" : "items"}</em></span>${removable ? `<button type="button" data-action="observation-remove-section" data-id="${h(section.key)}" aria-label="Remove ${h(section.opportunityTitle)}">Remove</button>` : `<i aria-hidden="true">✓</i>`}</article>`).join("")}</div></section>`;
+  }
+
+  function observationOpportunityList(items, draft, selected, course) {
+    const chosen = new Set(observationSections(draft).map((section) => section.key));
+    return `<div class="milos-choice-list milos-observation-opportunities">${items.map((item) => {
+      const key = C.observationSectionKey({ categoryId: selected.category.id, jobId: selected.job.id, opportunityId: item.id });
+      const isSelected = chosen.has(key);
+      return `<button type="button" class="${isSelected ? "is-selected" : ""}" data-action="observation-opportunity" data-id="${h(item.id)}" aria-pressed="${isSelected ? "true" : "false"}"><span><strong>${h(item.title)}</strong><small>${h(`${(item.codes || []).length} mapped ${course.coverageLabel} · ${item.instruction || "Observation opportunity"}`)}</small></span><i aria-hidden="true">${isSelected ? "✓" : "+"}</i></button>`;
+    }).join("")}</div>`;
   }
 
   function observationSnapshotView(draft, profile, course) {
@@ -590,7 +674,7 @@
         ${metricCard(course.learningLabel, `${Number(metrics.learningHours).toFixed(1)}h`, `of ${Number(metrics.learningTarget).toFixed(0)}h`)}
         ${metricCard("Evia QR", snapshot ? C.formatDate(snapshot.importedAt, false) : "Not scanned", "latest")}
       </div>
-      <div class="milos-action-grid"><button type="button" class="milos-secondary" data-action="scan-profile" data-id="${h(profile.id)}">Scan newer QR</button><button type="button" class="milos-primary" data-action="observation-next">Choose activity</button></div>
+      <div class="milos-action-grid"><button type="button" class="milos-secondary" data-action="scan-profile" data-id="${h(profile.id)}">Scan newer QR</button><button type="button" class="milos-primary" data-action="observation-next">Choose sections</button></div>
     </div>`;
   }
 
@@ -606,22 +690,25 @@
     const step = Number(draft.step || 0);
     const selected = observationSelection(draft, course);
     if (step === 0) return observationSnapshotView(draft, profile, course);
-    if (step === 1) return `<div class="milos-page">${wizardHeading(step, 7, "Choose a work category")}${guidance("Use the same route as Evia.", "Choose the broad area of work you are going to observe.")}${selected.categories.length ? selectionList(selected.categories, "observation-category", (item) => `${(item.jobs || []).length} job ${(item.jobs || []).length === 1 ? "route" : "routes"}`) : emptyState("No observation routes", "This course pack does not yet include workplace observation routes.", "open-observations", "Back")}</div>`;
-    if (step === 2) return `<div class="milos-page">${wizardHeading(step, 7, selected.category ? selected.category.title : "Choose a job")}${guidance("Choose the job being carried out.", "Milos will then show the evidence opportunity and its mapped course criteria.")}${selected.category ? selectionList(selected.jobs, "observation-job", (item) => `${(item.opps || []).length} observation ${(item.opps || []).length === 1 ? "opportunity" : "opportunities"}`) : emptyState("Choose a category", "Return one step and select the work category first.")}</div>`;
-    if (step === 3) return `<div class="milos-page">${wizardHeading(step, 7, selected.job ? selected.job.title : "Choose an opportunity")}${guidance("Choose what you will directly observe.", "The wording and mapped criteria come from the learner's Evia course pack.")}${selected.job ? selectionList(selected.opportunities, "observation-opportunity", (item) => `${(item.codes || []).length} mapped ${course.coverageLabel} · ${item.instruction || "Observation opportunity"}`) : emptyState("Choose a job", "Return one step and select the job first.")}</div>`;
+    if (step === 1) return `<div class="milos-page">${wizardHeading(step, 7, "Choose observed sections")}${guidance("One observation can cover several areas.", "Choose a work category, select all relevant sections, then return here to add another category if needed.")}${selectedObservationSections(draft, course, false)}${selected.categories.length ? selectionList(selected.categories, "observation-category", (item) => `${(item.jobs || []).length} job ${(item.jobs || []).length === 1 ? "route" : "routes"}`) : emptyState("No observation routes", "This course pack does not yet include workplace observation routes.", "open-observations", "Back")}${observationSections(draft).length ? `<button type="button" class="milos-primary" data-action="observation-review-sections">Review ${observationSections(draft).length} selected ${observationSections(draft).length === 1 ? "section" : "sections"}</button>` : ""}${draft.sectionPickerReturnStep ? `<button type="button" class="milos-secondary" data-action="observation-cancel-add-section">Cancel adding sections</button>` : ""}</div>`;
+    if (step === 2) return `<div class="milos-page">${wizardHeading(step, 7, selected.category ? selected.category.title : "Choose a job")}${guidance("Choose the work being carried out.", "You can select several observation sections from this job and from other categories.")}${selectedObservationSections(draft, course, false)}${selected.category ? selectionList(selected.jobs, "observation-job", (item) => `${(item.opps || []).length} observation ${(item.opps || []).length === 1 ? "section" : "sections"}`) : emptyState("Choose a category", "Return one step and select the work category first.")}${observationSections(draft).length ? `<button type="button" class="milos-secondary" data-action="observation-review-sections">Review selected sections</button>` : ""}</div>`;
+    if (step === 3) return `<div class="milos-page">${wizardHeading(step, 7, selected.job ? selected.job.title : "Choose observation sections")}${guidance("Select everything you may observe.", "Tap as many sections as needed. You can add further sections later while recording the observation.")}${selected.job ? observationOpportunityList(selected.opportunities, draft, selected, course) : emptyState("Choose a job", "Return one step and select the job first.")}${observationSections(draft).length ? `<div class="milos-action-grid"><button type="button" class="milos-secondary" data-action="observation-another-category">Another category</button><button type="button" class="milos-primary" data-action="observation-review-sections">Review ${observationSections(draft).length} ${observationSections(draft).length === 1 ? "section" : "sections"}</button></div>` : ""}</div>`;
     if (step === 4) {
       const latest = new Set((C.latestSnapshot(profile) || {}).completedCodes || []);
       return `<form class="milos-page milos-form" data-form="observation-criteria">
         ${wizardHeading(step, 7, `${course.coverageLabel} mapping`)}
-        ${guidance("Decide what this observation can evidence.", "Keep only criteria that can be judged directly. You will record the outcome for every selected item.")}
-        <div class="milos-opportunity-card"><span>${h(selected.category ? selected.category.title : "Activity")}</span><strong>${h(selected.opportunity ? selected.opportunity.title : draft.opportunityTitle)}</strong><p>${h(selected.opportunity ? selected.opportunity.instruction : draft.instruction)}</p>${selected.opportunity && selected.opportunity.question ? `<small>Suggested question: ${h(selected.opportunity.question)}</small>` : ""}</div>
-        <div class="milos-criteria-editor">${(draft.criteria || []).map((criterion, index) => `<article class="milos-criterion-row"><label><input type="checkbox" data-criterion-include data-index="${index}"${criterion.included !== false ? " checked" : ""}><span><strong>${h(criterion.code)}</strong><small>${h(criterion.description || "Course criterion")}</small>${latest.has(criterion.code) ? `<em>Already present in latest Evia progress</em>` : ""}</span></label><select data-criterion-outcome data-index="${index}" aria-label="Outcome for ${h(criterion.code)}"><option value="Observed"${criterion.outcome === "Observed" ? " selected" : ""}>Observed</option><option value="Partially observed"${criterion.outcome === "Partially observed" ? " selected" : ""}>Partially observed</option><option value="Not observed"${criterion.outcome === "Not observed" ? " selected" : ""}>Not observed</option></select></article>`).join("")}</div>
-        <button type="submit" class="milos-primary">Record observation</button>
+        ${guidance("Decide what the full observation can evidence.", "All selected sections are combined below. Keep only criteria that can be judged directly and choose an outcome for each included item.")}
+        ${selectedObservationSections(draft, course, true)}
+        <button type="button" class="milos-secondary" data-action="observation-add-section">Add another observed section</button>
+        <div class="milos-criteria-editor">${(draft.criteria || []).map((criterion, index) => `<article class="milos-criterion-row"><label><input type="checkbox" data-criterion-include data-index="${index}"${criterion.included !== false ? " checked" : ""}><span><strong>${h(criterion.code)}</strong><small>${h(criterion.description || "Course criterion")}</small>${criterion.sectionTitles && criterion.sectionTitles.length ? `<em>${h(criterion.sectionTitles.join(" · "))}</em>` : ""}${latest.has(criterion.code) ? `<em>Already present in latest Evia progress</em>` : ""}</span></label><select data-criterion-outcome data-index="${index}" aria-label="Outcome for ${h(criterion.code)}"><option value="Observed"${criterion.outcome === "Observed" ? " selected" : ""}>Observed</option><option value="Partially observed"${criterion.outcome === "Partially observed" ? " selected" : ""}>Partially observed</option><option value="Not observed"${criterion.outcome === "Not observed" ? " selected" : ""}>Not observed</option></select></article>`).join("")}</div>
+        <button type="submit" class="milos-primary">Continue observation</button>
       </form>`;
     }
     if (step === 5) return `<form class="milos-page milos-form" data-form="observation-record">
       ${wizardHeading(step, 7, "Observation record")}
-      ${guidance("Record what you saw and how you judged it.", "Use factual, specific language and distinguish direct observation from questioning or supporting media.")}
+      ${guidance("Record what you see as the observation happens.", "Use factual, specific language. If the learner moves into another area of work, add that section here without losing this record.")}
+      ${selectedObservationSections(draft, course, true)}
+      <button type="button" class="milos-secondary milos-add-observed-section" data-action="observation-add-section">Add another observed section</button>
       <div class="milos-field-split"><label class="milos-field is-required"><span>Observation date</span><input required name="observationDate" type="date" value="${h(draft.observationDate)}"></label><label class="milos-field"><span>Location</span><input name="location" maxlength="180" value="${h(draft.location)}" placeholder="Site, workshop or workplace"></label></div>
       <div class="milos-field-split"><label class="milos-field"><span>Start time</span><input name="startTime" type="time" value="${h(draft.startTime)}"></label><label class="milos-field"><span>Finish time</span><input name="endTime" type="time" value="${h(draft.endTime)}"></label></div>
       <label class="milos-field is-required"><span>Activity personally observed</span><textarea required name="activityObserved" rows="6" placeholder="Describe the task, conditions, sequence and what the learner did.">${h(draft.activityObserved)}</textarea></label>
@@ -634,11 +721,12 @@
       <section class="milos-section"><div class="milos-section-heading"><span>Supporting media (optional)</span><small>${(draft.media || []).length}</small></div><p class="milos-muted">Media remains in private browser storage and is embedded or referenced in the PDF. It is never placed in the return QR.</p><div class="milos-media-actions"><label class="milos-secondary milos-file-button">Take photo<input type="file" accept="image/*" capture="environment" data-observation-media></label><label class="milos-secondary milos-file-button">Record video<input type="file" accept="video/*" capture="environment" data-observation-media></label><label class="milos-secondary milos-file-button">Add files<input type="file" accept="image/*,video/*,audio/*" multiple data-observation-media></label></div>${(draft.media || []).length ? `<div class="milos-media-list">${draft.media.map((item) => `<div><span><strong>${h(item.name)}</strong><small>${h(item.type || "Media")} · ${Math.max(1, Math.round(Number(item.size || 0) / 1024))} KB</small></span><button type="button" data-action="observation-remove-media" data-id="${h(item.id)}">Remove</button></div>`).join("")}</div>` : ""}</section>
       <button type="submit" class="milos-primary">Continue to signatures</button>
     </form>`;
-    const observedCount = (draft.criteria || []).filter((criterion) => criterion.outcome === "Observed").length;
+    const observedCount = (draft.criteria || []).filter((criterion) => criterion.included !== false && criterion.outcome === "Observed").length;
     return `<div class="milos-page">
       ${wizardHeading(6, 7, "Decision and signatures")}
       ${guidance("Authenticate the assessor decision.", "Your signature is required. The learner may also sign to acknowledge that the feedback was received.")}
-      <div class="milos-review-summary"><span>${h(draft.rating)}</span><strong>${h(profile.name)}</strong><p>${h(draft.opportunityTitle)} · ${h(C.formatDate(draft.observationDate, false))}</p><small>${observedCount} ${h(course.coverageLabel)} ${(observedCount === 1 ? "item" : "items")} will receive a blue o in Evia</small></div>
+      <div class="milos-review-summary"><span>${h(draft.rating)}</span><strong>${h(profile.name)}</strong><p>${h(observationSectionLabel(draft))} · ${h(C.formatDate(draft.observationDate, false))}</p><small>${observationSections(draft).length} observed ${observationSections(draft).length === 1 ? "section" : "sections"} · ${observedCount} ${h(course.coverageLabel)} ${(observedCount === 1 ? "item" : "items")} will receive a blue o in Evia</small></div>
+      <button type="button" class="milos-secondary" data-action="observation-add-section">Add or edit observed sections</button>
       ${signatureBox("Assessor", "observationAssessorSignature", draft.assessorName, settings().role || "Assessor", true)}
       ${signatureBox("Learner acknowledgement", "observationLearnerSignature", profile.name, "Learner", false)}
       <button type="button" class="milos-primary" id="completeObservationButton" data-action="observation-complete" disabled>Complete, create QR & download PDF</button>
@@ -651,7 +739,7 @@
     const profile = observation ? C.getProfile(observation.profileId) : selectedProfile();
     if (!observation || !profile) return emptyState("Observation not found", "Return to Observations to open a saved record.", "open-observations", "Back to observations");
     return `<div class="milos-page milos-complete-view">
-      <div class="milos-complete-mark is-observation" aria-hidden="true">o</div><span class="milos-kicker">Observation complete</span><h3>${h(profile.name)}</h3><p>${h(C.formatDate(observation.observationDate, false))} · ${h(observation.opportunityTitle || "Course observation")}</p>
+      <div class="milos-complete-mark is-observation" aria-hidden="true">o</div><span class="milos-kicker">Observation complete</span><h3>${h(profile.name)}</h3><p>${h(C.formatDate(observation.observationDate, false))} · ${h(observationSectionLabel(observation))}</p>
       <div class="milos-observation-qr" id="completedObservationQr"></div>
       <h4>Return this result to Evia</h4><p class="milos-muted">Scan the QR in Evia to place a blue <strong>o</strong> beside ${(observation.observedCodes || []).length} observed ${h(observation.coverageLabel || "course")} ${(observation.observedCodes || []).length === 1 ? "item" : "items"}.</p>
       <div class="milos-action-grid"><button type="button" class="milos-primary" data-action="observation-download" data-id="${h(observation.id)}">Download PDF</button><button type="button" class="milos-secondary" data-action="observation-download-qr" data-id="${h(observation.id)}">Save QR image</button></div>
@@ -980,6 +1068,9 @@
         startTime: "",
         endTime: "",
         location: "",
+        pickerCategoryId: "",
+        pickerJobId: "",
+        pickerOpportunityId: "",
         categoryId: "",
         categoryTitle: "",
         jobId: "",
@@ -988,6 +1079,7 @@
         opportunityTitle: "",
         instruction: "",
         question: "",
+        sections: [],
         criteria: [],
         media: [],
         activityObserved: "",
@@ -1034,21 +1126,28 @@
     render();
   }
 
+  function captureObservationCriteria(form) {
+    const draft = state.observationDraft;
+    if (!draft || !form) return;
+    draft.criteria = (draft.criteria || []).map((current, index) => {
+      const checkbox = form.querySelector(`[data-criterion-include][data-index="${index}"]`);
+      const outcome = form.querySelector(`[data-criterion-outcome][data-index="${index}"]`)?.value || current.outcome || "Observed";
+      return Object.assign({}, current, {
+        included: checkbox ? checkbox.checked : current.included !== false,
+        outcome: C.cleanText(outcome, 40),
+      });
+    });
+  }
+
   async function handleObservationSubmit(kind, form, values) {
     const draft = state.observationDraft;
     if (!draft) throw new Error("The observation draft is no longer available.");
     if (kind === "observation-criteria") {
-      const chosen = [];
-      form.querySelectorAll("[data-criterion-include]").forEach((checkbox) => {
-        if (!checkbox.checked) return;
-        const index = Number(checkbox.dataset.index);
-        const current = draft.criteria[index];
-        const outcome = form.querySelector(`[data-criterion-outcome][data-index="${index}"]`)?.value || "Observed";
-        if (current) chosen.push(Object.assign({}, current, { included: true, outcome: C.cleanText(outcome, 40) }));
-      });
-      if (!chosen.length) throw new Error(`Select at least one ${state.course.coverageLabel} item for this observation.`);
-      draft.criteria = chosen;
-      draft.step = 5;
+      captureObservationCriteria(form);
+      if (!(draft.criteria || []).some((criterion) => criterion.included !== false)) throw new Error(`Select at least one ${state.course.coverageLabel} item for this observation.`);
+      const returnStep = Number(draft.sectionPickerReturnStep || 0);
+      draft.sectionPickerReturnStep = null;
+      draft.step = returnStep === 6 ? 6 : 5;
     } else if (kind === "observation-record") {
       captureObservationRecord(form, values);
       const required = ["observationDate", "activityObserved", "safetyNotes", "qualityNotes", "feedback", "rating"];
@@ -1130,30 +1229,92 @@
         render();
         return;
       }
+      if (action === "observation-add-section") {
+        if (!draft) throw new Error("The observation draft is no longer available.");
+        const currentStep = Number(draft.step || 0);
+        if (currentStep === 4) {
+          const criteriaForm = app.querySelector('form[data-form="observation-criteria"]');
+          if (criteriaForm) captureObservationCriteria(criteriaForm);
+        }
+        if (currentStep === 5) {
+          const recordForm = app.querySelector('form[data-form="observation-record"]');
+          if (recordForm) captureObservationRecord(recordForm);
+        }
+        draft.sectionPickerReturnStep = currentStep;
+        draft.pickerCategoryId = "";
+        draft.pickerJobId = "";
+        draft.pickerOpportunityId = "";
+        draft.step = 1;
+        render();
+        return;
+      }
+      if (action === "observation-cancel-add-section") {
+        if (!draft) throw new Error("The observation draft is no longer available.");
+        draft.step = Number(draft.sectionPickerReturnStep || (observationSections(draft).length ? 4 : 0));
+        draft.sectionPickerReturnStep = null;
+        render();
+        return;
+      }
+      if (action === "observation-another-category") {
+        if (!draft) throw new Error("The observation draft is no longer available.");
+        draft.pickerCategoryId = "";
+        draft.pickerJobId = "";
+        draft.pickerOpportunityId = "";
+        draft.step = 1;
+        render();
+        return;
+      }
+      if (action === "observation-review-sections") {
+        if (!draft || !state.course) throw new Error("The observation draft is no longer available.");
+        if (!observationSections(draft).length) throw new Error("Select at least one observation section.");
+        syncObservationDraft(draft, state.course);
+        if (!draft.criteria.length) throw new Error(`The selected sections have no valid ${state.course.coverageLabel} mapping.`);
+        draft.step = 4;
+        render();
+        return;
+      }
+      if (action === "observation-remove-section") {
+        if (!draft || !state.course) throw new Error("The observation draft is no longer available.");
+        if (draft.step === 4) {
+          const criteriaForm = app.querySelector('form[data-form="observation-criteria"]');
+          if (criteriaForm) captureObservationCriteria(criteriaForm);
+        }
+        if (draft.step === 5) {
+          const recordForm = app.querySelector('form[data-form="observation-record"]');
+          if (recordForm) captureObservationRecord(recordForm);
+        }
+        draft.sections = observationSections(draft).filter((section) => section.key !== button.dataset.id);
+        syncObservationDraft(draft, state.course);
+        if (!draft.sections.length) {
+          draft.sectionPickerReturnStep = null;
+          draft.pickerCategoryId = "";
+          draft.pickerJobId = "";
+          draft.step = 1;
+        }
+        render();
+        toast("Observed section removed.");
+        return;
+      }
       if (["observation-category", "observation-job", "observation-opportunity"].includes(action)) {
         if (!draft || !state.course) throw new Error("The observation draft is no longer available.");
         const selected = observationSelection(draft, state.course);
         if (action === "observation-category") {
           const category = selected.categories.find((item) => item.id === button.dataset.id);
           if (!category) throw new Error("That course category was not found.");
-          Object.assign(draft, { categoryId: category.id, categoryTitle: category.title, jobId: "", jobTitle: "", opportunityId: "", opportunityTitle: "", criteria: [], step: 2 });
+          Object.assign(draft, { pickerCategoryId: category.id, pickerJobId: "", pickerOpportunityId: "", step: 2 });
         } else if (action === "observation-job") {
           const job = selected.jobs.find((item) => item.id === button.dataset.id);
           if (!job) throw new Error("That job route was not found.");
-          Object.assign(draft, { jobId: job.id, jobTitle: job.title, opportunityId: "", opportunityTitle: "", criteria: [], step: 3 });
+          Object.assign(draft, { pickerJobId: job.id, pickerOpportunityId: "", step: 3 });
         } else {
           const opportunity = selected.opportunities.find((item) => item.id === button.dataset.id);
           if (!opportunity) throw new Error("That observation opportunity was not found.");
-          const codes = C.cleanCodes(opportunity.codes || []).filter((code) => !state.course.codes.length || state.course.codes.includes(code));
-          Object.assign(draft, {
-            opportunityId: opportunity.id,
-            opportunityTitle: opportunity.title,
-            instruction: opportunity.instruction || "",
-            question: opportunity.question || "",
-            criteria: codes.map((code) => ({ code, description: state.course.descriptions[code] || "Course criterion", outcome: "Observed", included: true })),
-            step: 4,
-          });
-          if (!draft.criteria.length) throw new Error(`This opportunity has no valid ${state.course.coverageLabel} mapping.`);
+          const section = buildObservationSection(selected.category, selected.job, opportunity, state.course);
+          if (!section) throw new Error(`This section has no valid ${state.course.coverageLabel} mapping.`);
+          const sections = observationSections(draft);
+          const alreadySelected = sections.some((item) => item.key === section.key);
+          draft.sections = alreadySelected ? sections.filter((item) => item.key !== section.key) : [...sections, section];
+          syncObservationDraft(draft, state.course);
         }
         render();
         return;
@@ -1169,12 +1330,20 @@
       }
       if (action === "observation-complete") {
         if (!draft || !draft.signature || !draft.signature.dataUrl) throw new Error("Add the assessor signature first.");
-        const observedCodes = C.cleanCodes((draft.criteria || []).filter((item) => item.outcome === "Observed").map((item) => item.code));
+        syncObservationDraft(draft, state.course);
+        if (!draft.sections.length) throw new Error("Select at least one observed section before completing the observation.");
+        const observedCodes = C.cleanCodes((draft.criteria || []).filter((item) => item.included !== false && item.outcome === "Observed").map((item) => item.code));
         if (!observedCodes.length) throw new Error(`Mark at least one ${state.course.coverageLabel} item as Observed before creating the Evia QR.`);
         const profile = selectedProfile();
         const eviaSnapshot = C.latestSnapshot(profile);
         if (!eviaSnapshot || !eviaSnapshot.sharedId) throw new Error("Scan a full Evia progress QR before completing the observation so Evia can match the return result.");
-        let saved = C.saveObservation(Object.assign({}, draft, { step: undefined, observedCodes, eviaSharedId: eviaSnapshot.sharedId, completedAt: Date.now() }));
+        const record = Object.assign({}, draft, { observedCodes, eviaSharedId: eviaSnapshot.sharedId, completedAt: Date.now() });
+        delete record.step;
+        delete record.pickerCategoryId;
+        delete record.pickerJobId;
+        delete record.pickerOpportunityId;
+        delete record.sectionPickerReturnStep;
+        let saved = C.saveObservation(record);
         const qrPayload = Q.observationPayload(saved, profile, state.course);
         saved = C.saveObservation(Object.assign({}, saved, { qrPayload }));
         state.completedObservation = saved;

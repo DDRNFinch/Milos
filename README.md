@@ -2,11 +2,11 @@
 
 Milos is the assessor-side companion to Evia. It keeps Evia's quiet avatar-led interface, uses the Milos blue (`#2C85F7`), and runs as an installable offline-first web app.
 
-## Included in v1
+## Included in v1.1
 
 - **Learners:** create local learner profiles; select one of the seven current Evia course routes; scan or paste a privacy-safe Evia progress QR; view course dates, time on course, KSB/AC coverage, OTJ/GLH and current targets.
 - **Reviews:** import the latest Evia position, conduct a structured three-way apprenticeship progress review, agree dated actions, collect provider/apprentice/employer signatures and download a professional PDF.
-- **Observation:** follow the same category → job → evidence-opportunity route as Evia, select and judge mapped KSB/AC criteria, record notes and optional local media, sign, download a compiled PDF and generate the privacy-safe QR that tells Evia which criteria receive a blue `o`.
+- **Observation:** select several category → job → evidence-opportunity sections from Evia before starting, add more observed sections while the visit is underway without losing the record, judge their combined KSB/AC mapping, add notes and optional local media, sign, download a compiled PDF and generate the privacy-safe QR that tells Evia which criteria receive a blue `o`.
 - **More:** assessor details, privacy explanation and a stable home for future tools.
 
 All app data is local to the browser. Observation media uses IndexedDB. There is no account, analytics endpoint or application database.

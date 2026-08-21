@@ -408,6 +408,12 @@
   async function observationPdf(observation, profile, course, qrPayload) {
     const reference = `Observation ${safe(observation.publicId || observation.id)} · ${global.MilosCore.formatDate(observation.observationDate, false)}`;
     const builder = new Builder("Assessor Observation Record", "Milos · course-mapped workplace observation", reference);
+    const sections = global.MilosCore.normaliseObservationSections(observation.sections);
+    const sectionLabel = sections.length > 1
+      ? `${sections[0].opportunityTitle} + ${sections.length - 1} more`
+      : sections.length === 1
+        ? sections[0].opportunityTitle
+        : observation.opportunityTitle || observation.jobTitle || "Course activity";
     builder.section("Learner and observation");
     builder.keyValues([
       ["Learner", profile.name],
@@ -416,13 +422,17 @@
       ["Start / finish", `${observation.startTime || "Not recorded"} to ${observation.endTime || "Not recorded"}`],
       ["Location", observation.location || "Not recorded"],
       ["Assessor", observation.assessorName],
-      ["Observed activity", observation.opportunityTitle || observation.jobTitle || "Course activity"],
+      ["Observed activity", sectionLabel],
+      ["Sections covered", sections.length ? String(sections.length) : "1"],
     ]);
     builder.status("Overall assessment", observation.rating);
+    if (sections.length) {
+      builder.paragraph("Sections observed", sections.map((section, index) => `${index + 1}. ${section.categoryTitle} > ${section.jobTitle} > ${section.opportunityTitle} (${section.codes.join(", ")})`).join("\n"));
+    }
     builder.paragraph("Activity observed", observation.activityObserved);
 
     builder.section(`${course.coverageLabel} decisions`);
-    builder.codeTable((observation.criteria || []).map((criterion) => ({
+    builder.codeTable((observation.criteria || []).filter((criterion) => criterion.included !== false).map((criterion) => ({
       code: criterion.code,
       description: criterion.description,
       outcome: criterion.outcome,
@@ -458,12 +468,14 @@
       }
     }
 
+    builder.ensure(72);
     builder.section("Authentication and return to Evia");
     builder.signature("Assessor signature", observation.signature);
     if (observation.learnerSignature && observation.learnerSignature.dataUrl) builder.signature("Learner acknowledgement", observation.learnerSignature);
     try {
       const qrData = global.MilosQR.dataUrl(qrPayload, 760);
-      builder.qr(qrData, `Scan this QR in Evia to add a blue o to ${observation.observedCodes.length} observed ${course.coverageLabel} ${observation.observedCodes.length === 1 ? "item" : "items"}. The QR contains no names, photos, signatures or contact details.`);
+      const observedCount = Array.isArray(observation.observedCodes) ? observation.observedCodes.length : 0;
+      builder.qr(qrData, `Scan this QR in Evia to add a blue o to ${observedCount} observed ${course.coverageLabel} ${observedCount === 1 ? "item" : "items"}. The QR contains no names, photos, signatures or contact details.`);
     } catch (_) {}
     builder.paragraph("Observation declaration", "The assessor confirms that the decisions in this record are based on activity personally observed and the mapped criteria shown above.", { size: 7.2 });
 

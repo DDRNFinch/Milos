@@ -6034,6 +6034,24 @@ select {
   text-align: left;
 }
 
+.milos-choice-list button.is-selected {
+  border-color: rgba(44, 133, 247, 0.42);
+  background: linear-gradient(145deg, rgba(232, 243, 255, 0.96), rgba(255, 255, 255, 0.82));
+  box-shadow: 0 7px 20px rgba(44, 133, 247, 0.09);
+}
+
+.milos-choice-list button.is-selected i {
+  display: grid;
+  width: 1.55rem;
+  height: 1.55rem;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--milos-blue);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 650;
+}
+
 .milos-history-list button > span,
 .milos-choice-list button > span,
 .milos-media-list div > span {
@@ -6136,6 +6154,78 @@ select {
 .milos-opportunity-card small {
   padding-top: 0.3rem;
   border-top: 1px solid rgba(44, 133, 247, 0.1);
+}
+
+.milos-selected-sections {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.milos-selected-section-list {
+  display: grid;
+  gap: 0.46rem;
+}
+
+.milos-selected-section {
+  display: flex;
+  min-height: 3.65rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.7rem;
+  padding: 0.64rem 0.72rem;
+  border: 1px solid rgba(44, 133, 247, 0.16);
+  border-radius: 0.95rem;
+  background: linear-gradient(145deg, rgba(242, 248, 255, 0.9), rgba(255, 255, 255, 0.68));
+}
+
+.milos-selected-section > span {
+  display: grid;
+  min-width: 0;
+  gap: 0.16rem;
+}
+
+.milos-selected-section small,
+.milos-selected-section em {
+  overflow: hidden;
+  color: #828a94;
+  font-size: 0.55rem;
+  font-style: normal;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+}
+
+.milos-selected-section strong {
+  color: #394049;
+  font-size: 0.68rem;
+  font-weight: 520;
+  line-height: 1.35;
+}
+
+.milos-selected-section button {
+  flex: 0 0 auto;
+  border: 0;
+  background: transparent;
+  color: #a44852;
+  cursor: pointer;
+  font-size: 0.57rem;
+}
+
+.milos-selected-section > i {
+  display: grid;
+  width: 1.45rem;
+  height: 1.45rem;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--milos-blue-soft);
+  color: var(--milos-blue-dark);
+  font-size: 0.66rem;
+  font-style: normal;
+  font-weight: 650;
+}
+
+.milos-add-observed-section {
+  border-style: dashed;
 }
 
 .milos-criterion-row {

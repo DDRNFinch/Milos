@@ -124,6 +124,43 @@ test("observation return QR requires an Evia-issued learner reference", () => {
   );
 });
 
+test("multi-section observations merge criteria without losing assessor decisions", () => {
+  const { MilosCore: core } = runtime();
+  const course = {
+    codes: ["K1", "S1", "B1"],
+    descriptions: { K1: "Knowledge one", S1: "Skill one", B1: "Behaviour one" },
+  };
+  const sections = [
+    {
+      categoryId: "safe",
+      categoryTitle: "Safe working",
+      jobId: "ppe",
+      jobTitle: "PPE and controls",
+      opportunityId: "check-ppe",
+      opportunityTitle: "Check PPE",
+      codes: ["K1", "S1"],
+    },
+    {
+      categoryId: "walls",
+      categoryTitle: "Building walls",
+      jobId: "cavity",
+      jobTitle: "Cavity wall",
+      opportunityId: "build-wall",
+      opportunityTitle: "Build the wall",
+      codes: ["S1", "B1"],
+    },
+  ];
+  const criteria = core.mergeObservationCriteria(sections, [
+    { code: "S1", description: "Skill one", outcome: "Partially observed", included: false },
+  ], course);
+  assert.deepEqual([...criteria.map((item) => item.code)], ["K1", "S1", "B1"]);
+  const shared = criteria.find((item) => item.code === "S1");
+  assert.equal(shared.outcome, "Partially observed");
+  assert.equal(shared.included, false);
+  assert.equal(shared.sectionIds.length, 2);
+  assert.deepEqual([...shared.sectionTitles], ["Check PPE", "Build the wall"]);
+});
+
 test("all seven routes load a mapped Evia course pack", async () => {
   const { MilosCore: core } = runtime();
   assert.equal(core.COURSE_ROUTES.length, 7);

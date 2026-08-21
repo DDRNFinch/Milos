@@ -27,6 +27,16 @@ test("Milos has four home routes and no unfinished workflow stubs", () => {
   assert.doesNotMatch(source, /workflow is still loading/);
   assert.doesNotMatch(source, /function renderObservations\(\) \{ return ""; \}/);
   assert.match(source, /NISI:EVIA:PROGRESS:1:/);
+  assert.match(source, /observation-add-section/);
+  assert.match(source, /observation-review-sections/);
+  assert.match(source, /Selected observation sections/);
+});
+
+test("multi-section observations are carried into the professional PDF", () => {
+  const source = read("assets/milos-pdf.js");
+  assert.match(source, /Sections observed/);
+  assert.match(source, /normaliseObservationSections\(observation\.sections\)/);
+  assert.match(source, /criterion\.included !== false/);
 });
 
 test("manifest is an installable Milos PWA", () => {

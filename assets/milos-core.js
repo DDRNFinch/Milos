@@ -172,6 +172,70 @@
     return [...new Set(list.map(normaliseCode).filter(Boolean))].slice(0, 500);
   }
 
+  function observationSectionKey(section) {
+    const value = section || {};
+    return [value.categoryId, value.jobId, value.opportunityId]
+      .map((item) => cleanText(item, 100))
+      .filter(Boolean)
+      .join("::");
+  }
+
+  function normaliseObservationSections(value) {
+    if (!Array.isArray(value)) return [];
+    const seen = new Set();
+    return value.slice(0, 120).map((section) => {
+      const item = section || {};
+      const normalised = {
+        key: cleanText(item.key, 320) || observationSectionKey(item),
+        categoryId: cleanText(item.categoryId, 100),
+        categoryTitle: cleanText(item.categoryTitle, 180),
+        jobId: cleanText(item.jobId, 100),
+        jobTitle: cleanText(item.jobTitle, 180),
+        opportunityId: cleanText(item.opportunityId, 100),
+        opportunityTitle: cleanText(item.opportunityTitle, 220),
+        instruction: cleanText(item.instruction, 500),
+        question: cleanText(item.question, 500),
+        codes: cleanCodes(item.codes),
+      };
+      if (!normalised.key || !normalised.opportunityTitle || !normalised.codes.length || seen.has(normalised.key)) return null;
+      seen.add(normalised.key);
+      return normalised;
+    }).filter(Boolean);
+  }
+
+  function mergeObservationCriteria(sections, currentCriteria, course) {
+    const cleanSections = normaliseObservationSections(sections);
+    const existing = new Map((Array.isArray(currentCriteria) ? currentCriteria : []).map((criterion) => {
+      const code = normaliseCode(criterion && criterion.code);
+      return [code, criterion || {}];
+    }).filter((entry) => entry[0]));
+    const allowed = new Set(Array.isArray(course && course.codes) ? course.codes : []);
+    const descriptions = course && course.descriptions && typeof course.descriptions === "object" ? course.descriptions : {};
+    const criteria = new Map();
+
+    cleanSections.forEach((section) => {
+      section.codes.forEach((code) => {
+        if (allowed.size && !allowed.has(code)) return;
+        if (!criteria.has(code)) {
+          const previous = existing.get(code) || {};
+          const previousOutcome = cleanText(previous.outcome, 40);
+          criteria.set(code, {
+            code,
+            description: cleanText(previous.description || descriptions[code] || "Course criterion", 1000),
+            outcome: ["Observed", "Partially observed", "Not observed"].includes(previousOutcome) ? previousOutcome : "Observed",
+            included: previous.included !== false,
+            sectionIds: [],
+            sectionTitles: [],
+          });
+        }
+        const criterion = criteria.get(code);
+        if (!criterion.sectionIds.includes(section.key)) criterion.sectionIds.push(section.key);
+        if (!criterion.sectionTitles.includes(section.opportunityTitle)) criterion.sectionTitles.push(section.opportunityTitle);
+      });
+    });
+    return [...criteria.values()];
+  }
+
   function cleanTargets(value) {
     if (!Array.isArray(value)) return [];
     return value.slice(0, 12).map((target) => {
@@ -525,6 +589,9 @@
     latestSnapshot,
     loadCourse,
     metricsFor,
+    mergeObservationCriteria,
+    normaliseObservationSections,
+    observationSectionKey,
     observationsForProfile,
     removeProfile,
     reviewsForProfile,
