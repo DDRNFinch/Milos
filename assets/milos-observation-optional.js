@@ -1,18 +1,59 @@
 (function (global) {
   "use strict";
 
-  const original = global.MilosQR;
-  const core = global.MilosCore;
-  if (!original || !core) return;
+  const originalQr = global.MilosQR;
+  const originalCore = global.MilosCore;
+  if (!originalQr || !originalCore) return;
+
+  const OPTIONAL_SHARED_ID = "__MILOS_OPTIONAL_NO_EVIA__";
+  let optionalCompletionWindow = false;
+
+  function originalSnapshot(profile) {
+    return originalCore.latestSnapshot(profile) || null;
+  }
 
   function hasEviaIdentity(observation, profile) {
-    const snapshot = core.latestSnapshot(profile) || {};
-    return Boolean(core.cleanText((observation && observation.eviaSharedId) || snapshot.sharedId, 80));
+    const snapshot = originalSnapshot(profile) || {};
+    const value = originalCore.cleanText((observation && observation.eviaSharedId) || snapshot.sharedId, 80);
+    return Boolean(value && value !== OPTIONAL_SHARED_ID);
   }
+
+  function beginOptionalCompletion() {
+    optionalCompletionWindow = true;
+    if (typeof global.setTimeout === "function") {
+      global.setTimeout(function () { optionalCompletionWindow = false; }, 0);
+    }
+  }
+
+  function latestSnapshot(profile) {
+    const snapshot = originalSnapshot(profile);
+    if (snapshot || !optionalCompletionWindow) return snapshot;
+    return {
+      sharedId: OPTIONAL_SHARED_ID,
+      completedCodes: [],
+      changedCodes: [],
+      targets: [],
+      learningHours: 0,
+      learningTarget: 0,
+      importedAt: Date.now(),
+      optionalObservationOnly: true,
+    };
+  }
+
+  function saveObservation(record) {
+    const value = Object.assign({}, record || {});
+    if (value.eviaSharedId === OPTIONAL_SHARED_ID) value.eviaSharedId = "";
+    return originalCore.saveObservation(value);
+  }
+
+  global.MilosCore = Object.freeze(Object.assign({}, originalCore, {
+    latestSnapshot,
+    saveObservation,
+  }));
 
   function observationPayload(observation, profile, course) {
     if (!hasEviaIdentity(observation, profile)) return "";
-    return original.observationPayload(observation, profile, course);
+    return originalQr.observationPayload(observation, profile, course);
   }
 
   function requireReturnPayload(payload) {
@@ -23,28 +64,49 @@
 
   function render(container, payload, options) {
     requireReturnPayload(payload);
-    return original.render(container, payload, options);
+    return originalQr.render(container, payload, options);
   }
 
   function dataUrl(payload, requestedSize) {
     requireReturnPayload(payload);
-    return original.dataUrl(payload, requestedSize);
+    return originalQr.dataUrl(payload, requestedSize);
   }
 
-  global.MilosQR = Object.freeze(Object.assign({}, original, {
+  global.MilosQR = Object.freeze(Object.assign({}, originalQr, {
     observationPayload,
     render,
     dataUrl,
   }));
 
+  global.MilosObservationOptional = Object.freeze({
+    version: "2.1",
+    beginOptionalCompletion,
+    optionalSharedId: OPTIONAL_SHARED_ID,
+  });
+
   if (!global.document) return;
+
+  document.addEventListener("click", function (event) {
+    const button = event.target && event.target.closest ? event.target.closest('[data-action="observation-complete"]') : null;
+    if (button) beginOptionalCompletion();
+  }, true);
 
   const textReplacements = new Map([
     [
       "Scan Evia first, then select every category, job and opportunity section you personally observe. More sections can be added during the visit.",
       "An Evia scan is recommended, not required. Select every category, job and opportunity section you personally observe. More sections can be added during the visit.",
     ],
+    [
+      "You can draft the record using the selected course, but a full Evia QR scan is required before Milos can create the return QR.",
+      "You can complete and download the observation using the selected course. Scan Evia only if you also want to return observed criteria to the learner by QR.",
+    ],
     ["scan required", "scan recommended"],
+    ["Complete, create QR & download PDF", "Complete & download PDF"],
+    ["will receive a blue o in Evia", "can be returned to Evia with a blue o when an Evia scan is available"],
+    [
+      "The return QR contains no learner name, media, comments or signatures.",
+      "If Evia progress was scanned, the optional return QR contains no learner name, media, comments or signatures.",
+    ],
     [
       "Observation saved, QR created and PDF downloaded.",
       "Observation saved and PDF downloaded. A return QR is added when Evia progress has been scanned.",

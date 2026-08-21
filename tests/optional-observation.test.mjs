@@ -17,6 +17,7 @@ function runtime() {
     TextDecoder,
     btoa: (value) => Buffer.from(value, "binary").toString("base64"),
     atob: (value) => Buffer.from(value, "base64").toString("binary"),
+    setTimeout: () => 1,
     localStorage: {
       getItem(key) { return records.has(key) ? records.get(key) : null; },
       setItem(key, value) { records.set(key, String(value)); },
@@ -40,6 +41,28 @@ test("observation PDF path remains available without an Evia scan", () => {
 
   assert.equal(qr.observationPayload(observation, profile, course), "");
   assert.throws(() => qr.dataUrl("", 500), /PDF is still available without it/i);
+});
+
+test("completion bridge lets the app pass its stale scan guard without creating a fake return QR", () => {
+  const { MilosCore: core, MilosQR: qr, MilosObservationOptional: optional } = runtime();
+  const profile = core.createProfile({ name: "Local Learner", courseRouteId: "ST0095" });
+  const course = { route: core.routeById("ST0095") };
+
+  assert.equal(core.latestSnapshot(profile), null);
+  optional.beginOptionalCompletion();
+  const temporary = core.latestSnapshot(profile);
+  assert.equal(temporary.sharedId, optional.optionalSharedId);
+
+  const observation = {
+    publicId: "obs-local-2",
+    eviaSharedId: temporary.sharedId,
+    observationDate: "2026-08-21",
+    observedCodes: ["K1"],
+  };
+  assert.equal(qr.observationPayload(observation, profile, course), "");
+
+  const bridgeSource = fs.readFileSync(path.join(root, "assets/milos-observation-optional.js"), "utf8");
+  assert.match(bridgeSource, /if \(value\.eviaSharedId === OPTIONAL_SHARED_ID\) value\.eviaSharedId = "";/);
 });
 
 test("scanned observations still create the normal Evia return QR", () => {
