@@ -101,6 +101,12 @@
       "You can complete and download the observation using the selected course. Scan Evia only if you also want to return observed criteria to the learner by QR.",
     ],
     ["scan required", "scan recommended"],
+    ["Complete, create QR & download PDF", "Complete & download PDF"],
+    ["will receive a blue o in Evia", "can be returned to Evia with a blue o when an Evia scan is available"],
+    [
+      "The return QR contains no learner name, media, comments or signatures.",
+      "If Evia progress was scanned, the optional return QR contains no learner name, media, comments or signatures.",
+    ],
     [
       "Observation saved, QR created and PDF downloaded.",
       "Observation saved and PDF downloaded. A return QR is added when Evia progress has been scanned.",
