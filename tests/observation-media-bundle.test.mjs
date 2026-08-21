@@ -12,14 +12,22 @@ test('observation exporter captures the PDF before download',()=>{
   assert.match(bundle,/originalPdf\.observationPdf/);
 });
 
-test('video and audio originals are included in the ZIP',()=>{
+test('video and audio recordings are included in the ZIP',()=>{
   assert.match(bundle,/type\.startsWith\("video\/"\)/);
   assert.match(bundle,/type\.startsWith\("audio\/"\)/);
   assert.match(bundle,/application\/zip/);
-  assert.match(bundle,/0x04034b50/);
-  assert.match(bundle,/0x02014b50/);
-  assert.match(bundle,/0x06054b50/);
-  assert.match(bundle,/-with-media\.zip/);
+  assert.match(bundle,/0x04034B50/);
+  assert.match(bundle,/0x02014B50/);
+  assert.match(bundle,/0x06054B50/);
+});
+
+test('every ZIP entry uses DEFLATE compression rather than store mode',()=>{
+  assert.match(bundle,/new CompressionStream\(format\)/);
+  assert.match(bundle,/deflate-raw/);
+  assert.match(bundle,/view\.setUint16\(8, 8, true\)/);
+  assert.match(bundle,/view\.setUint16\(10, 8, true\)/);
+  assert.match(bundle,/compressionMethod: "DEFLATE"/);
+  assert.match(bundle,/compressed: true/);
 });
 
 test('Milos exposes a direct Record audio control',()=>{
