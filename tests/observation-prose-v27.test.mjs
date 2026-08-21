@@ -48,9 +48,8 @@ test("final observation prose separates performance from knowledge", () => {
   assert.match(reports.qualityNotes, /William/);
 });
 
-test("final prose module is loaded last for observations and cached offline", () => {
-  const natural = index.indexOf("milos-natural-narrative-v27.js?v=2.7");
-  const prose = index.indexOf("milos-observation-prose-v27.js?v=2.7");
-  assert.ok(natural > 0 && prose > natural);
-  assert.match(sw, /milos-observation-prose-v27\.js/);
+test("legacy prose behavior remains covered while the active app uses the single current writer", () => {
+  assert.match(index, /milos-auto-v29\.js\?v=2\.12/);
+  assert.doesNotMatch(index, /milos-observation-prose-v27\.js\?v=/);
+  assert.match(sw, /milos-auto-v29\.js/);
 });
