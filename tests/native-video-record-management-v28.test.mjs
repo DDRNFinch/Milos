@@ -36,9 +36,9 @@ test("saved reviews and observations expose edit and delete controls", () => {
   assert.match(records, /milos-observations-v1/);
 });
 
-test("Milos 2.8 loads and caches record management", () => {
-  assert.match(index, /milos-app-version" content="2\.8/);
-  assert.match(index, /milos-record-management-v28\.js\?v=2\.8/);
-  assert.match(sw, /milos-assessor-shell-v2\.8/);
+test("Milos 2.10 still loads and caches v2.8 record management", () => {
+  assert.match(index, /milos-app-version" content="2\.10/);
+  assert.match(index, /milos-record-management-v28\.js\?v=2\.10/);
+  assert.match(sw, /milos-assessor-shell-v2\.10/);
   assert.match(sw, /milos-record-management-v28\.js/);
 });
