@@ -18,6 +18,7 @@ const APP_SHELL = [
   "./assets/milos-observation-optional.js",
   "./assets/milos-media.js",
   "./assets/milos-pdf.js",
+  "./assets/milos-observation-bundle-v22.js",
   "./assets/milos-app.js",
   "./assets/milos-evia-v2.js",
   "./course-packs/Bricklayer_ST0095_v1.2.nisi",
