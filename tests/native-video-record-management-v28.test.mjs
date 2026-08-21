@@ -10,7 +10,7 @@ const index = fs.readFileSync(new URL("../index.html", import.meta.url), "utf8")
 const sw = fs.readFileSync(new URL("../sw.js", import.meta.url), "utf8");
 
 test("video capture uses the normal device camera and is not transcoded before storage", () => {
-  assert.match(app, /Record video<input type=\\"file\\" accept=\\"video\/\*\\" capture=\\"environment\\" data-observation-media>/);
+  assert.match(app, /Record video<input type="file" accept="video\/\*" capture="environment" data-observation-media>/);
   assert.match(optimiser, /compressVideoOnSave:\s*false/);
   assert.match(optimiser, /nativeCameraCapture:\s*true/);
   assert.doesNotMatch(optimiser, /openVideoRecorder/);
@@ -37,7 +37,7 @@ test("saved reviews and observations expose edit and delete controls", () => {
 });
 
 test("Milos 2.8 loads and caches record management", () => {
-  assert.match(index, /milos-app-version\\" content=\\"2\.8/);
+  assert.match(index, /milos-app-version" content="2\.8/);
   assert.match(index, /milos-record-management-v28\.js\?v=2\.8/);
   assert.match(sw, /milos-assessor-shell-v2\.8/);
   assert.match(sw, /milos-record-management-v28\.js/);
