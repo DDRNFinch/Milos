@@ -12,11 +12,14 @@ test("mobile trigger is loaded before the single automatic writer", () => {
   assert.ok(writerPos > triggerPos);
 });
 
-test("mobile trigger uses pointer/touch taps and suppresses duplicate physical clicks", () => {
+test("mobile trigger listens to the actual guidance M on pointer and touch input", () => {
+  assert.match(trigger, /MARK_SELECTOR = "\\.milos-guidance > span"/);
+  assert.match(trigger, /event\.target\.closest\(MARK_SELECTOR\)/);
   assert.match(trigger, /pointerup/);
   assert.match(trigger, /touchend/);
   assert.match(trigger, /stopImmediatePropagation/);
   assert.match(trigger, /event\.isTrusted/);
   assert.match(trigger, /TAP_TARGET = 7/);
   assert.match(trigger, /dispatchEvent\(new MouseEvent\("click"/);
+  assert.doesNotMatch(trigger, /closest\(TRIGGER_SELECTOR\)/);
 });
