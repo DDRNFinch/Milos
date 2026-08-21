@@ -1,10 +1,10 @@
 {
   "name": "milos-assessor-assistant",
-  "version": "2.11.0",
+  "version": "2.12.0",
   "private": true,
   "description": "Offline-first assessor companion for Evia",
   "scripts": {
     "test": "node --test tests/*.test.mjs",
-    "check": "node --check assets/milos-core.js && node --check assets/milos-nvq-mapping-v22.js && node --check assets/milos-qr.js && node --check assets/milos-observation-optional.js && node --check assets/milos-media.js && node --check assets/milos-media-optimize-v24.js && node --check assets/milos-pdf.js && node --check assets/milos-observation-bundle-v22.js && node --check assets/milos-app.js && node --check assets/milos-auto-trigger-v211.js && node --check assets/milos-auto-v29.js && node --check assets/milos-record-management-v28.js && node --check sw.js"
+    "check": "node --check assets/milos-core.js && node --check assets/milos-nvq-mapping-v22.js && node --check assets/milos-qr.js && node --check assets/milos-observation-optional.js && node --check assets/milos-media.js && node --check assets/milos-media-optimize-v24.js && node --check assets/milos-pdf.js && node --check assets/milos-observation-bundle-v22.js && node --check assets/milos-app.js && node --check assets/milos-planning-v212.js && node --check assets/milos-auto-trigger-v211.js && node --check assets/milos-auto-v29.js && node --check assets/milos-record-management-v28.js && node --check sw.js"
   }
 }
