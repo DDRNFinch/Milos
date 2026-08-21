@@ -239,9 +239,12 @@
       recorder.onstop = () => resolve(new Blob(chunks, { type: recorder.mimeType || options.mimeType || "video/webm" }));
     });
     recorder.start(1000);
-    await stopPromise;
+    let stopError = null;
+    try { await stopPromise; } catch (error) { stopError = error; }
     if (recorder.state !== "inactive") recorder.stop();
-    return stopped;
+    const blob = await stopped;
+    if (stopError) throw stopError;
+    return blob;
   }
 
   async function transcodeVideo(source, videoBits) {
@@ -292,7 +295,7 @@
     if (!Number.isFinite(info.duration) || info.duration <= 0) {
       throw new Error("Milos could not read the video duration, so it will not save an unverified video.");
     }
-    const maximum = Math.max(256000, (MAX_VIDEO_BYTES_PER_MINUTE * info.duration) / 60);
+    const maximum = Math.max(64 * 1024, (MAX_VIDEO_BYTES_PER_MINUTE * info.duration) / 60);
     if (file.size <= maximum) {
       processedVideos.add(file);
       return file;
@@ -302,7 +305,7 @@
       const adjusted = Math.max(450000, Math.floor(CAPTURE_VIDEO_BITS_PER_SECOND * (maximum / output.size) * 0.92));
       output = await transcodeVideo(file, adjusted);
     }
-    if (output.size > maximum * 1.015) {
+    if (output.size > maximum) {
       throw new Error("This video could not be reduced to 11 MB/min without risking its audio. Record it directly in Milos instead.");
     }
     processedVideos.add(output);
@@ -335,6 +338,7 @@
     if (!activeRecorder) return;
     const current = activeRecorder;
     activeRecorder = null;
+    current.cancelled = true;
     try {
       if (current.recorder && current.recorder.state !== "inactive") current.recorder.stop();
     } catch (_) {}
@@ -408,7 +412,7 @@
     preview.srcObject = stream;
     try { await preview.play(); } catch (_) {}
 
-    const session = { layer, stream, recorder: null, timer: null, startedAt: 0 };
+    const session = { layer, stream, recorder: null, timer: null, startedAt: 0, cancelled: false };
     activeRecorder = session;
     close.addEventListener("click", closeRecorder);
 
@@ -427,7 +431,7 @@
       recorder.ondataavailable = (event) => { if (event.data && event.data.size) chunks.push(event.data); };
       recorder.onerror = (event) => { state.textContent = event.error && event.error.message || "Recording error."; };
       recorder.onstop = async () => {
-        if (!chunks.length) return;
+        if (session.cancelled || !chunks.length) return;
         state.textContent = "Optimising video…";
         start.disabled = true;
         stop.disabled = true;
