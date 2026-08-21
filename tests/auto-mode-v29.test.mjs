@@ -3,14 +3,14 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 
 const index = fs.readFileSync(new URL("../index.html", import.meta.url), "utf8");
-const trigger = fs.readFileSync(new URL("../assets/milos-auto-trigger-v210.js", import.meta.url), "utf8");
+const trigger = fs.readFileSync(new URL("../assets/milos-auto-trigger-v211.js", import.meta.url), "utf8");
 const auto = fs.readFileSync(new URL("../assets/milos-auto-v29.js", import.meta.url), "utf8");
 const sw = fs.readFileSync(new URL("../sw.js", import.meta.url), "utf8");
 
-test("Milos loads one automatic writer behind the mobile-safe trigger", () => {
-  assert.match(index, /milos-auto-trigger-v210\.js\?v=2\.10/);
-  assert.match(index, /milos-auto-v29\.js\?v=2\.10/);
-  assert.ok(index.indexOf("milos-auto-trigger-v210.js") < index.indexOf("milos-auto-v29.js"));
+test("Milos loads one automatic writer behind the current mobile-safe trigger", () => {
+  assert.match(index, /milos-auto-trigger-v211\.js\?v=2\.12/);
+  assert.match(index, /milos-auto-v29\.js\?v=2\.12/);
+  assert.ok(index.indexOf("milos-auto-trigger-v211.js") < index.indexOf("milos-auto-v29.js"));
   for (const legacy of [
     "milos-observation-auto-v25.js",
     "milos-review-auto-v26.js",
@@ -20,16 +20,18 @@ test("Milos loads one automatic writer behind the mobile-safe trigger", () => {
   ]) assert.doesNotMatch(index, new RegExp(legacy.replaceAll(".", "\\.")));
 });
 
-test("seven mobile taps are converted into one v2.9 automatic-mode activation", () => {
+test("seven real mobile taps activate the current automatic mode directly", () => {
   assert.match(trigger, /const TAP_TARGET = 7/);
   assert.match(trigger, /addEventListener\("pointerup"/);
   assert.match(trigger, /addEventListener\("touchend"/);
   assert.match(trigger, /event\.stopImmediatePropagation\(\)/);
   assert.match(trigger, /!event\.isTrusted/);
-  assert.match(trigger, /for \(let index = 0; index < TAP_TARGET; index \+= 1\)/);
-  assert.match(trigger, /new MouseEvent\("click"/);
+  assert.match(trigger, /mark\.closest\(FORM_SELECTOR\)/);
+  assert.match(trigger, /A\.buildObservation/);
+  assert.match(trigger, /A\.buildReview/);
   assert.match(trigger, /milos-auto-review-profile-v1/);
   assert.match(trigger, /milos-auto-observation-profile-v1/);
+  assert.doesNotMatch(trigger, /new MouseEvent\("click"/);
 });
 
 test("automatic review prose avoids criterion dump language", () => {
@@ -44,10 +46,11 @@ test("automatic observation prose is assessor narrative", () => {
   assert.match(auto, /I followed the activity as it happened/);
 });
 
-test("only the active automatic mode refreshes and it watches the Milos workspace", () => {
+test("only the active automatic mode refreshes and current files are cached", () => {
   assert.match(auto, /if \(!activeMode\) return/);
   assert.match(auto, /document\.getElementById\("viewPanel"\)/);
   assert.doesNotMatch(auto, /observe\(document\.documentElement/);
-  assert.match(sw, /milos-assessor-shell-v2\.10/);
-  assert.match(sw, /milos-auto-trigger-v210\.js/);
+  assert.match(sw, /milos-assessor-shell-v2\.12/);
+  assert.match(sw, /milos-auto-trigger-v211\.js/);
+  assert.match(sw, /milos-auto-v29\.js/);
 });
