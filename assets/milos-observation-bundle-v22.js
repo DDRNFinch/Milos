@@ -3,8 +3,7 @@
 
   const originalPdf = global.MilosPDF;
   const mediaStore = global.MilosMedia;
-  const JsPDF = global.jspdf && global.jspdf.jsPDF;
-  if (!originalPdf || !mediaStore || !JsPDF || !JsPDF.prototype) return;
+  if (!originalPdf || typeof originalPdf.observationPdf !== "function" || !mediaStore) return;
 
   const encoder = new TextEncoder();
   const crcTable = new Uint32Array(256);
@@ -83,58 +82,66 @@
   function dosDateTime(value) {
     const date = value instanceof Date && Number.isFinite(value.getTime()) ? value : new Date();
     const year = Math.max(1980, Math.min(2107, date.getFullYear()));
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
-    const seconds = Math.floor(date.getSeconds() / 2);
     return {
-      time: ((hours << 11) | (minutes << 5) | seconds) & 0xFFFF,
-      date: (((year - 1980) << 9) | (month << 5) | day) & 0xFFFF,
+      time: ((date.getHours() << 11) | (date.getMinutes() << 5) | Math.floor(date.getSeconds() / 2)) & 0xFFFF,
+      date: (((year - 1980) << 9) | ((date.getMonth() + 1) << 5) | date.getDate()) & 0xFFFF,
     };
   }
 
-  function localHeader(nameBytes, stamp) {
+  async function compressionStream(blob, format) {
+    const stream = new CompressionStream(format);
+    return new Response(blob.stream().pipeThrough(stream)).blob();
+  }
+
+  async function deflateRaw(blob) {
+    if (typeof global.CompressionStream !== "function") {
+      throw new Error("This browser cannot create compressed ZIP files. Update the browser or installed Milos app before exporting.");
+    }
+    try {
+      return await compressionStream(blob, "deflate-raw");
+    } catch (_) {
+      try {
+        const wrapped = await compressionStream(blob, "deflate");
+        const bytes = new Uint8Array(await wrapped.arrayBuffer());
+        if (bytes.length <= 6) throw new Error("Compressed data was incomplete.");
+        return new Blob([bytes.slice(2, bytes.length - 4)], { type: "application/octet-stream" });
+      } catch (_) {
+        throw new Error("This browser cannot create DEFLATE-compressed ZIP files. Update the browser or installed Milos app before exporting.");
+      }
+    }
+  }
+
+  function localHeader(nameBytes, stamp, crc, compressedSize, originalSize) {
     const bytes = new Uint8Array(30 + nameBytes.length);
     const view = new DataView(bytes.buffer);
     view.setUint32(0, 0x04034B50, true);
     view.setUint16(4, 20, true);
-    view.setUint16(6, 0x0808, true);
-    view.setUint16(8, 0, true);
+    view.setUint16(6, 0x0800, true);
+    view.setUint16(8, 8, true);
     view.setUint16(10, stamp.time, true);
     view.setUint16(12, stamp.date, true);
-    view.setUint32(14, 0, true);
-    view.setUint32(18, 0, true);
-    view.setUint32(22, 0, true);
+    view.setUint32(14, crc >>> 0, true);
+    view.setUint32(18, compressedSize >>> 0, true);
+    view.setUint32(22, originalSize >>> 0, true);
     view.setUint16(26, nameBytes.length, true);
     view.setUint16(28, 0, true);
     bytes.set(nameBytes, 30);
     return bytes;
   }
 
-  function dataDescriptor(crc, size) {
-    const bytes = new Uint8Array(16);
-    const view = new DataView(bytes.buffer);
-    view.setUint32(0, 0x08074B50, true);
-    view.setUint32(4, crc >>> 0, true);
-    view.setUint32(8, size >>> 0, true);
-    view.setUint32(12, size >>> 0, true);
-    return bytes;
-  }
-
-  function centralHeader(nameBytes, stamp, crc, size, offset) {
+  function centralHeader(nameBytes, stamp, crc, compressedSize, originalSize, offset) {
     const bytes = new Uint8Array(46 + nameBytes.length);
     const view = new DataView(bytes.buffer);
     view.setUint32(0, 0x02014B50, true);
     view.setUint16(4, 20, true);
     view.setUint16(6, 20, true);
-    view.setUint16(8, 0x0808, true);
-    view.setUint16(10, 0, true);
+    view.setUint16(8, 0x0800, true);
+    view.setUint16(10, 8, true);
     view.setUint16(12, stamp.time, true);
     view.setUint16(14, stamp.date, true);
     view.setUint32(16, crc >>> 0, true);
-    view.setUint32(20, size >>> 0, true);
-    view.setUint32(24, size >>> 0, true);
+    view.setUint32(20, compressedSize >>> 0, true);
+    view.setUint32(24, originalSize >>> 0, true);
     view.setUint16(28, nameBytes.length, true);
     view.setUint16(30, 0, true);
     view.setUint16(32, 0, true);
@@ -161,22 +168,27 @@
   }
 
   async function makeZip(entries) {
+    if (!entries.length) throw new Error("There is nothing to export.");
+    if (entries.length > 65535) throw new Error("This ZIP contains too many files.");
     const parts = [];
     const central = [];
     let offset = 0;
+
     for (const entry of entries) {
-      const blob = entry.blob instanceof Blob ? entry.blob : new Blob([entry.blob]);
-      if (blob.size > 0xFFFFFFFF) throw new Error("One observation media file is too large for the ZIP export.");
+      const originalBlob = entry.blob instanceof Blob ? entry.blob : new Blob([entry.blob]);
+      if (originalBlob.size > 0xFFFFFFFF) throw new Error("One observation file is too large for the ZIP export.");
+      const compressedBlob = await deflateRaw(originalBlob);
+      if (compressedBlob.size > 0xFFFFFFFF) throw new Error("One compressed observation file is too large for the ZIP export.");
       const nameBytes = encoder.encode(entry.name);
       const stamp = dosDateTime(entry.date);
-      const crc = await crc32(blob);
-      const local = localHeader(nameBytes, stamp);
-      const descriptor = dataDescriptor(crc, blob.size);
-      parts.push(local, blob, descriptor);
-      central.push(centralHeader(nameBytes, stamp, crc, blob.size, offset));
-      offset += local.byteLength + blob.size + descriptor.byteLength;
+      const crc = await crc32(originalBlob);
+      const local = localHeader(nameBytes, stamp, crc, compressedBlob.size, originalBlob.size);
+      parts.push(local, compressedBlob);
+      central.push(centralHeader(nameBytes, stamp, crc, compressedBlob.size, originalBlob.size, offset));
+      offset += local.byteLength + compressedBlob.size;
       if (offset > 0xFFFFFFFF) throw new Error("This observation is too large for one ZIP export.");
     }
+
     const centralOffset = offset;
     const centralSize = central.reduce((total, part) => total + part.byteLength, 0);
     parts.push(...central, endRecord(entries.length, centralSize, centralOffset));
@@ -285,12 +297,11 @@
     observationPdf: observationZip,
   }));
   global.MilosObservationBundle = Object.freeze({
-    version: "2.3",
+    version: "2.4",
+    compressed: true,
+    compressionMethod: "DEFLATE",
     makeZip,
-    sourceMedia: async (observation) => {
-      const used = new Set();
-      return recordingEntries(observation, used);
-    },
+    sourceMedia: async (observation) => recordingEntries(observation, new Set()),
   });
 
   if (!global.document) return;
