@@ -113,11 +113,9 @@ test("selected route data drives the report and later section changes update unt
   assert.match(source, /signature === lastSectionSignature/);
 });
 
-test("v2.5 automatic mode is loaded after the app and cached offline", () => {
-  const appAt = index.indexOf("milos-app.js?v=2.5");
-  const autoAt = index.indexOf("milos-observation-auto-v25.js?v=2.5");
-  assert.ok(appAt > 0 && autoAt > appAt);
-  assert.match(index, /milos-app-version\" content=\"2\.5\"/);
-  assert.match(sw, /milos-assessor-shell-v2\.5/);
-  assert.match(sw, /milos-observation-auto-v25\.js/);
+test("legacy observation writer remains regression-covered while the active app uses the single current writer", () => {
+  assert.match(index, /milos-app-version\" content=\"2\.12\"/);
+  assert.match(index, /milos-auto-v29\.js\?v=2\.12/);
+  assert.doesNotMatch(index, /milos-observation-auto-v25\.js\?v=/);
+  assert.match(sw, /milos-auto-v29\.js/);
 });
