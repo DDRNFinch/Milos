@@ -23,6 +23,10 @@ python3 -m http.server 4173
 
 Then open `http://localhost:4173/`.
 
+## GitHub Pages
+
+The repository includes a Pages deployment workflow. A new repository needs one GitHub setting before the first deployment: open **Settings → Pages**, set **Source** to **GitHub Actions**, then rerun **Deploy Milos to GitHub Pages**. Later pushes to `main` deploy automatically.
+
 ## Course packs
 
 The app includes the current Evia packs for Bricklayer ST0095, Site Carpenter and Architectural Joiner ST0264, and the four Trowel Occupations 6570-05 pathways.
