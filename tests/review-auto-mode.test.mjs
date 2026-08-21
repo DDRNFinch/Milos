@@ -109,9 +109,9 @@ test("review auto mode preserves assessor edits when later review pages render",
   assert.match(source, /MutationObserver\(scheduleFill\)/);
 });
 
-test("Milos 2.6 loads and caches review automatic mode", () => {
-  assert.match(index, /milos-app-version\" content=\"2\.6\"/);
-  assert.match(index, /milos-review-auto-v26\.js\?v=2\.6/);
-  assert.match(sw, /milos-assessor-shell-v2\.6/);
-  assert.match(sw, /milos-review-auto-v26\.js/);
+test("legacy review writer remains regression-covered while the active app uses the single current writer", () => {
+  assert.match(index, /milos-app-version\" content=\"2\.12\"/);
+  assert.match(index, /milos-auto-v29\.js\?v=2\.12/);
+  assert.doesNotMatch(index, /milos-review-auto-v26\.js\?v=/);
+  assert.match(sw, /milos-auto-v29\.js/);
 });
