@@ -1,5 +1,0 @@
-Local runtime smoke check performed 2026-08-21:
-- milos-observation-bundle-v22.js passed node --check
-- generated a ZIP containing Observation.pdf, voice.webm and video.webm
-- Python zipfile opened all three entries successfully
-- CRC integrity test returned no errors
