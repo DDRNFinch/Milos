@@ -5,12 +5,12 @@ import fs from "node:fs";
 const trigger = fs.readFileSync(new URL("../assets/milos-auto-trigger-v211.js", import.meta.url), "utf8");
 const index = fs.readFileSync(new URL("../index.html", import.meta.url), "utf8");
 
-test("2.11 mobile trigger is loaded before the automatic writer", () => {
+test("current mobile trigger is loaded before the automatic writer", () => {
   const triggerPos = index.indexOf("milos-auto-trigger-v211.js");
   const writerPos = index.indexOf("milos-auto-v29.js");
   assert.ok(triggerPos >= 0);
   assert.ok(writerPos > triggerPos);
-  assert.match(index, /milos-app-version" content="2\.11"/);
+  assert.match(index, /milos-app-version" content="2\.12"/);
 });
 
 test("guidance M resolves the form it is actually inside", () => {
