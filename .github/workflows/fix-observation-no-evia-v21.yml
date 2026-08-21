@@ -1,0 +1,138 @@
+name: Fix Optional Observation v2.1
+
+on:
+  push:
+    branches: [fix/observation-no-evia-v21]
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/observation-no-evia-v21
+          fetch-depth: 0
+      - name: Make Evia scan genuinely optional for observations
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          import json
+
+          app = Path('assets/milos-app.js')
+          s = app.read_text()
+
+          s = s.replace(
+            'if (!observedCodes.length) throw new Error(`Mark at least one ${state.course.coverageLabel} item as Observed before creating the Evia QR.`);',
+            'if (!observedCodes.length) throw new Error(`Mark at least one ${state.course.coverageLabel} item as Observed before completing the observation.`);'
+          )
+
+          old = '''        const profile = selectedProfile();
+        const eviaSnapshot = C.latestSnapshot(profile);
+        if (!eviaSnapshot || !eviaSnapshot.sharedId) throw new Error("Scan a full Evia progress QR before completing the observation so Evia can match the return result.");
+        const record = Object.assign({}, draft, { observedCodes, eviaSharedId: eviaSnapshot.sharedId, completedAt: Date.now() });'''
+          new = '''        const profile = selectedProfile();
+        const eviaSnapshot = C.latestSnapshot(profile);
+        const eviaSharedId = C.cleanText(eviaSnapshot && eviaSnapshot.sharedId, 80);
+        const record = Object.assign({}, draft, { observedCodes, eviaSharedId, completedAt: Date.now() });'''
+          if old not in s:
+            raise SystemExit('hard Evia completion guard not found')
+          s = s.replace(old, new)
+
+          old = '''        let saved = C.saveObservation(record);
+        const qrPayload = Q.observationPayload(saved, profile, state.course);
+        saved = C.saveObservation(Object.assign({}, saved, { qrPayload }));'''
+          new = '''        let saved = C.saveObservation(record);
+        const qrPayload = eviaSharedId ? Q.observationPayload(saved, profile, state.course) : "";
+        saved = C.saveObservation(Object.assign({}, saved, { qrPayload }));'''
+          if old not in s:
+            raise SystemExit('observation QR save block not found')
+          s = s.replace(old, new)
+
+          old = '''      if (action === "observation-download") {
+        await P.observationPdf(record, profile, state.course, record.qrPayload || Q.observationPayload(record, profile, state.course));
+        toast("Observation PDF downloaded.");
+        return;
+      }'''
+          new = '''      if (action === "observation-download") {
+        const eviaSnapshot = C.latestSnapshot(profile);
+        const hasEviaIdentity = Boolean(C.cleanText(record.eviaSharedId || (eviaSnapshot && eviaSnapshot.sharedId), 80));
+        const qrPayload = record.qrPayload || (hasEviaIdentity ? Q.observationPayload(record, profile, state.course) : "");
+        await P.observationPdf(record, profile, state.course, qrPayload);
+        toast("Observation PDF downloaded.");
+        return;
+      }'''
+          if old not in s:
+            raise SystemExit('observation history PDF block not found')
+          s = s.replace(old, new)
+
+          s = s.replace(
+            'toast("Observation saved, QR created and PDF downloaded.");',
+            'toast(qrPayload ? "Observation saved, QR created and PDF downloaded." : "Observation saved and PDF downloaded. Evia return QR not created because no Evia scan was used.");'
+          )
+
+          app.write_text(s)
+
+          index = Path('index.html')
+          s = index.read_text()
+          s = s.replace('content="2.0"', 'content="2.1"', 1)
+          s = s.replace('?v=2.0', '?v=2.1')
+          index.write_text(s)
+
+          sw = Path('sw.js')
+          sw.write_text(sw.read_text().replace('milos-assessor-shell-v2.0', 'milos-assessor-shell-v2.1'))
+
+          package = Path('package.json')
+          data = json.loads(package.read_text())
+          data['version'] = '2.1.0'
+          package.write_text(json.dumps(data, indent=2) + '\n')
+
+          Path('tests/observation-completion.test.mjs').write_text(r'''import assert from "node:assert/strict";
+import fs from "node:fs";
+import path from "node:path";
+import test from "node:test";
+import { fileURLToPath } from "node:url";
+
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const app = fs.readFileSync(path.join(root, "assets/milos-app.js"), "utf8");
+
+test("observation completion does not require an Evia shared id", () => {
+  assert.doesNotMatch(app, /Scan a full Evia progress QR before completing the observation/);
+  assert.match(app, /const eviaSharedId = C\.cleanText\(eviaSnapshot && eviaSnapshot\.sharedId, 80\);/);
+  assert.match(app, /const qrPayload = eviaSharedId \? Q\.observationPayload\(saved, profile, state\.course\) : "";/);
+});
+
+test("saved observation PDF remains downloadable without an Evia identity", () => {
+  assert.match(app, /const hasEviaIdentity = Boolean\(C\.cleanText\(record\.eviaSharedId \|\| \(eviaSnapshot && eviaSnapshot\.sharedId\), 80\)\);/);
+  assert.match(app, /const qrPayload = record\.qrPayload \|\| \(hasEviaIdentity \? Q\.observationPayload\(record, profile, state\.course\) : ""\);/);
+  assert.match(app, /await P\.observationPdf\(record, profile, state\.course, qrPayload\);/);
+});
+''')
+          PY
+      - name: Verify observation completion repair
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check assets/milos-app.js
+          node --check assets/milos-observation-optional.js
+          node --check assets/milos-pdf.js
+          node --check sw.js
+          npm test
+          grep -q 'milos-app.js?v=2.1' index.html
+          grep -q 'milos-assessor-shell-v2.1' sw.js
+          ! grep -q 'Scan a full Evia progress QR before completing the observation' assets/milos-app.js
+      - name: Commit verified v2.1 repair
+        shell: bash
+        run: |
+          set -euo pipefail
+          git rm -f .github/workflows/fix-observation-no-evia-v21.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- assets/milos-app.js index.html sw.js package.json tests/observation-completion.test.mjs
+          git commit -m 'Make Evia scan optional for Milos observations v2.1'
+          git push origin HEAD:fix/observation-no-evia-v21
