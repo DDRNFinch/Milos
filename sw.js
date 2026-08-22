@@ -21,6 +21,7 @@ const APP_SHELL = [
   "./assets/milos-pdf.js",
   "./assets/milos-observation-bundle-v22.js",
   "./assets/milos-app.js",
+  "./assets/milos-review-deadlines-v215.js",
   "./assets/milos-uk-dates-v215.js",
   "./assets/milos-planning-v213.js",
   "./assets/milos-auto-trigger-v211.js",
