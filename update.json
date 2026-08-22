@@ -1,4 +1,10 @@
 {
-  "version": "2.10",
-  "notes": "Restores reliable seven-tap Milos Automatic Mode activation on mobile while keeping the single natural-language review and observation writer."
+  "version": "2.14",
+  "title": "One QR back to Evia",
+  "details": [
+    "Review sharing now uses one compact QR containing only the next review date, concise review summary and agreed targets",
+    "Observation sharing now uses one compact QR containing only criteria observed as competent",
+    "Milos now shows an Update available notification when a newer version is ready to install",
+    "The update manifest is aligned with the actual Milos app version"
+  ]
 }
