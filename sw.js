@@ -1,4 +1,4 @@
-const CACHE_NAME = "milos-assessor-shell-v2.13";
+const CACHE_NAME = "milos-assessor-shell-v2.14";
 const CACHE_PREFIX = "milos-assessor-shell-";
 const APP_SHELL = [
   "./",
@@ -26,6 +26,7 @@ const APP_SHELL = [
   "./assets/milos-auto-v29.js",
   "./assets/milos-record-management-v28.js",
   "./assets/milos-evia-v2.js",
+  "./assets/milos-updater-v214.js",
   "./course-packs/Bricklayer_ST0095_v1.2.nisi",
   "./course-packs/Carpentry_Joinery_ST0264_v1.4.nisi",
   "./course-packs/Trowel_Occupations_6570-05_v1.nisi"
@@ -56,7 +57,7 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(request.url);
   if (request.method !== "GET" || url.origin !== self.location.origin) return;
 
-  if (url.pathname.endsWith("/sw.js")) {
+  if (url.pathname.endsWith("/sw.js") || url.pathname.endsWith("/update.json")) {
     event.respondWith(fetch(request, { cache: "no-store" }));
     return;
   }
@@ -80,11 +81,15 @@ self.addEventListener("fetch", (event) => {
   event.respondWith((async () => {
     const cached = await caches.match(request, { ignoreSearch: true });
     if (cached) return cached;
-    const response = await fetch(request);
-    if (response.ok) {
-      const cache = await caches.open(CACHE_NAME);
-      await cache.put(request, response.clone());
+    try {
+      const response = await fetch(request, { cache: "no-store" });
+      if (response.ok) {
+        const cache = await caches.open(CACHE_NAME);
+        await cache.put(request, response.clone());
+      }
+      return response;
+    } catch (_) {
+      return Response.error();
     }
-    return response;
   })());
 });
