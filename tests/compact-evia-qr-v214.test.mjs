@@ -1,0 +1,50 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import fs from "node:fs";
+
+const qr = fs.readFileSync(new URL("../assets/milos-evia-v2.js", import.meta.url), "utf8");
+const updater = fs.readFileSync(new URL("../assets/milos-updater-v214.js", import.meta.url), "utf8");
+const index = fs.readFileSync(new URL("../index.html", import.meta.url), "utf8");
+const sw = fs.readFileSync(new URL("../sw.js", import.meta.url), "utf8");
+const pkg = JSON.parse(fs.readFileSync(new URL("../package.json", import.meta.url), "utf8"));
+const manifest = JSON.parse(fs.readFileSync(new URL("../update.json", import.meta.url), "utf8"));
+
+test("review return to Evia is one compact QR", () => {
+  assert.match(qr, /NISI:MILOS:VISIT:2:/);
+  assert.match(qr, /:1\/1:/);
+  assert.doesNotMatch(qr, /CHUNK/);
+  assert.doesNotMatch(qr, /data-v2-prev|data-v2-next/);
+  assert.match(qr, /1 QR — scan once/);
+});
+
+test("review QR contains only the review summary, next date and targets plus matching metadata", () => {
+  assert.match(qr, /overallStatus/);
+  assert.match(qr, /overallProgress/);
+  assert.match(qr, /nextReviewDate/);
+  assert.match(qr, /targets/);
+  for (const removed of ["previousActions", "trainingEvidence", "learningProgress", "qualifications", "trainingPlanChanges", "supportNeeds", "wellbeing", "apprenticeComments", "employerComments", "employerContribution"]) {
+    assert.doesNotMatch(qr, new RegExp(removed));
+  }
+});
+
+test("observation return is also one compact QR", () => {
+  assert.match(qr, /NISI:MILOS:OBS:1:/);
+  assert.match(qr, /observedCodes/);
+});
+
+test("Milos has a visible update available notification and install action", () => {
+  assert.match(updater, /Update available/);
+  assert.match(updater, /Install update/);
+  assert.match(updater, /update\.json\?check=/);
+  assert.match(updater, /cache:\"no-store\"/);
+  assert.match(index, /milos-updater-v214\.js\?v=2\.14/);
+});
+
+test("Milos 2.14 shell and manifest agree", () => {
+  assert.equal(pkg.version, "2.14.0");
+  assert.equal(manifest.version, "2.14");
+  assert.match(index, /milos-app-version\" content=\"2\.14/);
+  assert.match(sw, /milos-assessor-shell-v2\.14/);
+  assert.match(sw, /milos-updater-v214\.js/);
+  assert.match(sw, /update\.json/);
+});
