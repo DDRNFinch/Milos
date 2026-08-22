@@ -4,7 +4,8 @@
   "private": true,
   "description": "Offline-first assessor companion for Evia",
   "scripts": {
-    "test": "node --test tests/*.test.mjs",
+    "test": "node --test tests/static.test.mjs tests/contracts.test.mjs tests/nvq-no-empty-mapping.test.mjs tests/media-optimisation.test.mjs tests/native-video-record-management-v28.test.mjs tests/observation-media-bundle.test.mjs tests/optional-observation.test.mjs tests/auto-mode-v29.test.mjs tests/auto-trigger-v210.test.mjs tests/planning-v213.test.mjs tests/compact-evia-qr-v214.test.mjs tests/review-contract-v215.test.mjs tests/release-state.test.mjs",
+    "test:legacy": "node --test tests/*.test.mjs",
     "check": "node --check assets/milos-core.js && node --check assets/milos-nvq-mapping-v22.js && node --check assets/milos-qr.js && node --check assets/milos-observation-optional.js && node --check assets/milos-media.js && node --check assets/milos-media-optimize-v24.js && node --check assets/milos-pdf.js && node --check assets/milos-observation-bundle-v22.js && node --check assets/milos-app.js && node --check assets/milos-review-deadlines-v215.js && node --check assets/milos-uk-dates-v215.js && node --check assets/milos-planning-v213.js && node --check assets/milos-auto-trigger-v211.js && node --check assets/milos-auto-v29.js && node --check assets/milos-record-management-v28.js && node --check assets/milos-evia-v2.js && node --check assets/milos-updater-v214.js && node --check sw.js"
   }
 }
