@@ -1,4 +1,4 @@
-name: Verify Milos 2.10
+name: Verify Milos 2.14
 on:
   pull_request:
     branches: [main]

@@ -45,3 +45,13 @@ test("manifest is an installable Milos PWA", () => {
   assert.equal(manifest.display, "standalone");
   assert.ok(manifest.icons.some((icon) => icon.purpose === "maskable"));
 });
+
+test("shell version, package version and offline cache stay aligned", () => {
+  const html = read("index.html");
+  const pkg = JSON.parse(read("package.json"));
+  const sw = read("sw.js");
+  const metaVersion = html.match(/name="milos-app-version" content="([^"]+)"/)?.[1];
+  assert.ok(metaVersion, "Milos version meta should exist");
+  assert.equal(pkg.version, `${metaVersion}.0`);
+  assert.match(sw, new RegExp(`milos-assessor-shell-v${metaVersion.replace(/\./g, "\\.")}`));
+});
