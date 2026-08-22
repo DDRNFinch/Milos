@@ -6,6 +6,7 @@ const qr = fs.readFileSync(new URL("../assets/milos-evia-v2.js", import.meta.url
 const updater = fs.readFileSync(new URL("../assets/milos-updater-v214.js", import.meta.url), "utf8");
 const index = fs.readFileSync(new URL("../index.html", import.meta.url), "utf8");
 const sw = fs.readFileSync(new URL("../sw.js", import.meta.url), "utf8");
+const staticTests = fs.readFileSync(new URL("./static.test.mjs", import.meta.url), "utf8");
 const pkg = JSON.parse(fs.readFileSync(new URL("../package.json", import.meta.url), "utf8"));
 const manifest = JSON.parse(fs.readFileSync(new URL("../update.json", import.meta.url), "utf8"));
 
@@ -47,4 +48,10 @@ test("Milos 2.14 shell and manifest agree", () => {
   assert.match(sw, /milos-assessor-shell-v2\.14/);
   assert.match(sw, /milos-updater-v214\.js/);
   assert.match(sw, /update\.json/);
+});
+
+test("general static regressions do not pin retired Milos versions", () => {
+  assert.doesNotMatch(staticTests, /milos-app-version\" content=\"2\\\.9/);
+  assert.doesNotMatch(staticTests, /milos-assessor-shell-v2\\\.9/);
+  assert.doesNotMatch(staticTests, /BUNDLE_VERSION = 1/);
 });
