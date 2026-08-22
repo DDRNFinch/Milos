@@ -2,7 +2,7 @@
 'use strict';
 const C=window.MilosCore,Q=window.MilosQR;if(!C||!Q)return;
 const VERSION=4;
-const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#39;'}[c]));
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function uid(){try{return crypto.randomUUID().replace(/-/g,'').slice(0,24)}catch{return `${Date.now().toString(36)}${Math.random().toString(36).slice(2,14)}`}}
 function b64(value){const bytes=new TextEncoder().encode(JSON.stringify(value));let s='';for(const b of bytes)s+=String.fromCharCode(b);return btoa(s).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')}
 function known(record,profile){const settings=C.getSettings();return [profile?.name,record?.providerName,record?.employerName,record?.assessorName,settings?.assessorName,settings?.organisation,record?.location].map(x=>String(x||'').trim()).filter(x=>x.length>1).sort((a,b)=>b.length-a.length)}
