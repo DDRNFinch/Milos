@@ -1,0 +1,40 @@
+name: Verify Milos
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check current JavaScript
+        run: npm run check
+      - name: Run Milos regression tests
+        run: npm test
+      - name: Verify clean runtime set
+        shell: bash
+        run: |
+          for path in \
+            assets/milos-auto-trigger-v210.js \
+            assets/milos-planning-v212.js \
+            assets/milos-natural-narrative-v27.js \
+            assets/milos-observation-auto-v25.js \
+            assets/milos-observation-prose-v27.js \
+            assets/milos-review-auto-v26.js \
+            assets/milos-review-prose-v27.js; do
+              test ! -e "$path"
+          done
+          grep -q 'milos-app-version" content="2.15"' index.html
+          grep -q 'milos-assessor-shell-v2.15' sw.js
+          node -e "const fs=require('fs');const u=JSON.parse(fs.readFileSync('update.json','utf8'));const p=JSON.parse(fs.readFileSync('package.json','utf8'));if(u.version!=='2.15'||p.version!=='2.15.0')process.exit(1)"
