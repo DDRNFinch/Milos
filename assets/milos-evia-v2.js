@@ -19,9 +19,9 @@ function reviewData(record,profile){
     code:String(t?.code||'').replace(/\s+/g,'').slice(0,24),
     dueDate:String(t?.dueDate||record.nextReviewDate||'').slice(0,10)
   })).filter(t=>t.title);
-  return {overallStatus:status,overallProgress:summary,nextReviewDate:String(record.nextReviewDate||'').slice(0,10),targets};
+  return {summary,nextReviewDate:String(record.nextReviewDate||'').slice(0,10),targets};
 }
-function reviewPayload(record,profile){const data=reviewData(record,profile);return {v:2,t:'review',i:String(record.publicId||record.id||uid()).slice(0,80),r:shared(record,profile),c:route(record,profile),d:String(record.reviewDate||'').slice(0,10),u:Number(record.completedAt||record.updatedAt||record.createdAt)||Date.now(),summary:data.overallProgress,data}}
+function reviewPayload(record,profile){const data=reviewData(record,profile);return {v:2,t:'review',i:String(record.publicId||record.id||uid()).slice(0,80),r:shared(record,profile),c:route(record,profile),d:String(record.reviewDate||'').slice(0,10),u:Number(record.completedAt||record.updatedAt||record.createdAt)||Date.now(),summary:data.summary,data:{overallProgress:data.summary,nextReviewDate:data.nextReviewDate,targets:data.targets}}}
 function observationPayload(record,profile){const criteria=Array.isArray(record.criteria)?record.criteria:[],observed=C.cleanCodes(record.observedCodes||criteria.filter(x=>x?.included!==false&&x?.outcome==='Observed').map(x=>x.code));return {r:shared(record,profile),c:route(record,profile),o:String(record.publicId||record.id||uid()).slice(0,80),d:String(record.observationDate||'').slice(0,10),z:observed.slice(0,160),u:Number(record.completedAt||record.updatedAt||record.createdAt)||Date.now()}}
 function payload(kind,record,profile){return kind==='review'?reviewPayload(record,profile):observationPayload(record,profile)}
 function qrText(kind,record,profile){if(kind==='review'){const encoded=b64(reviewPayload(record,profile));return `NISI:MILOS:VISIT:2:${uid()}:1/1:${encoded}`}return `NISI:MILOS:OBS:1:${b64(observationPayload(record,profile))}`}
