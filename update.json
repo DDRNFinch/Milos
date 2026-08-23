@@ -1,10 +1,10 @@
 {
-  "version": "2.15",
-  "title": "Review targets aligned with Evia",
+  "version": "2.16",
+  "title": "Evia Course Packs added to Milos",
   "details": [
-    "The review QR now identifies the record as a Progress review instead of repeating the progress summary as a heading",
-    "Every agreed target returned to Evia is due on the next review date",
-    "Milos dates shown in the app are now displayed in UK dd/mm/yyyy format",
-    "The review QR remains one compact anonymous QR and observations remain separate"
+    "The old Future Milos tools placeholder is now Evia Course Packs",
+    "All currently published Evia course routes are available in Milos, including Property Maintenance Operative ST0171",
+    "Milos now reads Evia's published course registry so newly released Evia course packs can appear automatically in future",
+    "Evia course definitions remain qualification data only; learner names and personal data are not downloaded with course packs"
   ]
 }
