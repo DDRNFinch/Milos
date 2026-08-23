@@ -1,10 +1,10 @@
 {
-  "version": "2.20",
-  "title": "Share Evia Course Packs from Milos",
+  "version": "2.21",
+  "title": "Share Evia, Milos, Symi and Tinos",
   "details": [
-    "Evia Course Packs are now interactive instead of read-only cards",
-    "Open any course pack in Milos to show the matching Evia enrolment QR for a learner to scan",
-    "Each course share screen also includes Copy code and Download QR actions",
-    "Future published Evia course packs inherit the same sharing flow through Evia's course registry"
+    "A new Share the apps section now sits at the top of Evia Course Packs",
+    "Evia, Milos, Symi and Tinos each have their own scannable website QR code",
+    "The full website address is shown underneath every QR as a fallback and can be opened directly",
+    "Each app card also includes Copy link for quick sharing"
   ]
 }
