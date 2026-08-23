@@ -1,10 +1,10 @@
 {
-  "version": "2.18",
-  "title": "Milos version display and Course Packs fixed",
+  "version": "2.19",
+  "title": "Milos version label corrected",
   "details": [
-    "The More screen now shows the real installed Milos version instead of an old hard-coded version label",
-    "Future Milos tools is now corrected to Evia Course Packs every time the More screen renders",
-    "The Evia Course Packs control now has a direct guarded open path so the course list still opens even if an older screen handler is present",
-    "The v2.18 offline shell includes the current UI guard so installed copies keep the version label and Course Packs section in sync"
+    "Fixed the Planning controller's old v2.13 label from being shown as if it were the Milos app version",
+    "The More screen now displays the authoritative Milos app version from the current app shell",
+    "Future Milos tools is shown as Evia Course Packs with a guarded direct open action",
+    "The v2.19 offline shell includes the corrected version surface and course-pack control"
   ]
 }
