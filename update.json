@@ -1,10 +1,10 @@
 {
-  "version": "2.16",
-  "title": "Evia Course Packs added to Milos",
+  "version": "2.17",
+  "title": "Milos course pack freeze fixed",
   "details": [
-    "The old Future Milos tools placeholder is now Evia Course Packs",
-    "All currently published Evia course routes are available in Milos, including Property Maintenance Operative ST0171",
-    "Milos now reads Evia's published course registry so newly released Evia course packs can appear automatically in future",
-    "Evia course definitions remain qualification data only; learner names and personal data are not downloaded with course packs"
+    "Fixed the Evia Course Packs controller that could trap Milos in a repeated DOM update loop and freeze the app",
+    "Evia Course Packs still includes Property Maintenance ST0171 and continues to read Evia's published course registry for future courses",
+    "Replaced the unsafe repeating UI patch with a guarded update that only runs when the More screen actually adds the course-packs control",
+    "Updated Milos verification so releases are checked against the current app version instead of an old hard-coded v2.15 value"
   ]
 }
