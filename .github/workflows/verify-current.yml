@@ -25,6 +25,8 @@ jobs:
       - name: Verify clean runtime set
         shell: bash
         run: |
+          VERSION=$(node -e "const fs=require('fs');const h=fs.readFileSync('index.html','utf8');const m=h.match(/milos-app-version\" content=\"([^\"]+)/);if(!m)process.exit(1);process.stdout.write(m[1])")
+          CONTROLLER=$(node -e "const fs=require('fs');const h=fs.readFileSync('index.html','utf8');const m=h.match(/assets\/(milos-evia-course-packs-v\d+\.js)/);if(!m)process.exit(1);process.stdout.write(m[1])")
           for path in \
             assets/milos-auto-trigger-v210.js \
             assets/milos-planning-v212.js \
@@ -35,13 +37,13 @@ jobs:
             assets/milos-review-prose-v27.js; do
               test ! -e "$path"
           done
-          grep -q 'milos-app-version" content="2.16"' index.html
-          grep -q 'milos-assessor-shell-v2.16' sw.js
-          grep -q 'milos-evia-course-packs-v216.js' index.html
-          grep -q 'milos-evia-course-packs-v216.js' sw.js
-          grep -q '/Evia/course-delivery/registry-v1.json' assets/milos-evia-course-packs-v216.js
-          grep -q 'ST0171' assets/milos-evia-course-packs-v216.js
-          node -e "const fs=require('fs');const u=JSON.parse(fs.readFileSync('update.json','utf8'));const p=JSON.parse(fs.readFileSync('package.json','utf8'));if(u.version!=='2.16'||p.version!=='2.16.0')process.exit(1)"
+          grep -q "milos-app-version\" content=\"${VERSION}" index.html
+          grep -q "milos-assessor-shell-v${VERSION}" sw.js
+          grep -q "$CONTROLLER" sw.js
+          grep -q '/Evia/course-delivery/registry-v1.json' "assets/$CONTROLLER"
+          grep -q 'ST0171' "assets/$CONTROLLER"
+          ! grep -q 'new MutationObserver(patchMore)' "assets/$CONTROLLER"
+          node -e "const fs=require('fs');const h=fs.readFileSync('index.html','utf8');const v=h.match(/milos-app-version\" content=\"([^\"]+)/)[1];const u=JSON.parse(fs.readFileSync('update.json','utf8'));const p=JSON.parse(fs.readFileSync('package.json','utf8'));if(u.version!==v||p.version!==v+'.0')process.exit(1)"
       - name: Verify production asset references
         shell: bash
         run: |
