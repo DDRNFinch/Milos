@@ -1,4 +1,4 @@
-const CACHE_NAME = "milos-assessor-shell-v2.16";
+const CACHE_NAME = "milos-assessor-shell-v2.17";
 const CACHE_PREFIX = "milos-assessor-shell-";
 const APP_SHELL = [
   "./",
@@ -14,7 +14,7 @@ const APP_SHELL = [
   "./assets/jspdf.umd.min.js",
   "./assets/milos-core.js",
   "./assets/milos-nvq-mapping-v22.js",
-  "./assets/milos-evia-course-packs-v216.js",
+  "./assets/milos-evia-course-packs-v217.js",
   "./assets/milos-qr.js",
   "./assets/milos-observation-optional.js",
   "./assets/milos-media.js",
