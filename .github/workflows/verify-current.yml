@@ -35,9 +35,13 @@ jobs:
             assets/milos-review-prose-v27.js; do
               test ! -e "$path"
           done
-          grep -q 'milos-app-version" content="2.15"' index.html
-          grep -q 'milos-assessor-shell-v2.15' sw.js
-          node -e "const fs=require('fs');const u=JSON.parse(fs.readFileSync('update.json','utf8'));const p=JSON.parse(fs.readFileSync('package.json','utf8'));if(u.version!=='2.15'||p.version!=='2.15.0')process.exit(1)"
+          grep -q 'milos-app-version" content="2.16"' index.html
+          grep -q 'milos-assessor-shell-v2.16' sw.js
+          grep -q 'milos-evia-course-packs-v216.js' index.html
+          grep -q 'milos-evia-course-packs-v216.js' sw.js
+          grep -q '/Evia/course-delivery/registry-v1.json' assets/milos-evia-course-packs-v216.js
+          grep -q 'ST0171' assets/milos-evia-course-packs-v216.js
+          node -e "const fs=require('fs');const u=JSON.parse(fs.readFileSync('update.json','utf8'));const p=JSON.parse(fs.readFileSync('package.json','utf8'));if(u.version!=='2.16'||p.version!=='2.16.0')process.exit(1)"
       - name: Verify production asset references
         shell: bash
         run: |
