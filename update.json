@@ -1,10 +1,10 @@
 {
-  "version": "2.17",
-  "title": "Milos course pack freeze fixed",
+  "version": "2.18",
+  "title": "Milos version display and Course Packs fixed",
   "details": [
-    "Fixed the Evia Course Packs controller that could trap Milos in a repeated DOM update loop and freeze the app",
-    "Evia Course Packs still includes Property Maintenance ST0171 and continues to read Evia's published course registry for future courses",
-    "Replaced the unsafe repeating UI patch with a guarded update that only runs when the More screen actually adds the course-packs control",
-    "Updated Milos verification so releases are checked against the current app version instead of an old hard-coded v2.15 value"
+    "The More screen now shows the real installed Milos version instead of an old hard-coded version label",
+    "Future Milos tools is now corrected to Evia Course Packs every time the More screen renders",
+    "The Evia Course Packs control now has a direct guarded open path so the course list still opens even if an older screen handler is present",
+    "The v2.18 offline shell includes the current UI guard so installed copies keep the version label and Course Packs section in sync"
   ]
 }
