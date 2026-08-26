@@ -6,6 +6,8 @@ const planning = fs.readFileSync(new URL("../assets/milos-planning-v213.js", imp
 const index = fs.readFileSync(new URL("../index.html", import.meta.url), "utf8");
 const sw = fs.readFileSync(new URL("../sw.js", import.meta.url), "utf8");
 const pkg = JSON.parse(fs.readFileSync(new URL("../package.json", import.meta.url), "utf8"));
+const manifest = JSON.parse(fs.readFileSync(new URL("../update.json", import.meta.url), "utf8"));
+const version=String(manifest.version).replaceAll('.', '\\.');
 
 test("Planning opens through stable delegated click handling", () => {
   assert.match(planning, /document\.addEventListener\("click", handlePlanClick, false\)/);
@@ -43,12 +45,12 @@ test("calendar retains visit types, editing and navigation", () => {
   assert.match(planning, /google\.com\/maps\/dir\/\?api=1&destination=/);
 });
 
-test("2.13 shell loads and caches the replacement Planning module", () => {
-  assert.match(index, /milos-app-version" content="2\.13"/);
-  assert.match(index, /milos-planning-v213\.js\?v=2\.13/);
+test("current shell loads and caches the replacement Planning module", () => {
+  assert.match(index, new RegExp(`milos-app-version" content="${version}`));
+  assert.match(index, new RegExp(`milos-planning-v213\\.js\\?v=${version}`));
   assert.doesNotMatch(index, /milos-planning-v212\.js/);
-  assert.match(sw, /milos-assessor-shell-v2\.13/);
+  assert.match(sw, new RegExp(`milos-assessor-shell-v${version}`));
   assert.match(sw, /\.\/assets\/milos-planning-v213\.js/);
-  assert.equal(pkg.version, "2.13.0");
+  assert.equal(pkg.version, `${manifest.version}.0`);
   assert.match(pkg.scripts.check, /milos-planning-v213\.js/);
 });
