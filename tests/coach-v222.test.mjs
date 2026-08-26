@@ -28,7 +28,7 @@ test('Milos Coach creates factual review draft fields from Evia data',()=>{
 test('Milos keeps wellbeing as a review prompt rather than an automated judgement',()=>{
   assert.match(coach,/Wellbeing remains a conversation/);
   assert.match(coach,/does not provide a diagnosis/);
-  assert.doesNotMatch(coach,/diagnos|depress|anxious/i);
+  assert.doesNotMatch(coach,/\b(depressed|depression|anxious|anxiety|happy|sad)\b/i);
 });
 
 test('Milos 2.22 loads and caches Coach Snapshot support',()=>{
