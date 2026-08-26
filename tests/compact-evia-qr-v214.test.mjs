@@ -9,6 +9,7 @@ const sw = fs.readFileSync(new URL("../sw.js", import.meta.url), "utf8");
 const staticTests = fs.readFileSync(new URL("./static.test.mjs", import.meta.url), "utf8");
 const pkg = JSON.parse(fs.readFileSync(new URL("../package.json", import.meta.url), "utf8"));
 const manifest = JSON.parse(fs.readFileSync(new URL("../update.json", import.meta.url), "utf8"));
+const version=String(manifest.version);
 
 test("review return to Evia is one compact QR", () => {
   assert.match(qr, /NISI:MILOS:VISIT:2:/);
@@ -38,14 +39,13 @@ test("Milos has a visible update available notification and install action", () 
   assert.match(updater, /Install update/);
   assert.match(updater, /update\.json\?check=/);
   assert.match(updater, /cache:\"no-store\"/);
-  assert.match(index, /milos-updater-v214\.js\?v=2\.14/);
+  assert.match(index, new RegExp(`milos-updater-v214\\.js\\?v=${version.replaceAll('.', '\\.')} ` .trim()));
 });
 
-test("Milos 2.14 shell and manifest agree", () => {
-  assert.equal(pkg.version, "2.14.0");
-  assert.equal(manifest.version, "2.14");
-  assert.match(index, /milos-app-version\" content=\"2\.14/);
-  assert.match(sw, /milos-assessor-shell-v2\.14/);
+test("current Milos shell and manifest agree", () => {
+  assert.equal(pkg.version, `${version}.0`);
+  assert.match(index, new RegExp(`milos-app-version\\" content=\\"${version.replaceAll('.', '\\.')}`));
+  assert.match(sw, new RegExp(`milos-assessor-shell-v${version.replaceAll('.', '\\.')}`));
   assert.match(sw, /milos-updater-v214\.js/);
   assert.match(sw, /update\.json/);
 });
