@@ -5,6 +5,8 @@ import vm from "node:vm";
 
 const pack=JSON.parse(fs.readFileSync("course-packs/Trowel_Occupations_6570-05_v1.nisi","utf8"));
 const bridge=fs.readFileSync("assets/milos-nvq-mapping-v22.js","utf8");
+const manifest=JSON.parse(fs.readFileSync("update.json","utf8"));
+const version=String(manifest.version).replaceAll('.', '\\.');
 
 function mappingApi(){
   const box={console,fetch:async()=>({ok:true,json:async()=>pack}),MilosCore:{loadCourse:async()=>null}};
@@ -37,7 +39,7 @@ test("Milos repairs every selectable Level 3 NVQ area before observation",()=>{
       assert.ok(Array.isArray(op.codes)&&op.codes.length>0,`${path.id}: ${cat.title} / ${job.title} / ${op.title} has ACs`);
       for(const code of op.codes){assert.ok(allowed.has(String(code)),`${path.id}: ${op.title} uses a valid route AC`);mapped.add(String(code))}
     }
-    assert.deepEqual(fixed.codes.filter(code=>!mapped.has(String(code))),[],`${path.id}: all official route ACs remain reachable`);
+    assert.equal(fixed.codes.filter(code=>!mapped.has(String(code))).length,0,`${path.id}: all official route ACs remain reachable`);
     assert.equal(fixed.mappingRevision,4);
     assert.equal(fixed.mappingRule,"holistic-no-empty-v22");
   }
@@ -52,8 +54,8 @@ test("known formerly-empty Milos areas now receive ACs",()=>{
     assert.ok(byId.get(id).codes.length>0,`${id} is mapped`);
   }
   const index=fs.readFileSync("index.html","utf8"),sw=fs.readFileSync("sw.js","utf8"),pkg=JSON.parse(fs.readFileSync("package.json","utf8"));
-  assert.match(index,/milos-app-version" content="2\.2"/);
-  assert.match(index,/milos-nvq-mapping-v22\.js\?v=2\.2/);
-  assert.match(sw,/milos-assessor-shell-v2\.2/);
-  assert.equal(pkg.version,"2.2.0");
+  assert.match(index,new RegExp(`milos-app-version" content="${version}`));
+  assert.match(index,new RegExp(`milos-nvq-mapping-v22\\.js\\?v=${version}`));
+  assert.match(sw,new RegExp(`milos-assessor-shell-v${version}`));
+  assert.equal(pkg.version,`${manifest.version}.0`);
 });
