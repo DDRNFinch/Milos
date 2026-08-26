@@ -22,8 +22,8 @@ test('review compliance covers every agreed mandatory review element',()=>{
 
 test('employer contribution, readiness, judgement and dated actions are required',()=>{
   assert.match(engine,/patchRequired\(input,"Employer contribution \/ opportunity offered"\)/);
-  assert.match(engine,/name=\\?"epaReadiness|name="epaReadiness"/);
-  assert.match(engine,/name=\\?"assessorJudgement|name="assessorJudgement"/);
+  assert.match(engine,/fieldMarkup\("epaReadiness"/);
+  assert.match(engine,/fieldMarkup\("assessorJudgement"/);
   assert.match(engine,/querySelectorAll\('\[name="targetDue"\]'\)/);
   assert.match(engine,/Every agreed action needs a description and due date/);
   assert.match(engine,/Final review summary/);
