@@ -17,6 +17,7 @@ const APP_SHELL = [
   "./assets/milos-evia-course-packs-v217.js",
   "./assets/milos-qr.js",
   "./assets/milos-coach-v222.js",
+  "./assets/milos-coach-qr-v222.js",
   "./assets/milos-course-pack-share-v220.js",
   "./assets/milos-app-links-v221.js",
   "./assets/milos-observation-optional.js",
