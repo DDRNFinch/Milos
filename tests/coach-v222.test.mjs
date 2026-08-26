@@ -6,6 +6,7 @@ const coach=readFileSync(new URL('../assets/milos-coach-v222.js',import.meta.url
 const index=readFileSync(new URL('../index.html',import.meta.url),'utf8');
 const sw=readFileSync(new URL('../sw.js',import.meta.url),'utf8');
 const update=JSON.parse(readFileSync(new URL('../update.json',import.meta.url),'utf8'));
+const version=String(update.version);
 
 test('Milos sanitises and stores the Evia Coach Snapshot without importing identity',()=>{
   assert.match(coach,/sanitiseCoach/);
@@ -31,10 +32,10 @@ test('Milos keeps wellbeing as a review prompt rather than an automated judgemen
   assert.doesNotMatch(coach,/\b(depressed|depression|anxious|anxiety|happy|sad)\b/i);
 });
 
-test('Milos 2.22 loads and caches Coach Snapshot support',()=>{
-  assert.equal(String(update.version),'2.22');
-  assert.match(index,/milos-app-version" content="2\.22/);
-  assert.match(index,/milos-coach-v222\.js\?v=2\.22/);
-  assert.match(sw,/milos-assessor-shell-v2\.22/);
+test('current Milos release loads and caches Coach Snapshot support',()=>{
+  const escaped=version.replaceAll('.', '\\.');
+  assert.match(index,new RegExp(`milos-app-version" content="${escaped}`));
+  assert.match(index,new RegExp(`milos-coach-v222\\.js\\?v=${escaped}`));
+  assert.match(sw,new RegExp(`milos-assessor-shell-v${escaped}`));
   assert.match(sw,/assets\/milos-coach-v222\.js/);
 });
