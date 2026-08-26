@@ -1,10 +1,10 @@
 {
-  "version": "2.21",
-  "title": "Share Evia, Milos, Symi and Tinos",
+  "version": "2.22",
+  "title": "Evia Coach review drafting",
   "details": [
-    "A new Share the apps section now sits at the top of Evia Course Packs",
-    "Evia, Milos, Symi and Tinos each have their own scannable website QR code",
-    "The full website address is shown underneath every QR as a fallback and can be opened directly",
-    "Each app card also includes Copy link for quick sharing"
+    "Milos now receives Evia's anonymous review-period Coach Snapshot during the normal learner progress scan",
+    "Learner profiles show activity since the last review including Evia sessions, course movement, evidence, OTJ or GLH, targets, confidence and assessment practice",
+    "The factual parts of the progress review are pre-filled from Evia evidence and remain editable by the assessor",
+    "Employer contribution, apprentice contribution, wellbeing and support, training-plan changes and professional judgement still require the three-way review discussion"
   ]
 }
