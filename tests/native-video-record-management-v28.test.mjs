@@ -8,6 +8,8 @@ const app = fs.readFileSync(new URL("../assets/milos-app.js", import.meta.url), 
 const records = fs.readFileSync(new URL("../assets/milos-record-management-v28.js", import.meta.url), "utf8");
 const index = fs.readFileSync(new URL("../index.html", import.meta.url), "utf8");
 const sw = fs.readFileSync(new URL("../sw.js", import.meta.url), "utf8");
+const manifest = JSON.parse(fs.readFileSync(new URL("../update.json", import.meta.url), "utf8"));
+const version=String(manifest.version).replaceAll('.', '\\.');
 
 test("video capture uses the normal device camera and is not transcoded before storage", () => {
   assert.match(app, /Record video<input type="file" accept="video\/\*" capture="environment" data-observation-media>/);
@@ -36,11 +38,11 @@ test("saved reviews and observations expose edit and delete controls", () => {
   assert.match(records, /milos-observations-v1/);
 });
 
-test("Milos 2.12 still loads and caches v2.8 record management", () => {
-  assert.match(index, /milos-app-version" content="2\.12/);
-  assert.match(index, /milos-record-management-v28\.js\?v=2\.12/);
-  assert.match(index, /milos-auto-trigger-v211\.js\?v=2\.12/);
-  assert.match(index, /milos-auto-v29\.js\?v=2\.12/);
+test("current shell still loads and caches v2.8 record management", () => {
+  assert.match(index, new RegExp(`milos-app-version" content="${version}`));
+  assert.match(index, new RegExp(`milos-record-management-v28\\.js\\?v=${version}`));
+  assert.match(index, new RegExp(`milos-auto-trigger-v211\\.js\\?v=${version}`));
+  assert.match(index, new RegExp(`milos-auto-v29\\.js\\?v=${version}`));
   for (const legacy of [
     "milos-observation-auto-v25.js",
     "milos-review-auto-v26.js",
@@ -48,7 +50,7 @@ test("Milos 2.12 still loads and caches v2.8 record management", () => {
     "milos-observation-prose-v27.js",
     "milos-review-prose-v27.js"
   ]) assert.doesNotMatch(index, new RegExp(legacy.replaceAll(".", "\\.")));
-  assert.match(sw, /milos-assessor-shell-v2\.12/);
+  assert.match(sw, new RegExp(`milos-assessor-shell-v${version}`));
   assert.match(sw, /milos-record-management-v28\.js/);
   assert.match(sw, /milos-auto-trigger-v211\.js/);
   assert.match(sw, /milos-auto-v29\.js/);
