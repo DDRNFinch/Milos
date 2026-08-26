@@ -10,7 +10,7 @@ const update=JSON.parse(readFileSync(new URL('../update.json',import.meta.url),'
 test('Milos sanitises and stores the Evia Coach Snapshot without importing identity',()=>{
   assert.match(coach,/sanitiseCoach/);
   assert.match(coach,/attachProgress/);
-  assert.match(coach,/snapshots\[0\]\.coach=coach/);
+  assert.match(coach,/xs\[0\]\.coach=coach/);
   assert.doesNotMatch(coach,/raw\.(name|email|phone|address|postcode|dob|signature)/i);
 });
 
