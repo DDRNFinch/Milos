@@ -4,33 +4,56 @@
   const root = document.getElementById("milosApp");
   if (!root) return;
 
-  let proxying = false;
+  let activating = false;
+  let lastActivation = 0;
 
-  function replayAvatarAction() {
-    if (proxying) return;
-    const proxy = document.createElement("button");
-    proxy.type = "button";
-    proxy.hidden = true;
-    proxy.dataset.action = "avatar";
-    proxying = true;
-    root.appendChild(proxy);
-    try { proxy.click(); }
-    finally {
-      proxy.remove();
-      proxying = false;
+  function anchor() {
+    return root.querySelector('.milos-anchor[data-action="avatar"]');
+  }
+
+  function activateMenu(event) {
+    const target = anchor();
+    if (!target || activating) return;
+    const now = Date.now();
+    if (now - lastActivation < 450) return;
+    lastActivation = now;
+
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+      if (typeof event.stopImmediatePropagation === "function") event.stopImmediatePropagation();
+    }
+
+    activating = true;
+    try {
+      target.dispatchEvent(new MouseEvent("click", {
+        bubbles: true,
+        cancelable: true,
+        view: window
+      }));
+    } finally {
+      activating = false;
     }
   }
 
-  root.addEventListener("click", (event) => {
-    const anchor = event.target && event.target.closest ? event.target.closest(".milos-anchor[data-action=\"avatar\"]") : null;
-    if (!anchor || proxying) return;
+  function bind() {
+    const target = anchor();
+    if (!target || target.dataset.milosDirectOpen === "1") return;
+    target.dataset.milosDirectOpen = "1";
+    target.style.touchAction = "manipulation";
 
-    const wasOpen = root.classList.contains("is-open");
-    window.setTimeout(() => {
-      const isOpen = root.classList.contains("is-open");
-      if (isOpen === wasOpen) replayAvatarAction();
-    }, 0);
-  }, true);
+    if ("PointerEvent" in window) {
+      target.addEventListener("pointerdown", (event) => {
+        if (event.pointerType === "mouse" && event.button !== 0) return;
+        activateMenu(event);
+      }, { passive: false });
+    } else {
+      target.addEventListener("touchstart", activateMenu, { passive: false });
+    }
+  }
 
-  window.MilosHomeOpen = Object.freeze({ version: "2.33", replayAvatarAction });
+  bind();
+  new MutationObserver(bind).observe(root, { childList: true, subtree: true });
+
+  window.MilosHomeOpen = Object.freeze({ version: "2.33", activateMenu, bind });
 })();
