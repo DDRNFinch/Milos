@@ -7,9 +7,9 @@ const js=readFileSync(new URL('../assets/milos-standard-ui-v229.js',import.meta.
 const index=readFileSync(new URL('../index.html',import.meta.url),'utf8');
 const sw=readFileSync(new URL('../sw.js',import.meta.url),'utf8');
 
-test('Milos 2.30 loads standardized UI last and offline',()=>{
-  assert.match(index,/milos-standard-ui-v229\.css\?v=2\.30/);
-  assert.match(index,/milos-standard-ui-v229\.js\?v=2\.30/);
+test('Milos 2.31 loads standardized UI last and offline',()=>{
+  assert.match(index,/milos-standard-ui-v229\.css\?v=2\.31/);
+  assert.match(index,/milos-standard-ui-v229\.js\?v=2\.31/);
   assert.ok(index.indexOf('milos-standard-ui-v229.css')>index.indexOf('milos-calendar-manager-v230.css'));
   assert.match(sw,/milos-standard-ui-v229\.css/);
   assert.match(sw,/milos-standard-ui-v229\.js/);
@@ -29,7 +29,7 @@ test('shared component rules standardize cards buttons forms and calendar',()=>{
   assert.match(css,/\.mcal-day\.is-today/);
 });
 
-test('full screen AC recorder is explicitly preserved',()=>{
+test('full screen recorder is explicitly preserved',()=>{
   assert.match(css,/\.mvo-ac-screen\{background:#0E1116/);
   assert.doesNotMatch(css,/\.mvo-ac-screen\{[^}]*height:/);
 });
