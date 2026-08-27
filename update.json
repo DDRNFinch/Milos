@@ -1,11 +1,12 @@
 {
-  "version": "2.29",
-  "title": "Standardised professional UI",
+  "version": "2.30",
+  "title": "KSB video observations and booking control",
   "details": [
-    "Milos now uses the shared Nisia visual system across home, learner, review, observation, calendar, form and modal screens",
-    "The Milos wordmark uses a blue i while retaining the existing Milos blue assessor identity",
-    "Cards, buttons, fields, page headers, spacing, typography and bottom sheets are standardised for a cleaner professional appearance",
-    "The weekday calendar keeps the same compact scheduling behaviour but now matches the rest of the interface",
-    "The full-screen AC video observation remains full-screen and keeps its existing recording workflow"
+    "Calendar items now open a full detail view instead of only showing a short summary",
+    "Manual reviews, observations, witness visits, meetings and other bookings can be edited, rescheduled to another date or deleted from the calendar",
+    "Completed review and observation records remain visible in the calendar but are protected from accidental deletion",
+    "Video Observation and Witness Video now work for apprenticeship KSB courses using the practical sub-categories already defined in the Evia course pack",
+    "Bricklayer, Site Carpenter and Architectural Joiner observations therefore use practical areas such as cavity walling, installing a trussed roof or machining components rather than NVQ unit numbers",
+    "NVQ video observations keep the existing Unit to LO to AC workflow unchanged"
   ]
 }
