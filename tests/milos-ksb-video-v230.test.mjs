@@ -8,8 +8,8 @@ const sw=readFileSync(new URL('../sw.js',import.meta.url),'utf8');
 const brick=readFileSync(new URL('../course-packs/Bricklayer_ST0095_v1.2.nisi',import.meta.url),'utf8');
 const carp=readFileSync(new URL('../course-packs/Carpentry_Joinery_ST0264_v1.4.nisi',import.meta.url),'utf8');
 
-test('Milos 2.35 uses the unified engine for KSB and NVQ video evidence',()=>{
-  assert.match(index,/milos-video-evidence-v231\.js\?v=2\.35/);
+test('Milos 2.36 uses the unified engine for KSB and NVQ video evidence',()=>{
+  assert.match(index,/milos-video-evidence-v231\.js\?v=2\.36/);
   assert.match(sw,/milos-video-evidence-v231\.js/);
   assert.match(js,/courseType = isKsb\(profile\) \? "ksb" : "nvq"/);
 });
