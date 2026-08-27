@@ -7,15 +7,17 @@ const index=readFileSync(new URL('../index.html',import.meta.url),'utf8');
 const sw=readFileSync(new URL('../sw.js',import.meta.url),'utf8');
 
 test('Milos home tap hotfix loads after the normal UI handler and is cached offline',()=>{
-  assert.match(index,/milos-home-open-v233\.js\?v=2\.32/);
+  assert.match(index,/milos-home-open-v233\.js\?v=2\.33/);
   assert.ok(index.indexOf('milos-home-open-v233.js')>index.indexOf('milos-standard-ui-v229.js'));
+  assert.match(sw,/milos-assessor-shell-v2\.33/);
   assert.match(sw,/milos-home-open-v233\.js/);
 });
 
-test('a swallowed face tap is replayed through the existing avatar action',()=>{
-  assert.match(js,/\.milos-anchor\[data-action=/);
-  assert.match(js,/const wasOpen = root\.classList\.contains\("is-open"\)/);
-  assert.match(js,/if \(isOpen === wasOpen\) replayAvatarAction\(\)/);
-  assert.match(js,/proxy\.dataset\.action = "avatar"/);
-  assert.match(js,/proxy\.click\(\)/);
+test('Android touch opens Milos through a direct pointer handler on the avatar',()=>{
+  assert.match(js,/milos-anchor\[data-action="avatar"\]/);
+  assert.match(js,/addEventListener\("pointerdown"/);
+  assert.match(js,/addEventListener\("touchstart"/);
+  assert.match(js,/event\.preventDefault\(\)/);
+  assert.match(js,/target\.dispatchEvent\(new MouseEvent\("click"/);
+  assert.match(js,/touchAction = "manipulation"/);
 });
