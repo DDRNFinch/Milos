@@ -7,9 +7,9 @@ const js=readFileSync(new URL('../assets/milos-standard-ui-v229.js',import.meta.
 const index=readFileSync(new URL('../index.html',import.meta.url),'utf8');
 const sw=readFileSync(new URL('../sw.js',import.meta.url),'utf8');
 
-test('Milos 2.38 loads standardized UI last and offline',()=>{
-  assert.match(index,/milos-standard-ui-v229\.css\?v=2\.38/);
-  assert.match(index,/milos-standard-ui-v229\.js\?v=2\.38/);
+test('Milos 2.39 loads standardized UI last and offline',()=>{
+  assert.match(index,/milos-standard-ui-v229\.css\?v=2\.39/);
+  assert.match(index,/milos-standard-ui-v229\.js\?v=2\.39/);
   assert.ok(index.indexOf('milos-standard-ui-v229.css')>index.indexOf('milos-calendar-manager-v230.css'));
   assert.match(sw,/milos-standard-ui-v229\.css/);
   assert.match(sw,/milos-standard-ui-v229\.js/);
