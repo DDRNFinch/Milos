@@ -1,4 +1,4 @@
-const CACHE_NAME = "milos-assessor-shell-v2.35";
+const CACHE_NAME = "milos-assessor-shell-v2.36";
 const CACHE_PREFIX = "milos-assessor-shell-";
 const APP_SHELL = [
   "./",
@@ -14,7 +14,6 @@ const APP_SHELL = [
   "./assets/jspdf.umd.min.js",
   "./assets/milos-core.js",
   "./assets/milos-startup-repair-v235.js",
-  "./assets/milos-home-repair-v234.js",
   "./assets/milos-nvq-mapping-v22.js",
   "./assets/milos-evia-course-packs-v217.js",
   "./assets/milos-qr.js",
@@ -51,8 +50,7 @@ const APP_SHELL = [
   "./assets/milos-record-management-v28.js",
   "./assets/milos-evia-v2.js",
   "./assets/milos-ui-current-v219.js",
-  "./assets/milos-updater-v234.js",
-  "./assets/milos-updater-v235.js",
+  "./assets/milos-updater-v236.js",
   "./course-packs/Bricklayer_ST0095_v1.2.nisi",
   "./course-packs/Carpentry_Joinery_ST0264_v1.4.nisi",
   "./course-packs/Trowel_Occupations_6570-05_v1.nisi"
