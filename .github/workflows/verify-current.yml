@@ -8,16 +8,21 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   verify:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Apply one-time 2.37 evidence patch
+        if: github.event_name == 'push'
+        run: python scripts/patch_v237.py
       - name: Check current JavaScript
         run: npm run check
       - name: Run Milos regression tests
@@ -88,3 +93,16 @@ jobs:
               print('\n'.join(orphaned))
               sys.exit(1)
           PY
+      - name: Commit verified 2.37 patch
+        if: github.event_name == 'push'
+        shell: bash
+        run: |
+          if git diff --quiet && [ -z "$(git status --porcelain)" ]; then
+            echo 'No patch changes to commit'
+            exit 0
+          fi
+          git config user.name 'DDRNFinch'
+          git config user.email 'dfinch1984@hotmail.co.uk'
+          git add -A
+          git commit -m 'Fix AC timestamps and seekable observation video'
+          git push origin HEAD:main
