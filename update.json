@@ -1,11 +1,11 @@
 {
-  "version": "2.28",
-  "title": "Moving weekday calendar",
+  "version": "2.29",
+  "title": "Standardised professional UI",
   "details": [
-    "The bottom progress arches are replaced by a compact scrollable weekday calendar with Today centred",
-    "Tap any day to view the schedule or add a Review, Observation, Witness Testimony, Meeting or other booking",
-    "Completed observations and reviews appear automatically on their recorded dates, while next review dates are shown as due bookings",
-    "Manual bookings can be linked to a learner and remain stored locally on this device",
-    "The calendar remains available offline and is only slightly taller than the previous arch bar"
+    "Milos now uses the shared Nisia visual system across home, learner, review, observation, calendar, form and modal screens",
+    "The Milos wordmark uses a blue i while retaining the existing Milos blue assessor identity",
+    "Cards, buttons, fields, page headers, spacing, typography and bottom sheets are standardised for a cleaner professional appearance",
+    "The weekday calendar keeps the same compact scheduling behaviour but now matches the rest of the interface",
+    "The full-screen AC video observation remains full-screen and keeps its existing recording workflow"
   ]
 }
