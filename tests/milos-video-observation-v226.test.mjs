@@ -2,69 +2,73 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 
-const js = fs.readFileSync(new URL('../assets/milos-video-observation-v226.js', import.meta.url), 'utf8');
-const css = fs.readFileSync(new URL('../assets/milos-video-observation-v226.css', import.meta.url), 'utf8');
+const js = fs.readFileSync(new URL('../assets/milos-video-evidence-v231.js', import.meta.url), 'utf8');
+const css = fs.readFileSync(new URL('../assets/milos-video-evidence-v231.css', import.meta.url), 'utf8');
 const index = fs.readFileSync(new URL('../index.html', import.meta.url), 'utf8');
 const sw = fs.readFileSync(new URL('../sw.js', import.meta.url), 'utf8');
 
-test('Milos 2.30 keeps guided NVQ video observation offline', () => {
-  assert.match(index, /milos-app-version" content="2\.30"/);
-  assert.match(index, /milos-video-observation-v226\.css\?v=2\.30/);
-  assert.match(index, /milos-video-observation-v226\.js\?v=2\.30/);
-  assert.match(sw, /milos-assessor-shell-v2\.30/);
-  assert.match(sw, /milos-video-observation-v226\.js/);
-  assert.match(sw, /milos-video-observation-v226\.css/);
+test('Milos 2.31 loads one unified video engine offline', () => {
+  assert.match(index, /milos-app-version" content="2\.31"/);
+  assert.match(index, /milos-video-evidence-v231\.js\?v=2\.31/);
+  assert.match(index, /milos-video-evidence-v231\.css\?v=2\.31/);
+  assert.doesNotMatch(index, /src="\.\/assets\/milos-video-observation-v226\.js/);
+  assert.doesNotMatch(index, /src="\.\/assets\/milos-ksb-video-v230\.js/);
+  assert.match(sw, /milos-assessor-shell-v2\.31/);
+  assert.match(sw, /milos-video-evidence-v231\.js/);
 });
 
-test('Start Observation opens a clean method chooser including witness testimony', () => {
-  assert.match(js, /Choose how you want to record this observation/);
-  assert.match(js, /Written observation/);
-  assert.match(js, /Video observation/);
-  assert.match(js, /Witness video testimony/);
-  assert.match(js, /data-mvo-action="written-method"/);
-  assert.match(js, /data-mvo-action="video-method"/);
-  assert.match(js, /data-mvo-action="witness-method"/);
-});
-
-test('NVQ video observation records intro then lets assessor choose LOs freely', () => {
+test('NVQ keeps intro then free LO selection and AC timestamp decisions', () => {
   assert.match(js, /Start introduction recording/);
   assert.match(js, /Choose an LO to observe/);
   assert.match(js, /No LO order is required/);
-  assert.match(js, /data-mvo-action="choose-lo"/);
-  assert.match(js, /recordingName\(kind, lo, timestamp, extension\)/);
-});
-
-test('each LO recording shows one AC at a time and timestamps Next AC', () => {
-  assert.match(js, /AC \$\{state\.acIndex \+ 1\} of/);
-  assert.match(js, /data-mvo-action="next-ac"/);
-  assert.match(js, /Press Next AC when you move to the next criterion/);
+  assert.match(js, /data-mve-action="choose-lo"/);
   assert.match(js, /startedOffsetMs: state\.acStartedOffsetMs/);
-  assert.match(js, /formatOffset\(ac\.startedOffsetMs\)/);
-  assert.match(css, /\.mvo-ac-screen\{height:100dvh/);
-  assert.match(css, /\.mvo-ac-video\{[^}]*flex:1 1 auto/);
 });
 
-test('competence unlocks Next AC and actions are shown only when needed', () => {
-  assert.match(js, /competent: \{ symbol: "●"/);
-  assert.match(js, /action: \{ symbol: "◐"/);
-  assert.match(js, /further: \{ symbol: "○"/);
-  assert.match(js, /data-mvo-action="next-ac" \$\{state\.currentStatus \? "" : "disabled"\}/);
-  assert.match(js, /showAction = state\.currentStatus === "action" \|\| state\.currentStatus === "further"/);
+test('actions are written once after the LO recording has stopped', () => {
+  assert.doesNotMatch(js, /mvo-inline-action/);
+  assert.match(js, /data-mve-field="clipAction"/);
+  assert.match(js, /Write one action for the whole LO\/section after the camera has stopped/);
+  assert.match(js, /No typing is required while the camera is recording/);
+  assert.match(js, /clip\.action = action/);
+  assert.match(css, /\.mve-lo-action/);
 });
 
-test('100 percent wording matches become partially observed without competence', () => {
-  assert.match(js, /item\.words !== sourceWords/);
-  assert.match(js, /mapping: "100% wording match"/);
-  assert.match(js, /status: "Partially observed"/);
-  assert.match(js, /competence: ""/);
-  assert.match(js, /mappedOutcome: "Partially observed"/);
+test('live recorder uses higher-quality 720p capture and requires microphone audio', () => {
+  assert.match(js, /VIDEO_BITS = 1600000/);
+  assert.match(js, /AUDIO_BITS = 96000/);
+  assert.match(js, /width: \{ ideal: 1280, max: 1280 \}/);
+  assert.match(js, /height: \{ ideal: 720, max: 720 \}/);
+  assert.match(js, /getAudioTracks\(\)/);
+  assert.match(js, /Microphone audio is unavailable/);
+  assert.match(js, /video\/webm;codecs=vp8,opus/);
+  assert.match(js, /MIC ON/);
 });
 
-test('video capture remains reduced and ZIP/PDF export includes timestamped ACs', () => {
-  assert.match(js, /VIDEO_BITS_PER_SECOND = 550000/);
-  assert.match(js, /SOFT_WARNING_SECONDS = 9 \* 60/);
-  assert.match(js, /Timestamped video evidence/);
+test('competence taps do not rebuild the live camera element', () => {
+  assert.match(js, /id="mveVideoPreview"/);
+  assert.match(js, /function chooseStatus\(status\)/);
+  assert.match(js, /classList\.toggle\("is-selected"/);
+  assert.match(js, /function updateNvqRecordingPanel\(\)/);
+  const choose = js.slice(js.indexOf('function chooseStatus(status)'), js.indexOf('function storeCurrentAcDecision'));
+  assert.doesNotMatch(choose, /show\(/);
+  assert.doesNotMatch(choose, /renderNvqRecording/);
+});
+
+test('linked witness evidence reuses signatures and joins the parent record', () => {
+  assert.match(js, /Assessor and learner signatures are already held on the main observation/);
+  assert.match(js, /function completeLinkedWitness/);
+  assert.match(js, /combinedMedia/);
+  assert.match(js, /witnessEvidence/);
+  assert.match(js, /Add witness testimony/);
+});
+
+test('professional PDF and ZIP retain original stored media without export transcoding', () => {
+  assert.match(js, /MILOS · ASSESSOR EVIDENCE/);
+  assert.match(js, /Recorded evidence/);
+  assert.match(js, /Actions \/ further evidence/);
+  assert.match(js, /Created in Milos \$\{VERSION\} · Page/);
   assert.match(js, /B\.makeZip\(entries\)/);
-  assert.match(js, /Download compressed ZIP/);
-  assert.match(js, /Record witness testimony/);
+  assert.doesNotMatch(js, /prepareVideoForExport/);
+  assert.match(js, /Videos are never replayed or transcoded during export/);
 });
