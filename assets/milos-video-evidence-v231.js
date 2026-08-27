@@ -7,7 +7,7 @@
   const B = global.MilosObservationBundle;
   if (!C || !M) return;
 
-  const VERSION = "2.31";
+  const VERSION = "2.37";
   const VIDEO_BITS = 1600000;
   const AUDIO_BITS = 96000;
   const SOFT_WARNING_SECONDS = 8 * 60;
@@ -250,7 +250,7 @@
     const apple = /iPad|iPhone|iPod/.test(navigator.userAgent || "") || (/Safari/.test(navigator.userAgent || "") && !/Chrome|CriOS|Android/.test(navigator.userAgent || ""));
     const candidates = apple
       ? ["video/mp4;codecs=avc1.42E01E,mp4a.40.2", "video/mp4", "video/webm;codecs=vp8,opus", "video/webm"]
-      : ["video/webm;codecs=vp8,opus", "video/webm", "video/webm;codecs=vp9,opus", "video/mp4;codecs=h264,aac", "video/mp4"];
+      : ["video/mp4;codecs=avc1.42E01E,mp4a.40.2", "video/mp4;codecs=h264,aac", "video/mp4", "video/webm;codecs=vp8,opus", "video/webm;codecs=vp9,opus", "video/webm"];
     return candidates.find((type) => !global.MediaRecorder.isTypeSupported || global.MediaRecorder.isTypeSupported(type)) || "";
   }
   function extensionForMime(type) { const value = String(type || "").toLowerCase(); return value.includes("mp4") ? "mp4" : value.includes("webm") ? "webm" : "video"; }
@@ -372,12 +372,17 @@
     const endedAt = Date.now(), stopped = new Promise((resolve) => recorder.addEventListener("stop", resolve, { once: true }));
     try { recorder.requestData(); } catch (_) {}
     recorder.stop(); await stopped;
-    const type = recorder.mimeType || (state.chunks[0] && state.chunks[0].type) || "video/webm", blob = new Blob(state.chunks, { type });
+    const type = recorder.mimeType || (state.chunks[0] && state.chunks[0].type) || "video/webm";
+    let blob = new Blob(state.chunks, { type });
     if (!blob.size) { stopStream(); state.recorder = null; throw new Error("The recording file was empty. Record this section again."); }
+    const durationMs = Math.max(1, endedAt - state.recordStartedAt);
+    if (String(type).toLowerCase().includes("webm") && typeof global.ysFixWebmDuration === "function") {
+      try { blob = await global.ysFixWebmDuration(blob, durationMs, { logger: false }); } catch (_) {}
+    }
     const ext = extensionForMime(type), filename = recordingName(kind, item, state.recordStartedAt, ext);
     let file; try { file = new File([blob], filename, { type, lastModified: state.recordStartedAt }); } catch (_) { file = blob; file.name = filename; }
     const media = await M.putFile(file);
-    const result = { media, filename, mimeType: type, startedAt: state.recordStartedAt, endedAt, durationSeconds: Math.max(1, Math.round((endedAt - state.recordStartedAt) / 1000)) };
+    const result = { media, filename, mimeType: type, startedAt: state.recordStartedAt, endedAt, durationSeconds: Math.max(1, Math.round(durationMs / 1000)) };
     stopStream(); state.recorder = null; state.chunks = []; return result;
   }
   async function stopIntro() {
@@ -550,7 +555,11 @@
     function decisionLabel(keyOrLabel) { return STATUS[keyOrLabel] ? STATUS[keyOrLabel].label : String(keyOrLabel || "Decision recorded"); }
     function evidenceCard(clip, witnessName) {
       const acs = clip.acTimeline || [], action = clip.action || "", heading = clip.kind === "intro" ? "Introduction" : (clip.lo ? `LO${clip.lo} · ${clip.loTitle || ""}` : clip.loTitle || "Evidence clip");
-      const statusLines = acs.map((ac) => `${ac.code} — ${decisionLabel(ac.status)}`);
+      const statusLines = acs.map((ac) => {
+        const start = offsetLabel(ac.startedOffsetMs);
+        const end = offsetLabel(ac.endedOffsetMs == null ? ac.startedOffsetMs : ac.endedOffsetMs);
+        return `${ac.code} — Video ${start}${end !== start ? `–${end}` : ""} — ${decisionLabel(ac.status)}`;
+      });
       const estimated = 19 + Math.min(32, statusLines.length * 4) + (action ? 12 : 0); ensure(estimated);
       doc.setDrawColor(...line); doc.setFillColor(252, 253, 255); doc.roundedRect(margin, y, contentW, Math.max(20, estimated), 2, 2, "FD");
       let cy = y + 6; doc.setFont("helvetica", "bold"); doc.setFontSize(10.5); doc.setTextColor(...navy); doc.text(heading, margin + 4, cy); cy += 5; doc.setFont("helvetica", "normal"); doc.setFontSize(8.5); doc.setTextColor(...grey);
@@ -604,6 +613,21 @@
     return doc.output("blob");
   }
 
+  function mediaDurationMs(record, mediaId) {
+    const timelines = [record && record.videoTimeline || [], ...(record && record.witnessEvidence || []).map((item) => item.videoTimeline || [])];
+    const clip = timelines.flat().find((item) => item && item.mediaId === mediaId);
+    if (!clip) return 0;
+    const explicit = Number(clip.durationSeconds || 0) * 1000;
+    if (explicit > 0) return explicit;
+    return Math.max(0, Number(clip.endedAt || 0) - Number(clip.startedAt || 0));
+  }
+  async function seekableEvidenceBlob(blob, record, mediaId) {
+    if (!blob || !String(blob.type || "").toLowerCase().includes("webm") || typeof global.ysFixWebmDuration !== "function") return blob;
+    const durationMs = mediaDurationMs(record, mediaId);
+    if (!durationMs) return blob;
+    try { return await global.ysFixWebmDuration(blob, durationMs, { logger: false }); } catch (_) { return blob; }
+  }
+
   function downloadBlob(blob, name) { const url = URL.createObjectURL(blob), a = document.createElement("a"); a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 5000); }
   async function exportRecord(input) {
     if (state.exporting) return; state.exporting = true;
@@ -613,7 +637,8 @@
       for (const item of (record.media || [])) {
         let stored = null; try { stored = await M.getFile(item.id); } catch (_) {}
         if (!stored || !(stored.blob instanceof Blob)) { missing.push(item.name || item.id); continue; }
-        entries.push({ name: clean(item.name || stored.name, 170) || "video", blob: stored.blob, date: new Date(Number(stored.createdAt || item.startedAt || Date.now())) });
+        const exportBlob = await seekableEvidenceBlob(stored.blob, record, item.id);
+        entries.push({ name: clean(item.name || stored.name, 170) || "video", blob: exportBlob, date: new Date(Number(stored.createdAt || item.startedAt || Date.now())) });
       }
       if (missing.length) throw new Error(`${missing.length} video file${missing.length === 1 ? " is" : "s are"} missing from this device, so a complete ZIP was not created.`);
       if (!B || typeof B.makeZip !== "function") throw new Error("Compressed ZIP export is unavailable. Update Milos and try again.");
@@ -680,6 +705,6 @@
   }, true);
 
   global.addEventListener("beforeunload", () => { stopStream(); clearInterval(state.timerId); });
-  global.MilosVideoEvidence = Object.freeze({ version: VERSION, videoBitsPerSecond: VIDEO_BITS, audioBitsPerSecond: AUDIO_BITS, capture: "720p", postRecordingAction: true, linkedWitnessEvidence: true, stablePreview: true, exportRecord, buildProfessionalPdf });
+  global.MilosVideoEvidence = Object.freeze({ version: VERSION, videoBitsPerSecond: VIDEO_BITS, audioBitsPerSecond: AUDIO_BITS, capture: "720p", postRecordingAction: true, linkedWitnessEvidence: true, stablePreview: true, seekableMedia: true, acTimestampsInPdf: true, exportRecord, buildProfessionalPdf });
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", observeUi, { once: true }); else observeUi();
 })(window);

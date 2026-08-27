@@ -1,11 +1,11 @@
 {
-  "version": "2.36",
-  "title": "Milos stability repair",
+  "version": "2.37",
+  "title": "Evidence timestamps and seekable video",
   "details": [
-    "Removed the standard UI MutationObserver that could repeatedly rewrite the home DOM and freeze Milos",
-    "Removed the second UI observer so menu rendering is handled by the core app rather than competing background patches",
-    "The Milos avatar now opens through the core single-click route without synthetic touch handlers",
-    "Updates are now non-blocking and no longer use a full-screen installer or cache polling loop",
-    "A clean 2.36 offline shell replaces the broken 2.35 cached runtime"
+    "Every observed AC now shows its exact video start and end timestamp on the professional PDF",
+    "New Android recordings prefer MP4 when the device supports it so evidence can be scrubbed and fast-forwarded normally",
+    "WebM recordings are repaired without transcoding so duration metadata is present and the progress bar can seek",
+    "Existing video observations are repaired when their evidence ZIP is downloaded, so previously recorded evidence does not need to be recorded again",
+    "Video quality is unchanged by the seekability repair; Milos only fixes container metadata"
   ]
 }

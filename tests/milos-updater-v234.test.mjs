@@ -6,15 +6,15 @@ const updater=readFileSync(new URL('../assets/milos-updater-v236.js',import.meta
 const index=readFileSync(new URL('../index.html',import.meta.url),'utf8');
 const sw=readFileSync(new URL('../sw.js',import.meta.url),'utf8');
 
-test('Milos 2.36 uses the lightweight updater',()=>{
-  assert.match(index,/milos-updater-v236\.js\?v=2\.36/);
+test('Milos 2.37 uses the lightweight updater',()=>{
+  assert.match(index,/milos-updater-v236\.js\?v=2\.37/);
   assert.match(updater,/Milos \$\{item\.version\} available/);
   assert.match(updater,/update\.json\?check=/);
   assert.doesNotMatch(updater,/milos-update-layer|waitCache|Preparing the new offline copy/);
 });
 
 test('installed shell remains version-stable between explicit updates',()=>{
-  assert.match(sw,/const CACHE_NAME = "milos-assessor-shell-v2\.36"/);
+  assert.match(sw,/const CACHE_NAME = "milos-assessor-shell-v2\.37"/);
   assert.match(sw,/const cached = \(await cache\.match\("\.\/index\.html"\)\)/);
   assert.doesNotMatch(sw,/await cache\.put\("\.\/index\.html", response\.clone\(\)\)/);
 });
