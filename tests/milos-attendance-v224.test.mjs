@@ -17,9 +17,9 @@ test('Milos distinguishes exact cumulative attendance from migration baseline',(
   assert.match(src,/at\.bp!=null&&at\.sp!=null/);
 });
 
-test('Milos 2.24 loads and caches attendance support',()=>{
-  assert.match(index,/milos-app-version" content="2\.24"/);
+test('current Milos release loads and caches attendance support',()=>{
+  assert.match(index,/milos-app-version" content="2\.25"/);
   assert.match(index,/milos-attendance-v224\.js/);
-  assert.match(sw,/milos-assessor-shell-v2\.24/);
+  assert.match(sw,/milos-assessor-shell-v2\.25/);
   assert.match(sw,/milos-attendance-v224\.js/);
 });
