@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   verify:
@@ -18,6 +18,243 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Apply Milos 2.38 MP4 fast-start release
+        if: github.event_name == 'push' && github.actor != 'github-actions[bot]'
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat > assets/milos-mp4-faststart-v238.js <<'EOF'
+          (function (global) {
+            "use strict";
+
+            const originalBundle = global.MilosObservationBundle;
+            if (!originalBundle || typeof originalBundle.makeZip !== "function") return;
+
+            const VERSION = "2.38";
+            const CONTAINERS = new Set(["moov", "trak", "mdia", "minf", "stbl", "edts", "dinf", "udta", "mvex", "moof", "traf", "mfra"]);
+
+            function typeAt(view, offset) {
+              if (offset + 4 > view.byteLength) return "";
+              return String.fromCharCode(view.getUint8(offset), view.getUint8(offset + 1), view.getUint8(offset + 2), view.getUint8(offset + 3));
+            }
+
+            function boxes(view, start, end) {
+              const list = [];
+              let offset = start;
+              while (offset + 8 <= end) {
+                let size = view.getUint32(offset, false);
+                const type = typeAt(view, offset + 4);
+                let header = 8;
+                if (size === 1) {
+                  if (offset + 16 > end || typeof view.getBigUint64 !== "function") break;
+                  const extended = view.getBigUint64(offset + 8, false);
+                  if (extended > BigInt(Number.MAX_SAFE_INTEGER)) break;
+                  size = Number(extended);
+                  header = 16;
+                } else if (size === 0) {
+                  size = end - offset;
+                }
+                if (!type || size < header || offset + size > end) break;
+                list.push({ start: offset, end: offset + size, size, type, header });
+                offset += size;
+              }
+              return list;
+            }
+
+            function adjustChunkOffsets(moovBytes, delta, threshold) {
+              const view = new DataView(moovBytes.buffer, moovBytes.byteOffset, moovBytes.byteLength);
+              let adjusted = 0;
+
+              function walk(start, end) {
+                for (const box of boxes(view, start, end)) {
+                  if (box.type === "stco" || box.type === "co64") {
+                    const body = box.start + box.header;
+                    if (body + 8 > box.end) continue;
+                    const count = view.getUint32(body + 4, false);
+                    const width = box.type === "stco" ? 4 : 8;
+                    let pos = body + 8;
+                    for (let index = 0; index < count && pos + width <= box.end; index += 1, pos += width) {
+                      if (width === 4) {
+                        const current = view.getUint32(pos, false);
+                        if (current >= threshold) {
+                          const next = current + delta;
+                          if (next > 0xffffffff) throw new Error("MP4 chunk offset exceeds 32-bit range.");
+                          view.setUint32(pos, next, false);
+                          adjusted += 1;
+                        }
+                      } else if (typeof view.getBigUint64 === "function" && typeof view.setBigUint64 === "function") {
+                        const current = view.getBigUint64(pos, false);
+                        if (current >= BigInt(threshold)) {
+                          view.setBigUint64(pos, current + BigInt(delta), false);
+                          adjusted += 1;
+                        }
+                      }
+                    }
+                  }
+                  if (CONTAINERS.has(box.type)) walk(box.start + box.header, box.end);
+                }
+              }
+
+              walk(0, moovBytes.byteLength);
+              return adjusted;
+            }
+
+            async function fastStartMp4(blob) {
+              if (!(blob instanceof Blob)) return blob;
+              const bytes = new Uint8Array(await blob.arrayBuffer());
+              const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+              const top = boxes(view, 0, bytes.byteLength);
+              const moov = top.find((box) => box.type === "moov");
+              const mdat = top.find((box) => box.type === "mdat");
+              if (!moov || !mdat || moov.start < mdat.start) return blob;
+
+              const moovBytes = bytes.slice(moov.start, moov.end);
+              const changed = adjustChunkOffsets(moovBytes, moov.size, mdat.start);
+              if (!changed) return blob;
+
+              return new Blob([
+                bytes.slice(0, mdat.start),
+                moovBytes,
+                bytes.slice(mdat.start, moov.start),
+                bytes.slice(moov.end)
+              ], { type: blob.type || "video/mp4" });
+            }
+
+            async function makeZip(entries) {
+              const repaired = [];
+              for (const entry of Array.isArray(entries) ? entries : []) {
+                const blob = entry && entry.blob;
+                const isMp4 = blob instanceof Blob && (/\.mp4$/i.test(String(entry.name || "")) || /video\/mp4/i.test(String(blob.type || "")));
+                repaired.push(isMp4 ? Object.assign({}, entry, { blob: await fastStartMp4(blob) }) : entry);
+              }
+              return originalBundle.makeZip(repaired);
+            }
+
+            global.MilosMP4FastStart = Object.freeze({ version: VERSION, fastStartMp4 });
+            global.MilosObservationBundle = Object.freeze(Object.assign({}, originalBundle, {
+              version: VERSION,
+              makeZip,
+              mp4FastStart: true
+            }));
+          })(window);
+          EOF
+
+          python - <<'PY'
+          from pathlib import Path
+          import json
+
+          root=Path('.')
+
+          index=(root/'index.html').read_text(encoding='utf-8')
+          index=index.replace('content="2.37"','content="2.38"',1)
+          index=index.replace('?v=2.37','?v=2.38')
+          needle='  <script defer src="./assets/milos-observation-bundle-v22.js?v=2.38"></script>\n  <script defer src="./assets/milos-observation-export-v225.js?v=2.38"></script>'
+          replacement='  <script defer src="./assets/milos-observation-bundle-v22.js?v=2.38"></script>\n  <script defer src="./assets/milos-mp4-faststart-v238.js?v=2.38"></script>\n  <script defer src="./assets/milos-observation-export-v225.js?v=2.38"></script>'
+          if needle not in index:
+              raise SystemExit('Missing MP4 fast-start index insertion point')
+          index=index.replace(needle,replacement,1)
+          (root/'index.html').write_text(index,encoding='utf-8')
+
+          sw=(root/'sw.js').read_text(encoding='utf-8')
+          sw=sw.replace('milos-assessor-shell-v2.37','milos-assessor-shell-v2.38',1)
+          needle='  "./assets/milos-observation-bundle-v22.js",\n  "./assets/milos-observation-export-v225.js",'
+          replacement='  "./assets/milos-observation-bundle-v22.js",\n  "./assets/milos-mp4-faststart-v238.js",\n  "./assets/milos-observation-export-v225.js",'
+          if needle not in sw:
+              raise SystemExit('Missing MP4 fast-start service-worker insertion point')
+          sw=sw.replace(needle,replacement,1)
+          (root/'sw.js').write_text(sw,encoding='utf-8')
+
+          pkg=json.loads((root/'package.json').read_text(encoding='utf-8'))
+          pkg['version']='2.38.0'
+          check=pkg['scripts']['check']
+          if 'assets/milos-mp4-faststart-v238.js' not in check:
+              check=check.replace('node --check assets/milos-observation-export-v225.js', 'node --check assets/milos-mp4-faststart-v238.js && node --check assets/milos-observation-export-v225.js')
+          pkg['scripts']['check']=check
+          (root/'package.json').write_text(json.dumps(pkg,indent=2)+'\n',encoding='utf-8')
+
+          update={
+            'version':'2.38',
+            'title':'Seekable MP4 evidence',
+            'details':[
+              'MP4 evidence is now exported as fast-start video so the playback scrubber can jump directly to any AC timestamp',
+              'Milos moves the MP4 moov index ahead of the media data and updates all stco/co64 chunk offsets without transcoding',
+              'Existing MP4 observations are repaired when the evidence ZIP is downloaded, so they do not need to be recorded again',
+              'The AC start and end timestamps added in 2.37 remain on the professional PDF',
+              'Video and audio quality are unchanged because the media streams are copied byte-for-byte'
+            ]
+          }
+          (root/'update.json').write_text(json.dumps(update,indent=2)+'\n',encoding='utf-8')
+
+          for p in (root/'tests').glob('*.test.mjs'):
+              text=p.read_text(encoding='utf-8')
+              text=text.replace('2\\.37','2\\.38').replace('2.37','2.38')
+              p.write_text(text,encoding='utf-8')
+
+          (root/'tests/milos-mp4-faststart-v238.test.mjs').write_text(r'''import test from 'node:test';
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import vm from 'node:vm';
+
+const source=readFileSync(new URL('../assets/milos-mp4-faststart-v238.js',import.meta.url),'utf8');
+const index=readFileSync(new URL('../index.html',import.meta.url),'utf8');
+const sw=readFileSync(new URL('../sw.js',import.meta.url),'utf8');
+
+function box(type,payload){
+  const body=payload||new Uint8Array();
+  const out=new Uint8Array(8+body.length);
+  new DataView(out.buffer).setUint32(0,out.length,false);
+  for(let i=0;i<4;i++)out[4+i]=type.charCodeAt(i);
+  out.set(body,8);
+  return out;
+}
+function concat(...parts){
+  const size=parts.reduce((n,p)=>n+p.length,0),out=new Uint8Array(size);let at=0;
+  for(const p of parts){out.set(p,at);at+=p.length}return out;
+}
+function co64(offset){
+  const payload=new Uint8Array(16),view=new DataView(payload.buffer);
+  view.setUint32(4,1,false);view.setBigUint64(8,BigInt(offset),false);
+  return box('co64',payload);
+}
+
+test('2.38 loads MP4 fast-start between the ZIP builder and export consumers',()=>{
+  assert.match(index,/milos-mp4-faststart-v238\.js\?v=2\.38/);
+  assert.ok(index.indexOf('milos-observation-bundle-v22.js')<index.indexOf('milos-mp4-faststart-v238.js'));
+  assert.ok(index.indexOf('milos-mp4-faststart-v238.js')<index.indexOf('milos-observation-export-v225.js'));
+  assert.ok(index.indexOf('milos-mp4-faststart-v238.js')<index.indexOf('milos-video-evidence-v231.js'));
+  assert.match(sw,/milos-mp4-faststart-v238\.js/);
+  assert.match(sw,/milos-assessor-shell-v2\.38/);
+});
+
+test('fast-start moves moov before mdat and corrects a 64-bit chunk offset',async()=>{
+  const context={Blob,console,MilosObservationBundle:{makeZip:async(entries)=>entries}};
+  context.window=context;vm.createContext(context);vm.runInContext(source,context);
+  const ftyp=box('ftyp',new Uint8Array(8));
+  const mdat=box('mdat',new Uint8Array(24));
+  const oldChunkOffset=ftyp.length+8;
+  const moov=box('moov',box('trak',box('mdia',box('minf',box('stbl',co64(oldChunkOffset))))));
+  const original=concat(ftyp,mdat,moov);
+  const repaired=await context.MilosMP4FastStart.fastStartMp4(new Blob([original],{type:'video/mp4'}));
+  const bytes=new Uint8Array(await repaired.arrayBuffer());
+  const text=String.fromCharCode(...bytes);
+  const moovAt=text.indexOf('moov'),mdatAt=text.indexOf('mdat'),co64At=text.indexOf('co64');
+  assert.ok(moovAt>=0&&mdatAt>=0&&moovAt<mdatAt);
+  const offset=new DataView(bytes.buffer).getBigUint64(co64At+12,false);
+  assert.equal(offset,BigInt(oldChunkOffset+moov.length));
+  assert.equal(bytes.length,original.length);
+});
+
+test('ZIP wrapper fast-starts MP4 only and exposes the capability',async()=>{
+  let received=[];
+  const context={Blob,console,MilosObservationBundle:{makeZip:async(entries)=>{received=entries;return 'zip'}}};
+  context.window=context;vm.createContext(context);vm.runInContext(source,context);
+  assert.equal(context.MilosObservationBundle.mp4FastStart,true);
+  assert.equal(context.MilosObservationBundle.version,'2.38');
+  await context.MilosObservationBundle.makeZip([{name:'notes.pdf',blob:new Blob(['x'],{type:'application/pdf'})}]);
+  assert.equal(received[0].blob.type,'application/pdf');
+});
+''',encoding='utf-8')
+          PY
       - name: Check current JavaScript
         run: npm run check
       - name: Run Milos regression tests
@@ -88,3 +325,13 @@ jobs:
               print('\n'.join(orphaned))
               sys.exit(1)
           PY
+      - name: Commit verified Milos 2.38
+        if: github.event_name == 'push' && github.actor != 'github-actions[bot]'
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add assets/milos-mp4-faststart-v238.js index.html sw.js package.json update.json tests
+          git commit -m 'Make MP4 observation evidence directly seekable'
+          git push origin HEAD:main
