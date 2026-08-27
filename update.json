@@ -1,11 +1,11 @@
 {
-  "version": "2.38",
-  "title": "Local MP4 seeking repair",
+  "version": "2.39",
+  "title": "Cross-platform seekable evidence ZIP",
   "details": [
-    "MP4 evidence is now converted to fast-start structure locally so the video timeline can seek without relying on Dropbox or another streaming service",
-    "The MP4 index is moved before the video data and all chunk offsets are corrected without re-encoding",
-    "Existing stored MP4 observations are repaired when Milos opens or exports the media, so previous evidence can be used without recording it again",
-    "New MP4 recordings are repaired before they are stored on the device",
-    "AC start and end timestamps remain shown on the evidence PDF and now correspond to positions that can be reached directly in the video"
+    "MP4 evidence is fast-start repaired again at the final ZIP boundary so older and newer recordings cannot bypass the seek repair during export",
+    "Video and audio files are stored in the ZIP using standard STORE mode instead of DEFLATE so archive viewers are not forced to expose them as one-way compressed streams",
+    "PDF and document entries remain DEFLATE-compressed, so the evidence pack remains a normal compressed ZIP",
+    "The MP4 video data is not re-encoded, so video and audio quality are unchanged",
+    "The evidence format is designed for IQA/EQA use across different Windows, macOS and browser/player setups with direct timeline seeking"
   ]
 }
