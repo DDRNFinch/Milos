@@ -7,11 +7,11 @@ const css = fs.readFileSync(new URL('../assets/milos-video-observation-v226.css'
 const index = fs.readFileSync(new URL('../index.html', import.meta.url), 'utf8');
 const sw = fs.readFileSync(new URL('../sw.js', import.meta.url), 'utf8');
 
-test('Milos 2.29 loads guided video observation offline', () => {
-  assert.match(index, /milos-app-version" content="2\.29"/);
-  assert.match(index, /milos-video-observation-v226\.css\?v=2\.29/);
-  assert.match(index, /milos-video-observation-v226\.js\?v=2\.29/);
-  assert.match(sw, /milos-assessor-shell-v2\.29/);
+test('Milos 2.30 keeps guided NVQ video observation offline', () => {
+  assert.match(index, /milos-app-version" content="2\.30"/);
+  assert.match(index, /milos-video-observation-v226\.css\?v=2\.30/);
+  assert.match(index, /milos-video-observation-v226\.js\?v=2\.30/);
+  assert.match(sw, /milos-assessor-shell-v2\.30/);
   assert.match(sw, /milos-video-observation-v226\.js/);
   assert.match(sw, /milos-video-observation-v226\.css/);
 });
@@ -26,7 +26,7 @@ test('Start Observation opens a clean method chooser including witness testimony
   assert.match(js, /data-mvo-action="witness-method"/);
 });
 
-test('video observation records intro then lets assessor choose LOs freely', () => {
+test('NVQ video observation records intro then lets assessor choose LOs freely', () => {
   assert.match(js, /Start introduction recording/);
   assert.match(js, /Choose an LO to observe/);
   assert.match(js, /No LO order is required/);
