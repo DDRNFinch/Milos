@@ -1,10 +1,12 @@
 {
-  "version": "2.25",
-  "title": "Complete observation ZIP export",
+  "version": "2.26",
+  "title": "Guided video observations",
   "details": [
-    "Observation export now creates one ZIP containing the observation PDF and every stored observation attachment",
-    "Videos are packaged directly instead of being replayed or transcoded during export",
-    "Multiple videos, photos and audio files stay together with the signed observation record",
-    "Milos will stop the export and warn if an attachment is missing rather than create an incomplete archive"
+    "New Video Observation and Video Witness Testimony methods sit alongside the existing written observation",
+    "Record a timestamped unit introduction first, then choose LOs in any order and save each LO as its own dated video file",
+    "Use compact full, half and empty circle competence decisions, with an action box only when actions or further evidence are needed",
+    "Exact 100% AC wording matches are automatically linked to other units as mapped supporting evidence without copying competence",
+    "Video capture is reduced for mobile storage, with a soft warning near 10 minutes and no forced stop",
+    "Completed video observations create a timestamped signed PDF and compressed ZIP containing every video clip"
   ]
 }
