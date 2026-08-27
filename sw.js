@@ -1,4 +1,4 @@
-const CACHE_NAME = "milos-assessor-shell-v2.33";
+const CACHE_NAME = "milos-assessor-shell-v2.34";
 const CACHE_PREFIX = "milos-assessor-shell-";
 const APP_SHELL = [
   "./",
@@ -41,7 +41,7 @@ const APP_SHELL = [
   "./assets/milos-calendar-manager-v230.css",
   "./assets/milos-standard-ui-v229.js",
   "./assets/milos-standard-ui-v229.css",
-  "./assets/milos-home-open-v233.js",
+  "./assets/milos-home-repair-v234.js",
   "./assets/milos-review-deadlines-v215.js",
   "./assets/milos-uk-dates-v215.js",
   "./assets/milos-planning-v213.js",
@@ -50,7 +50,7 @@ const APP_SHELL = [
   "./assets/milos-record-management-v28.js",
   "./assets/milos-evia-v2.js",
   "./assets/milos-ui-current-v219.js",
-  "./assets/milos-updater-v214.js",
+  "./assets/milos-updater-v234.js",
   "./course-packs/Bricklayer_ST0095_v1.2.nisi",
   "./course-packs/Carpentry_Joinery_ST0264_v1.4.nisi",
   "./course-packs/Trowel_Occupations_6570-05_v1.nisi"
@@ -88,29 +88,25 @@ self.addEventListener("fetch", (event) => {
 
   if (request.mode === "navigate") {
     event.respondWith((async () => {
+      const cache = await caches.open(CACHE_NAME);
+      const cached = (await cache.match("./index.html")) || (await cache.match("./"));
+      if (cached) return cached;
       try {
-        const response = await fetch(request, { cache: "no-store" });
-        if (response.ok) {
-          const cache = await caches.open(CACHE_NAME);
-          await cache.put("./index.html", response.clone());
-        }
-        return response;
+        return await fetch(request, { cache: "no-store" });
       } catch (_) {
-        return (await caches.match("./index.html")) || (await caches.match("./")) || Response.error();
+        return Response.error();
       }
     })());
     return;
   }
 
   event.respondWith((async () => {
-    const cached = await caches.match(request, { ignoreSearch: true });
+    const cache = await caches.open(CACHE_NAME);
+    const cached = await cache.match(request, { ignoreSearch: true });
     if (cached) return cached;
     try {
       const response = await fetch(request, { cache: "no-store" });
-      if (response.ok) {
-        const cache = await caches.open(CACHE_NAME);
-        await cache.put(request, response.clone());
-      }
+      if (response.ok) await cache.put(request, response.clone());
       return response;
     } catch (_) {
       return Response.error();
