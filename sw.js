@@ -41,6 +41,7 @@ const APP_SHELL = [
   "./assets/milos-calendar-manager-v230.css",
   "./assets/milos-standard-ui-v229.js",
   "./assets/milos-standard-ui-v229.css",
+  "./assets/milos-home-open-v233.js",
   "./assets/milos-review-deadlines-v215.js",
   "./assets/milos-uk-dates-v215.js",
   "./assets/milos-planning-v213.js",
