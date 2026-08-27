@@ -1,13 +1,11 @@
 {
-  "version": "2.27",
-  "title": "Full-screen AC video observations",
+  "version": "2.28",
+  "title": "Moving weekday calendar",
   "details": [
-    "Start Observation now opens a clean choice page for Written Observation, Video Observation or Witness Video Testimony",
-    "Video observations record the unit introduction first, then return to a free-order LO list",
-    "Each LO is one reduced-size video and the recording screen shows one AC at a time above a much larger full-screen camera preview",
-    "Competence is selected for the current AC before Next AC becomes available; pressing Next AC timestamps the next criterion inside that LO video",
-    "Competent with actions and Further evidence required reveal an action box while exact 100% wording matches are added automatically as partially observed mapped evidence without a competence decision",
-    "Witness video testimony is visible from the observation method page and can also be started after completing a direct video observation",
-    "The signed PDF lists every LO video and each AC timestamp, while the compressed ZIP contains the PDF, introduction and all LO videos"
+    "The bottom progress arches are replaced by a compact scrollable weekday calendar with Today centred",
+    "Tap any day to view the schedule or add a Review, Observation, Witness Testimony, Meeting or other booking",
+    "Completed observations and reviews appear automatically on their recorded dates, while next review dates are shown as due bookings",
+    "Manual bookings can be linked to a learner and remain stored locally on this device",
+    "The calendar remains available offline and is only slightly taller than the previous arch bar"
   ]
 }
