@@ -7,11 +7,11 @@ const css=readFileSync(new URL('../assets/milos-week-calendar-v228.css',import.m
 const index=readFileSync(new URL('../index.html',import.meta.url),'utf8');
 const sw=readFileSync(new URL('../sw.js',import.meta.url),'utf8');
 
-test('Milos 2.28 loads the weekday calendar offline',()=>{
-  assert.match(index,/milos-app-version" content="2\.28"/);
-  assert.match(index,/milos-week-calendar-v228\.css\?v=2\.28/);
-  assert.match(index,/milos-week-calendar-v228\.js\?v=2\.28/);
-  assert.match(sw,/milos-assessor-shell-v2\.28/);
+test('Milos 2.29 loads the weekday calendar offline',()=>{
+  assert.match(index,/milos-app-version" content="2\.29"/);
+  assert.match(index,/milos-week-calendar-v228\.css\?v=2\.29/);
+  assert.match(index,/milos-week-calendar-v228\.js\?v=2\.29/);
+  assert.match(sw,/milos-assessor-shell-v2\.29/);
   assert.match(sw,/milos-week-calendar-v228\.js/);
   assert.match(sw,/milos-week-calendar-v228\.css/);
 });
