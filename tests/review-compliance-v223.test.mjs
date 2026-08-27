@@ -47,15 +47,15 @@ test('saved review and signed PDF retain compliance evidence',()=>{
   assert.match(engine,/COMPLETION CHECK/);
 });
 
-test('Milos 2.23 loads compliance before the app and caches it offline',()=>{
-  assert.equal(String(update.version),'2.23');
-  assert.equal(pkg.version,'2.23.0');
-  assert.match(index,/milos-app-version" content="2\.23/);
-  const compliance=index.indexOf('milos-review-compliance-v223.js?v=2.23');
-  const app=index.indexOf('milos-app.js?v=2.23');
+test('current Milos release loads compliance before the app and caches it offline',()=>{
+  const current=String(update.version);
+  assert.equal(pkg.version,`${current}.0`);
+  assert.ok(index.includes(`milos-app-version" content="${current}`));
+  const compliance=index.indexOf(`milos-review-compliance-v223.js?v=${current}`);
+  const app=index.indexOf(`milos-app.js?v=${current}`);
   assert.ok(compliance>0&&app>compliance);
-  assert.match(index,/milos-review-compliance-v223\.css\?v=2\.23/);
-  assert.match(sw,/milos-assessor-shell-v2\.23/);
+  assert.ok(index.includes(`milos-review-compliance-v223.css?v=${current}`));
+  assert.ok(sw.includes(`milos-assessor-shell-v${current}`));
   assert.match(sw,/milos-review-compliance-v223\.js/);
   assert.match(sw,/milos-review-compliance-v223\.css/);
   assert.match(pkg.scripts.check,/milos-review-compliance-v223\.js/);
