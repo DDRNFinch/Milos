@@ -7,13 +7,13 @@ const css = fs.readFileSync(new URL('../assets/milos-video-evidence-v231.css', i
 const index = fs.readFileSync(new URL('../index.html', import.meta.url), 'utf8');
 const sw = fs.readFileSync(new URL('../sw.js', import.meta.url), 'utf8');
 
-test('Milos 2.33 loads one unified video engine offline', () => {
-  assert.match(index, /milos-app-version" content="2\.33"/);
-  assert.match(index, /milos-video-evidence-v231\.js\?v=2\.33/);
-  assert.match(index, /milos-video-evidence-v231\.css\?v=2\.33/);
+test('Milos 2.34 loads one unified video engine offline', () => {
+  assert.match(index, /milos-app-version" content="2\.34"/);
+  assert.match(index, /milos-video-evidence-v231\.js\?v=2\.34/);
+  assert.match(index, /milos-video-evidence-v231\.css\?v=2\.34/);
   assert.doesNotMatch(index, /src="\.\/assets\/milos-video-observation-v226\.js/);
   assert.doesNotMatch(index, /src="\.\/assets\/milos-ksb-video-v230\.js/);
-  assert.match(sw, /milos-assessor-shell-v2\.33/);
+  assert.match(sw, /milos-assessor-shell-v2\.34/);
   assert.match(sw, /milos-video-evidence-v231\.js/);
 });
 
