@@ -2,10 +2,8 @@
   'use strict';
   const root=document.getElementById('milosApp');
   if(!root)return;
-  let queued=false;
   function brandWord(){return 'M<span class="app-brand-i">i</span>los';}
   function patch(){
-    queued=false;
     root.classList.add('standard-ui');
     let header=root.querySelector('.std-app-header');
     if(!header){
@@ -20,15 +18,11 @@
       home.querySelectorAll('strong').forEach(el=>el.remove());
       let hint=home.querySelector('span');
       if(!hint){hint=document.createElement('span');home.appendChild(hint);}
-      hint.textContent='Tap me to get started';
+      if(hint.textContent!=='Tap me to get started')hint.textContent='Tap me to get started';
       [...home.children].filter(el=>el!==hint).forEach(el=>el.remove());
     }
   }
-  function schedule(){if(queued)return;queued=true;queueMicrotask(patch);}
-  function start(){
-    patch();
-    new MutationObserver(records=>{if(records.some(r=>r.type==='childList'&&(r.addedNodes.length||r.removedNodes.length)))schedule();}).observe(root,{childList:true,subtree:true});
-  }
+  function start(){patch();}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
-  window.MilosStandardUI=Object.freeze({version:'2.32',patch});
+  window.MilosStandardUI=Object.freeze({version:'2.36',patch,observer:false});
 })();
