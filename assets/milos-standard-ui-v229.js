@@ -15,8 +15,14 @@
       header.innerHTML=`<div class="std-brand-lockup"><strong>${brandWord()}</strong><small>Assessor assistant</small></div>`;
       root.prepend(header);
     }
-    const home=root.querySelector('.milos-home-copy>strong');
-    if(home&&!home.querySelector('.app-brand-i'))home.innerHTML=brandWord();
+    const home=root.querySelector('.milos-home-copy');
+    if(home){
+      home.querySelectorAll('strong').forEach(el=>el.remove());
+      let hint=home.querySelector('span');
+      if(!hint){hint=document.createElement('span');home.appendChild(hint);}
+      hint.textContent='Tap me to get started';
+      [...home.children].filter(el=>el!==hint).forEach(el=>el.remove());
+    }
   }
   function schedule(){if(queued)return;queued=true;queueMicrotask(patch);}
   function start(){
@@ -24,5 +30,5 @@
     new MutationObserver(records=>{if(records.some(r=>r.type==='childList'&&(r.addedNodes.length||r.removedNodes.length)))schedule();}).observe(root,{childList:true,subtree:true});
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
-  window.MilosStandardUI=Object.freeze({version:'2.29',patch});
+  window.MilosStandardUI=Object.freeze({version:'2.32',patch});
 })();
