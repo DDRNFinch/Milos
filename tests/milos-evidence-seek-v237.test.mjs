@@ -28,8 +28,8 @@ test('WebM is repaired at save and export without transcoding',()=>{
 });
 
 test('offline shell contains duration repair library',()=>{
-  assert.match(index,/fix-webm-duration-1\.0\.6\.js\?v=2\.37/);
+  assert.match(index,/fix-webm-duration-1\.0\.6\.js\?v=2\.38/);
   assert.ok(index.indexOf('fix-webm-duration-1.0.6.js')<index.indexOf('milos-video-evidence-v231.js'));
   assert.match(sw,/fix-webm-duration-1\.0\.6\.js/);
-  assert.match(sw,/milos-assessor-shell-v2\.37/);
+  assert.match(sw,/milos-assessor-shell-v2\.38/);
 });
