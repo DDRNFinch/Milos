@@ -1,10 +1,10 @@
 {
-  "version": "2.23",
-  "title": "Review completion checks",
+  "version": "2.24",
+  "title": "Symi college attendance in reviews",
   "details": [
-    "Milos now shows a live review completion check across the progress-review workflow",
-    "Employer contribution, EPA or assessment readiness, assessor judgement, dated actions and the final review summary must be addressed before completion",
-    "Complete Review stays locked until every required review element and the provider and apprentice signatures are complete",
-    "The signed PDF now includes a review compliance page with EPA or assessment readiness, assessor judgement and the completion record"
+    "Milos now receives the college attendance position carried in Evia's anonymous Coach Snapshot",
+    "Progress reviews include the official Symi attendance position alongside OTJ or GLH progress",
+    "Migrated learners can show their previous attendance baseline separately until exact cumulative hours are available",
+    "Attendance remains factual review evidence; the assessor still records discussion, context and agreed support actions"
   ]
 }
