@@ -1,10 +1,10 @@
 {
-  "version": "2.33",
-  "title": "Reliable Milos home tap",
+  "version": "2.34",
+  "title": "Home recovery and reliable updates",
   "details": [
-    "Tapping the Milos face now uses a direct pointer/touch handler instead of relying only on the delegated click route",
-    "The home menu opens through the existing Milos avatar action so no second menu system is introduced",
-    "The offline shell is bumped to 2.33 so installed PWAs cannot keep the non-working 2.32 interaction layer",
-    "All Milos 2.31 video evidence, witness export, calendar and standard UI improvements are retained"
+    "Existing Milos users with legacy local data are migrated past the hidden onboarding gate that could block the home menu",
+    "The Milos face now has a direct mobile pointer route into the existing menu action",
+    "Installed Milos shells now stay on one complete version until an update is installed, preventing new HTML from mixing with older cached JavaScript",
+    "Milos now shows a visible installed-version message and future Update available notices"
   ]
 }
