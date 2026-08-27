@@ -1,11 +1,11 @@
 {
-  "version": "2.37",
-  "title": "Evidence timestamps and seekable video",
+  "version": "2.38",
+  "title": "Local MP4 seeking repair",
   "details": [
-    "Every observed AC now shows its exact video start and end timestamp on the professional PDF",
-    "New Android recordings prefer MP4 when the device supports it so evidence can be scrubbed and fast-forwarded normally",
-    "WebM recordings are repaired without transcoding so duration metadata is present and the progress bar can seek",
-    "Existing video observations are repaired when their evidence ZIP is downloaded, so previously recorded evidence does not need to be recorded again",
-    "Video quality is unchanged by the seekability repair; Milos only fixes container metadata"
+    "MP4 evidence is now converted to fast-start structure locally so the video timeline can seek without relying on Dropbox or another streaming service",
+    "The MP4 index is moved before the video data and all chunk offsets are corrected without re-encoding",
+    "Existing stored MP4 observations are repaired when Milos opens or exports the media, so previous evidence can be used without recording it again",
+    "New MP4 recordings are repaired before they are stored on the device",
+    "AC start and end timestamps remain shown on the evidence PDF and now correspond to positions that can be reached directly in the video"
   ]
 }
