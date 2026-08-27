@@ -1,10 +1,11 @@
 {
-  "version": "2.34",
-  "title": "Home recovery and reliable updates",
+  "version": "2.35",
+  "title": "Stable Milos opening and avatar tap",
   "details": [
-    "Existing Milos users with legacy local data are migrated past the hidden onboarding gate that could block the home menu",
-    "The Milos face now has a direct mobile pointer route into the existing menu action",
-    "Installed Milos shells now stay on one complete version until an update is installed, preventing new HTML from mixing with older cached JavaScript",
-    "Milos now shows a visible installed-version message and future Update available notices"
+    "Removed the synthetic pointer-to-click shim that could turn one Android tap into two menu toggles",
+    "Legacy onboarding repair now runs before Milos creates its menu state, so existing users are not blocked by a stale onboarding flag",
+    "The avatar now uses the normal single click route only",
+    "Update installation now waits for the new service worker to take control before reopening Milos",
+    "Version-check requests bypass the offline shell so controlled installed apps can actually move to the next release"
   ]
 }
