@@ -1,7 +1,6 @@
 (()=>{
 "use strict";
 const CURRENT=document.querySelector('meta[name="milos-app-version"]')?.content||"";
-let queued=false;
 function ensureStyle(){
   if(document.getElementById('milos-ui-current-v219-style'))return;
   const style=document.createElement('style');
@@ -10,7 +9,6 @@ function ensureStyle(){
   document.head.appendChild(style);
 }
 function patch(){
-  queued=false;
   ensureStyle();
   const legacy=document.querySelector('.milos-version');
   if(legacy){
@@ -34,23 +32,19 @@ function patch(){
     if(button.getAttribute('aria-label')!=="Open Evia Course Packs")button.setAttribute('aria-label',"Open Evia Course Packs");
   }
 }
-function schedule(){if(queued)return;queued=true;queueMicrotask(patch)}
-function start(){
-  patch();
-  const root=document.getElementById('milosApp')||document.body;
-  if(root)new MutationObserver(records=>{
-    if(records.some(record=>record.type==='childList'&&(record.addedNodes.length||record.removedNodes.length)))schedule();
-  }).observe(root,{childList:true,subtree:true});
-}
 window.addEventListener('click',event=>{
-  const target=event.target instanceof Element?event.target.closest('[data-action="future-tools"]'):null;
+  const target=event.target instanceof Element?event.target.closest('[data-action]'):null;
   if(!target)return;
-  const packs=window.MilosEviaCoursePacks;
-  if(!packs||typeof packs.open!=="function")return;
-  event.preventDefault();
-  event.stopImmediatePropagation();
-  packs.open();
+  if(target.dataset.action==='future-tools'){
+    const packs=window.MilosEviaCoursePacks;
+    if(!packs||typeof packs.open!=="function")return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    packs.open();
+    return;
+  }
+  setTimeout(patch,0);
 },true);
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
-window.MilosCurrentUI=Object.freeze({version:"2.19",patch});
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',patch,{once:true});else patch();
+window.MilosCurrentUI=Object.freeze({version:"2.36",patch,observer:false});
 })();
