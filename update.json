@@ -1,10 +1,10 @@
 {
-  "version": "2.32",
-  "title": "Single home brand and cleaner start screen",
+  "version": "2.33",
+  "title": "Reliable Milos home tap",
   "details": [
-    "Milos now shows its name only in the top-left brand lockup",
-    "The duplicate Milos name beneath the assistant face has been removed",
-    "The centre of the home screen now keeps only Tap me to get started beneath the face",
-    "All Milos 2.31 video observation, witness evidence, calendar and export improvements are retained"
+    "Tapping the Milos face now uses a direct pointer/touch handler instead of relying only on the delegated click route",
+    "The home menu opens through the existing Milos avatar action so no second menu system is introduced",
+    "The offline shell is bumped to 2.33 so installed PWAs cannot keep the non-working 2.32 interaction layer",
+    "All Milos 2.31 video evidence, witness export, calendar and standard UI improvements are retained"
   ]
 }
