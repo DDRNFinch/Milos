@@ -7,11 +7,11 @@ const css = fs.readFileSync(new URL('../assets/milos-video-observation-v226.css'
 const index = fs.readFileSync(new URL('../index.html', import.meta.url), 'utf8');
 const sw = fs.readFileSync(new URL('../sw.js', import.meta.url), 'utf8');
 
-test('Milos 2.28 loads guided video observation offline', () => {
-  assert.match(index, /milos-app-version" content="2\.28"/);
-  assert.match(index, /milos-video-observation-v226\.css\?v=2\.28/);
-  assert.match(index, /milos-video-observation-v226\.js\?v=2\.28/);
-  assert.match(sw, /milos-assessor-shell-v2\.28/);
+test('Milos 2.29 loads guided video observation offline', () => {
+  assert.match(index, /milos-app-version" content="2\.29"/);
+  assert.match(index, /milos-video-observation-v226\.css\?v=2\.29/);
+  assert.match(index, /milos-video-observation-v226\.js\?v=2\.29/);
+  assert.match(sw, /milos-assessor-shell-v2\.29/);
   assert.match(sw, /milos-video-observation-v226\.js/);
   assert.match(sw, /milos-video-observation-v226\.css/);
 });
