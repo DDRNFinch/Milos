@@ -1,12 +1,13 @@
 {
-  "version": "2.26",
-  "title": "Guided video observations",
+  "version": "2.27",
+  "title": "Full-screen AC video observations",
   "details": [
-    "New Video Observation and Video Witness Testimony methods sit alongside the existing written observation",
-    "Record a timestamped unit introduction first, then choose LOs in any order and save each LO as its own dated video file",
-    "Use compact full, half and empty circle competence decisions, with an action box only when actions or further evidence are needed",
-    "Exact 100% AC wording matches are automatically linked to other units as mapped supporting evidence without copying competence",
-    "Video capture is reduced for mobile storage, with a soft warning near 10 minutes and no forced stop",
-    "Completed video observations create a timestamped signed PDF and compressed ZIP containing every video clip"
+    "Start Observation now opens a clean choice page for Written Observation, Video Observation or Witness Video Testimony",
+    "Video observations record the unit introduction first, then return to a free-order LO list",
+    "Each LO is one reduced-size video and the recording screen shows one AC at a time above a much larger full-screen camera preview",
+    "Competence is selected for the current AC before Next AC becomes available; pressing Next AC timestamps the next criterion inside that LO video",
+    "Competent with actions and Further evidence required reveal an action box while exact 100% wording matches are added automatically as partially observed mapped evidence without a competence decision",
+    "Witness video testimony is visible from the observation method page and can also be started after completing a direct video observation",
+    "The signed PDF lists every LO video and each AC timestamp, while the compressed ZIP contains the PDF, introduction and all LO videos"
   ]
 }
