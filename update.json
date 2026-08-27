@@ -1,13 +1,10 @@
 {
-  "version": "2.31",
-  "title": "Reliable video evidence and witness export",
+  "version": "2.32",
+  "title": "Single home brand and cleaner start screen",
   "details": [
-    "Actions are now written after recording as one text box for the whole LO or KSB section",
-    "The live camera is no longer rebuilt when competence decisions or ACs change, improving long-recording stability",
-    "Video capture now targets 720p at a higher bitrate and requires a live microphone track before recording starts",
-    "Linked witness testimony reuses the signed observation and only asks for the witness signature",
-    "Witness videos are added to the same complete evidence package instead of being left in a separate ZIP",
-    "Video PDFs have been rebuilt with readable evidence cards, grouped mapping, clear actions and signatures",
-    "Exports still package original stored videos directly and never replay or transcode them"
+    "Milos now shows its name only in the top-left brand lockup",
+    "The duplicate Milos name beneath the assistant face has been removed",
+    "The centre of the home screen now keeps only Tap me to get started beneath the face",
+    "All Milos 2.31 video observation, witness evidence, calendar and export improvements are retained"
   ]
 }
