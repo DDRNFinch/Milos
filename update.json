@@ -1,10 +1,10 @@
 {
-  "version": "2.24",
-  "title": "Symi college attendance in reviews",
+  "version": "2.25",
+  "title": "Complete observation ZIP export",
   "details": [
-    "Milos now receives the college attendance position carried in Evia's anonymous Coach Snapshot",
-    "Progress reviews include the official Symi attendance position alongside OTJ or GLH progress",
-    "Migrated learners can show their previous attendance baseline separately until exact cumulative hours are available",
-    "Attendance remains factual review evidence; the assessor still records discussion, context and agreed support actions"
+    "Observation export now creates one ZIP containing the observation PDF and every stored observation attachment",
+    "Videos are packaged directly instead of being replayed or transcoded during export",
+    "Multiple videos, photos and audio files stay together with the signed observation record",
+    "Milos will stop the export and warn if an attachment is missing rather than create an incomplete archive"
   ]
 }
