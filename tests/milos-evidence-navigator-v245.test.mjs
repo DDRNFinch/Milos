@@ -27,22 +27,22 @@ test("2.45 recording layout remains video then AC then competence and next AC", 
   assert.match(css, /\.mvo-next-ac/);
 });
 
-test("current shell keeps the broken 2.45 navigator retired and loads the safe 2.71 replacement before the timestamp wrapper", () => {
+test("current shell keeps the broken 2.45 navigator retired and loads the streamlined 2.72 viewer before the timestamp wrapper", () => {
   const index = read("index.html");
   const sw = read("sw.js");
   const player = index.indexOf("milos-evidence-player-v241.js");
   const oldNavigator = index.indexOf("milos-evidence-navigator-v245.js");
   const square = index.indexOf("milos-square-evidence-v244.js");
-  const replacement = index.indexOf("milos-evidence-viewer-v271.js");
+  const replacement = index.indexOf("milos-evidence-viewer-v272.js");
   const timeline = index.indexOf("milos-evidence-timeline-v242.js");
   assert.ok(player >= 0 && square > player && replacement > square && timeline > replacement);
   assert.equal(oldNavigator, -1);
   assert.doesNotMatch(index, /milos-evidence-navigator-v245\.js\?v=/);
-  assert.match(index, /milos-evidence-viewer-v271\.js\?v=2\.71/);
-  assert.match(index, /milos-evidence-timeline-v242\.js\?v=2\.71/);
-  assert.match(index, /milos-video-layout-v245\.css\?v=2\.71/);
+  assert.match(index, /milos-evidence-viewer-v272\.js\?v=2\.72/);
+  assert.match(index, /milos-evidence-timeline-v242\.js\?v=2\.72/);
+  assert.match(index, /milos-video-layout-v245\.css\?v=2\.72/);
   assert.doesNotMatch(sw, /milos-evidence-navigator-v245\.js/);
-  assert.match(sw, /milos-evidence-viewer-v271\.js/);
+  assert.match(sw, /milos-evidence-viewer-v272\.js/);
   assert.match(sw, /milos-evidence-timeline-v242\.js/);
   assert.match(sw, /milos-video-layout-v245\.css/);
 });
