@@ -21,7 +21,7 @@ class FakeStream{
   trackStopped(){if(this.autoFinish&&this.tracks.every(track=>track.stopped)&&this.recorder)this.recorder.finishFromTracks();}
 }
 
-function setup({android=true}={}){
+function setup({android=true,nativeStopEmits=true}={}){
   let fakeNow=0;
   class FastDate extends Date{static now(){fakeNow+=1000;return fakeNow;}}
   const fastSetTimeout=(fn,ms=0,...args)=>setTimeout(fn,Math.min(Number(ms)||0,6),...args);
@@ -42,7 +42,7 @@ function setup({android=true}={}){
     stop(){
       this.nativeStopCalls+=1;
       if(this.state!=='recording')throw new Error('inactive');
-      fastSetTimeout(()=>this.finishFromTracks(),4);
+      if(nativeStopEmits)fastSetTimeout(()=>this.finishFromTracks(),4);
     }
     unexpectedStop(){this.emitData('held');this.state='inactive';this.dispatchEvent(new Event('stop'));}
   }
@@ -72,9 +72,9 @@ test('Apple keeps native MP4 capability available',()=>{
   assert.equal(context.MediaRecorder.isTypeSupported('video/mp4'),true);
 });
 
-test('Android observation finalisation never calls native MediaRecorder.stop',async()=>{
-  const{context}=setup({android:true});
-  const stream=new FakeStream({autoFinish:true});
+test('Android observation finalisation flushes data then calls native MediaRecorder.stop',async()=>{
+  const{context}=setup({android:true,nativeStopEmits:true});
+  const stream=new FakeStream({autoFinish:false});
   const recorder=new context.MediaRecorder(stream,{mimeType:'video/webm'});
   const order=[];
   recorder.addEventListener('dataavailable',event=>{if(event.data?.size)order.push('data');});
@@ -82,17 +82,17 @@ test('Android observation finalisation never calls native MediaRecorder.stop',as
   recorder.start(2000);
   assert.equal(recorder.startedTimeslice,1000);
   recorder.requestData();
-  assert.equal(recorder.nativeRequestDataCalls,0);
+  assert.equal(recorder.nativeRequestDataCalls,1);
   recorder.stop();
   await wait();
-  assert.equal(recorder.nativeStopCalls,0);
-  assert.ok(stream.getTracks().every(track=>track.stopped));
-  assert.deepEqual(order,['data','stop']);
+  assert.equal(recorder.nativeStopCalls,1);
+  assert.ok(stream.getTracks().every(track=>!track.stopped));
+  assert.deepEqual(order,['data','data','stop']);
   assert.equal(recorder.state,'inactive');
 });
 
-test('Android track-end fallback resolves even when native recorder never sends stop',async()=>{
-  const{context}=setup({android:true});
+test('Android emergency fallback runs only after native stop was attempted and did not emit stop',async()=>{
+  const{context}=setup({android:true,nativeStopEmits:false});
   const stream=new FakeStream({autoFinish:false});
   const recorder=new context.MediaRecorder(stream,{mimeType:'video/webm'});
   let stops=0;
@@ -100,14 +100,14 @@ test('Android track-end fallback resolves even when native recorder never sends 
   recorder.addEventListener('stop',()=>{stops+=1;});
   recorder.stop();
   await wait(80);
-  assert.equal(recorder.nativeStopCalls,0);
+  assert.equal(recorder.nativeStopCalls,1);
   assert.ok(stream.getTracks().every(track=>track.stopped));
   assert.equal(stops,1);
   assert.equal(recorder.state,'inactive');
 });
 
 test('Apple still uses native MediaRecorder.stop',async()=>{
-  const{context}=setup({android:false});
+  const{context}=setup({android:false,nativeStopEmits:true});
   const stream=new FakeStream({autoFinish:false});
   const recorder=new context.MediaRecorder(stream,{mimeType:'video/mp4'});
   recorder.start(2000);
@@ -116,7 +116,7 @@ test('Apple still uses native MediaRecorder.stop',async()=>{
   assert.equal(recorder.nativeStopCalls,1);
 });
 
-test('unexpected native stop is held for judgement then replays only the awaited stop notification',async()=>{
+test('unexpected native stop is held for judgement then replays completion to the later finaliser',async()=>{
   const{context}=setup({android:true});
   const recorder=new context.MediaRecorder(new FakeStream(),{mimeType:'video/webm'});
   recorder.start();
@@ -131,8 +131,8 @@ test('unexpected native stop is held for judgement then replays only the awaited
 });
 
 test('live save skips WebM rewrite but later playback/export can repair it',async()=>{
-  const{context,getFixCalls}=setup({android:true});
-  const recorder=new context.MediaRecorder(new FakeStream(),{mimeType:'video/webm'});
+  const{context,getFixCalls}=setup({android:true,nativeStopEmits:true});
+  const recorder=new context.MediaRecorder(new FakeStream({autoFinish:false}),{mimeType:'video/webm'});
   recorder.start();
   recorder.stop();
   await wait();
