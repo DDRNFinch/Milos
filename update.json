@@ -1,11 +1,11 @@
 {
-  "version": "2.65",
-  "title": "Native Android recorder finalisation",
+  "version": "2.64",
+  "title": "Bounded video finalisation pipeline",
   "details": [
-    "Removes the second MediaRecorder proxy so Video Observation has one recorder finalisation layer",
-    "Uses Android Chrome's native MediaRecorder.stop() lifecycle first instead of stopping camera and microphone tracks before recorder finalisation",
-    "Keeps one-second Android recording chunks and allows a final requestData flush before stop",
-    "Uses track shutdown only as an emergency fallback if native stop does not complete within the hard timeout",
-    "Keeps bounded private media storage and existing learner data, observations, reviews, QR, evidence and document formats unchanged"
+    "Adds a hard Android completion bound around the LO stop notification so Video Observation cannot wait forever for a missing stop event",
+    "Keeps the 2.63 track-ending strategy and one-second Android recording chunks",
+    "Replaces the video evidence media write with a bounded IndexedDB path that proceeds after the put request succeeds even if Android delays transaction completion",
+    "Retries private media storage once with a fresh database connection instead of hanging indefinitely",
+    "Keeps existing learner data, observations, reviews, QR, evidence and document formats unchanged"
   ]
 }

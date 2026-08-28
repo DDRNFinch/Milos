@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en-GB" data-result="RUNNING">
-<head><meta charset="utf-8"><title>Milos 2.65 recorder browser smoke</title></head>
+<head><meta charset="utf-8"><title>Milos 2.64 recorder browser smoke</title></head>
 <body>
   <div id="milosVideoObservationLayer">Browser recorder smoke running…</div>
   <pre id="result">RUNNING</pre>
@@ -24,10 +24,7 @@
       if(!navigator.mediaDevices?.getUserMedia) throw new Error('getUserMedia unavailable');
       if(!window.MediaRecorder) throw new Error('MediaRecorder unavailable');
       if(!window.MilosMedia?.putFile) throw new Error('MilosMedia unavailable');
-      if(window.MilosRecorderFinalise258?.version!=='2.65') throw new Error('2.65 recorder finaliser not loaded');
-      if(window.MilosRecorderFinalise258?.androidStopStrategy!=='native-stop-first') throw new Error('Android is not using native stop first');
-      if(window.MilosFinalisePipeline264?.version!=='2.65') throw new Error('2.65 media finalise pipeline not loaded');
-      if(window.MilosFinalisePipeline264?.recorderLayer!==false) throw new Error('a second MediaRecorder layer is still active');
+      if(window.MilosFinalisePipeline264?.version!=='2.64') throw new Error('2.64 finalise pipeline not loaded');
 
       const stream=await navigator.mediaDevices.getUserMedia({audio:true,video:true});
       const candidates=['video/webm;codecs=vp8,opus','video/webm'];
@@ -39,7 +36,6 @@
       await new Promise(resolve=>setTimeout(resolve,3200));
 
       const stopped=new Promise(resolve=>recorder.addEventListener('stop',resolve,{once:true}));
-      try{recorder.requestData();}catch{}
       const stopStarted=performance.now();
       recorder.stop();
       await Promise.race([
@@ -63,7 +59,7 @@
       if(stored.blob.size!==blob.size) throw new Error(`stored blob size mismatch ${stored.blob.size} != ${blob.size}`);
 
       document.documentElement.dataset.result='PASS';
-      result.textContent=`PASS size=${blob.size} chunks=${chunks.length} stopMs=${stopElapsed} strategy=${window.MilosRecorderFinalise258.androidStopStrategy}`;
+      result.textContent=`PASS size=${blob.size} chunks=${chunks.length} stopMs=${stopElapsed} strategy=${window.MilosRecorderFinalise258?.androidStopStrategy||'unknown'}`;
       try{stream.getTracks().forEach(track=>track.stop());}catch(_){}
     }catch(error){fail(error);}
   })();

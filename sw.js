@@ -1,5 +1,5 @@
-// Milos 2.65 native Android recorder finalisation release
-const CACHE_NAME = "milos-assessor-shell-v2.65";
+// Milos 2.64 bounded finalisation pipeline release
+const CACHE_NAME = "milos-assessor-shell-v2.64";
 const CACHE_PREFIX = "milos-assessor-shell-";
 const APP_SHELL = [
   "./",

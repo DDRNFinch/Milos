@@ -17,30 +17,31 @@ test('recorder uses one finalisation layer instead of stacked hotfixes',()=>{
   assert.doesNotMatch(sw,/milos-recorder-finalise-v257\.js/);
 });
 
-test('Android observation finalisation calls native MediaRecorder.stop and keeps track shutdown only as fallback',()=>{
-  assert.match(js,/return target\.stop\(\)/);
-  assert.match(js,/STOP_FALLBACK_MS=2500/);
-  assert.match(js,/emergencyFinish\(target,meta\)/);
+test('Android observation finalisation ends source tracks instead of calling native MediaRecorder.stop',()=>{
+  assert.match(js,/if\(IS_ANDROID&&meta\.evidence\)/);
+  assert.match(js,/endAndroidTracks\(target,meta\)/);
   assert.match(js,/track\.stop\(\)/);
-  assert.doesNotMatch(js,/endAndroidTracks\(target,meta\)/);
-  assert.doesNotMatch(js,/tracks-ended-timeout/);
+  assert.match(js,/ANDROID_DRAIN_MS=1600/);
+  assert.match(js,/ANDROID_TIMESLICE_MS=1000/);
+  assert.match(js,/tracks-ended-timeout/);
 });
 
-test('observation requestData remains available and Android MP4 is not selected',()=>{
-  assert.doesNotMatch(js,/if\(meta\.evidence\)return;/);
-  assert.match(js,/if\(target\.state!=='recording'\)return;/);
-  assert.match(js,/target\.requestData\(\.\.\.args\)/);
+test('observation requestData is suppressed and Android MP4 is not selected',()=>{
+  assert.match(js,/if\(meta\.evidence\)return;/);
   assert.match(js,/IS_ANDROID=\/Android\/i/);
   assert.match(js,/IS_ANDROID&&value\.includes\('video\/mp4'\)/);
 });
 
-test('track shutdown is emergency fallback only after native stop timeout',()=>{
-  assert.match(js,/fallbackTimer=setTimeout\(\(\)=>\{meta\.fallbackTimer=0;emergencyFinish\(target,meta\);\},STOP_FALLBACK_MS\)/);
-  assert.match(js,/dispatchRecoveredStop\(target,meta,'native-stop-timeout',true\)/);
-  assert.match(js,/androidStopStrategy:IS_ANDROID\?'native-stop-first':'native-stop'/);
+test('fallback only manufactures completion after camera and microphone tracks were ended',()=>{
+  const stopTracksAt=js.indexOf('track.stop()');
+  const recoveredAt=js.indexOf("deliverRecoveredStop(target,meta,'tracks-ended-timeout')");
+  assert.ok(stopTracksAt>=0);
+  assert.ok(recoveredAt>stopTracksAt);
+  assert.match(js,/meta\.syntheticFinalised=true/);
+  assert.match(js,/if\(meta\.syntheticFinalised\)return'inactive'/);
 });
 
-test('unexpected native stop can still finish captured evidence',()=>{
+test('unexpected native stop can still finish after native final data has already been emitted',()=>{
   assert.match(js,/meta\.unexpected&&!meta\.stopRequested&&actual==='inactive'/);
   assert.match(js,/already-inactive/);
   assert.match(js,/REC STOPPED/);
