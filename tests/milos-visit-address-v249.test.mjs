@@ -8,7 +8,7 @@ const sw=readFileSync(new URL('../sw.js',import.meta.url),'utf8');
 const pkg=JSON.parse(readFileSync(new URL('../package.json',import.meta.url),'utf8'));
 const update=JSON.parse(readFileSync(new URL('../update.json',import.meta.url),'utf8'));
 
-test('2.49 keeps permanent site and mentor as local travel reference data',()=>{
+test('permanent site and mentor remain local travel reference data',()=>{
   assert.match(js,/Mentor name/);
   assert.match(js,/Permanent site address/);
   assert.match(js,/milos-travel-v1/);
@@ -16,29 +16,31 @@ test('2.49 keeps permanent site and mentor as local travel reference data',()=>{
   assert.doesNotMatch(js,/C\.updateProfile\(/);
 });
 
-test('2.49 calendar booking defaults to permanent site but allows one-visit override',()=>{
+test('profile site can default a new booking but calendar becomes authoritative',()=>{
   assert.match(js,/Visit address/);
-  assert.match(js,/permanent site is filled in automatically/i);
-  assert.match(js,/booking\.location/);
+  assert.match(js,/profile site can fill this automatically/i);
+  assert.match(js,/source of truth/i);
   assert.match(js,/profileAddress/);
   assert.match(js,/input\[name="title"\]/);
 });
 
-test('2.49 visit addresses open preferred maps from current location',()=>{
+test('visit addresses open preferred maps from current location',()=>{
   assert.match(js,/maps\/dir\/\?api=1&destination=/);
   assert.match(js,/waze\.com\/ul\?q=/);
   assert.match(js,/data-mvisit-map/);
   assert.doesNotMatch(js,/navigator\.geolocation/);
 });
 
-test('2.49 mileage and route planning use visit-specific booking addresses',()=>{
-  assert.match(js,/bookingAddress\(booking\)/);
+test('mileage and route planning use the saved calendar booking address only',()=>{
+  assert.match(js,/function bookingAddress\(booking\)\{return clean\(booking&&booking\.location,300\);\}/);
+  assert.match(js,/function isCalendarVisit/);
+  assert.match(js,/Calendar visit address/);
   assert.match(js,/bookingLocations/);
   assert.match(js,/kind!==['"]mileage['"]&&kind!==['"]route['"]/);
-  assert.match(js,/Where a calendar booking has its own visit address/);
+  assert.doesNotMatch(js,/booking&&booking\.location,300\)\|\|profileAddress/);
 });
 
-test('2.49 visit workflow remains loaded and cached in the current release',()=>{
+test('visit workflow remains loaded and cached in the current release',()=>{
   const standard=index.indexOf('milos-standard-ui-v229.js');
   const visit=index.indexOf('milos-visit-address-v249.js');
   const travel=index.indexOf('milos-travel-v248.js');
