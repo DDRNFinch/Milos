@@ -13,7 +13,7 @@ test('2.52 assessor details add college branding and place of work',()=>{
   assert.match(profile,/College name/);assert.match(profile,/College logo/);assert.match(profile,/Place of work \/ mileage base/);assert.match(profile,/collegeLogo/);assert.match(profile,/placeOfWork/);assert.match(profile,/API\.save/);
 });
 test('2.52 removes unused planning/privacy menu rows and opens a monthly calendar',()=>{
-  assert.match(profile,/data-plan-action=\\"open\\"/);assert.match(profile,/data-action=\\"open-privacy\\"/);assert.match(calendar,/Open Calendar/);assert.match(calendar,/derivedEvents/);assert.match(calendar,/MilosWeekCalendar\?\.openDay/);
+  assert.match(profile,/data-plan-action="open"/);assert.match(profile,/data-action="open-privacy"/);assert.match(calendar,/Open Calendar/);assert.match(calendar,/derivedEvents/);assert.match(calendar,/MilosWeekCalendar\?\.openDay/);
 });
 test('2.52 route learner selections survive the existing route rerender',()=>{
   assert.match(route,/mvisitStops/);assert.match(route,/setTimeout\(restore,30\)/);assert.match(route,/selected\.add/);assert.match(route,/selected\.delete/);
