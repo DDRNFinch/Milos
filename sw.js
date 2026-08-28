@@ -1,5 +1,5 @@
-// Milos 2.55 review, calendar and check-in update
-const CACHE_NAME = "milos-assessor-shell-v2.55";
+// Milos 2.56 recorder recovery hotfix
+const CACHE_NAME = "milos-assessor-shell-v2.56";
 const CACHE_PREFIX = "milos-assessor-shell-";
 const APP_SHELL = [
   "./",
@@ -44,6 +44,7 @@ const APP_SHELL = [
   "./assets/milos-review-calendar-v255.js",
   "./assets/milos-review-calendar-v255.css",
   "./assets/fix-webm-duration-1.0.6.js",
+  "./assets/milos-recorder-recovery-v256.js",
   "./assets/milos-video-observation-v226.css",
   "./assets/milos-ksb-video-v230.css",
   "./assets/milos-video-evidence-v231.js",
