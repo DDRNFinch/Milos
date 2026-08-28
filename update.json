@@ -1,10 +1,11 @@
 {
-  "version": "2.69",
-  "title": "Reliable install of restored Milos",
+  "version": "2.70",
+  "title": "Evidence timestamps restored",
   "details": [
-    "Fixes the installed-app update handover so the restored Milos shell actually replaces the older cached version",
+    "Restores the AC timestamp list in exported video evidence so every recorded criterion can be opened at the correct point",
+    "Removes the evidence navigator presentation layer that was hiding the original working timestamp viewer on Android",
     "Keeps the exact Android-working Milos 2.46 camera and media stack unchanged",
-    "Keeps all non-video features restored in 2.68",
-    "Does not restore the 2.47 observation outcome overlay or any later recorder hotfix"
+    "Keeps the reliable 2.69 installed-app update handover unchanged",
+    "No review, calendar, mileage, Evia, QR or other Milos workflow has been changed"
   ]
 }
