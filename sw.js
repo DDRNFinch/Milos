@@ -1,6 +1,5 @@
-const CACHE_NAME = "milos-assessor-shell-v2.47";
+const CACHE_NAME = "milos-assessor-shell-v2.48";
 const CACHE_PREFIX = "milos-assessor-shell-";
-// Refresh the current shell so the schedule form picks up the title-field removal.
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -54,6 +53,8 @@ const APP_SHELL = [
   "./assets/milos-week-calendar-v228.js",
   "./assets/milos-week-calendar-v228.css",
   "./assets/milos-calendar-manager-v230.css",
+  "./assets/milos-travel-v248.js",
+  "./assets/milos-travel-v248.css",
   "./assets/milos-standard-ui-v229.js",
   "./assets/milos-standard-ui-v229.css",
   "./assets/milos-review-deadlines-v215.js",
