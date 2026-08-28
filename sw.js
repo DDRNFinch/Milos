@@ -1,5 +1,6 @@
-const CACHE_NAME = "milos-assessor-shell-v2.47-title";
+const CACHE_NAME = "milos-assessor-shell-v2.47";
 const CACHE_PREFIX = "milos-assessor-shell-";
+// Refresh the current shell so the schedule form picks up the title-field removal.
 const APP_SHELL = [
   "./",
   "./index.html",
