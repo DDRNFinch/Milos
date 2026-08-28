@@ -16,5 +16,5 @@ async function install(item,el){if(installing)return;installing=true;const b=el.
 async function check(){if(checking||installing||!navigator.onLine)return;checking=true;try{const item=await remote();if(newer(item.version,CURRENT()))show(`Milos ${item.version} available`,item);else remove()}catch(e){console.debug('Milos update check',e)}finally{checking=false}}
 async function boot(){try{await register()}catch(e){console.debug('Milos worker',e)}check()}
 style();window.addEventListener('load',boot,{once:true});window.addEventListener('online',check);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')check()});setInterval(check,120000);
-window.MilosUpdater=Object.freeze({version:'2.62',check,register});
+window.MilosUpdater=Object.freeze({version:'2.63',check,register});
 })();
