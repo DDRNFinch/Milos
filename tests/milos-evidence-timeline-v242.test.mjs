@@ -88,15 +88,15 @@ test("2.42 keeps the 2.41 generic player as fallback when no matching saved vide
   assert.equal(result[0].name, "random.mp4");
 });
 
-test("2.42 timeline wrapper loads after the phone-safe player, before both ZIP exporters, and is cached offline", () => {
+test("2.42 timeline wrapper remains loaded in Milos 2.43 after the phone-safe player, before both ZIP exporters, and is cached offline", () => {
   const player = index.indexOf("milos-evidence-player-v241.js");
   const timeline = index.indexOf("milos-evidence-timeline-v242.js");
   const standardExporter = index.indexOf("milos-observation-export-v225.js");
   const videoExporter = index.indexOf("milos-video-evidence-v231.js");
   assert.ok(player >= 0 && timeline > player);
   assert.ok(standardExporter > timeline && videoExporter > timeline);
-  assert.match(index, /milos-evidence-timeline-v242\.js\?v=2\.42/);
-  assert.match(index, /milos-app-version" content="2\.42"/);
-  assert.match(sw, /milos-assessor-shell-v2\.42/);
+  assert.match(index, /milos-evidence-timeline-v242\.js\?v=2\.43/);
+  assert.match(index, /milos-app-version" content="2\.43"/);
+  assert.match(sw, /milos-assessor-shell-v2\.43/);
   assert.match(sw, /milos-evidence-timeline-v242\.js/);
 });
