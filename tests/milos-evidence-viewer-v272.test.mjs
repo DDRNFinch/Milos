@@ -82,19 +82,21 @@ test("2.72 preserves automatic sibling-video loading on desktop", async () => {
   assert.match(html, /desktopAutoRelative:true/);
 });
 
-test("2.72 remains the live enhanced layout before the 2.42 timeline and the direct seek repair", () => {
+test("2.72 remains the live enhanced layout with the 2.74 seek repair inside its export chain", () => {
   const player = index.indexOf("milos-evidence-player-v241.js");
   const square = index.indexOf("milos-square-evidence-v244.js");
+  const seekRepair = index.indexOf("milos-evidence-timestamp-v274.js");
   const viewer = index.indexOf("milos-evidence-viewer-v272.js");
   const oldViewer = index.indexOf("milos-evidence-viewer-v271.js");
   const timeline = index.indexOf("milos-evidence-timeline-v242.js");
-  const seekRepair = index.indexOf("milos-evidence-timestamp-v273.js");
-  assert.ok(player >= 0 && square > player && viewer > square && timeline > viewer && seekRepair > timeline);
+  assert.ok(player >= 0 && square > player && seekRepair > square && viewer > seekRepair && timeline > viewer);
   assert.equal(oldViewer, -1);
+  assert.match(index, /milos-evidence-timestamp-v274\.js\?v=[0-9.]+/);
   assert.match(index, /milos-evidence-viewer-v272\.js\?v=[0-9.]+/);
-  assert.match(index, /milos-evidence-timestamp-v273\.js\?v=[0-9.]+/);
+  assert.doesNotMatch(index, /milos-evidence-timestamp-v273\.js\?v=/);
+  assert.match(sw, /milos-evidence-timestamp-v274\.js/);
   assert.match(sw, /milos-evidence-viewer-v272\.js/);
-  assert.match(sw, /milos-evidence-timestamp-v273\.js/);
+  assert.doesNotMatch(sw, /milos-evidence-timestamp-v273\.js/);
   assert.doesNotMatch(sw, /milos-evidence-viewer-v271\.js/);
   assert.doesNotMatch(index, /milos-evidence-navigator-v245\.js/);
 });
