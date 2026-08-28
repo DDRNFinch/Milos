@@ -1,0 +1,102 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import fs from "node:fs";
+import vm from "node:vm";
+
+const source = fs.readFileSync(new URL("../assets/milos-evidence-timeline-v242.js", import.meta.url), "utf8");
+const index = fs.readFileSync(new URL("../index.html", import.meta.url), "utf8");
+const sw = fs.readFileSync(new URL("../sw.js", import.meta.url), "utf8");
+
+function sampleRecord() {
+  return {
+    id: "record-1",
+    videoEvidenceV231: true,
+    courseType: "nvq",
+    courseTitle: "Trowel Occupations",
+    jobTitle: "Unit 235",
+    observationDate: "2026-08-28",
+    completedAt: Date.now(),
+    media: [{ id: "media-1", name: "235_LO3_test.mp4" }],
+    videoTimeline: [{
+      kind: "lo",
+      lo: 3,
+      loTitle: "Erect masonry structures",
+      mediaId: "media-1",
+      filename: "235_LO3_test.mp4",
+      startedAt: Date.now() - 600000,
+      durationSeconds: 420,
+      source: "assessor",
+      acTimeline: [
+        { code: "235.3.1", title: "Set out the work", startedOffsetMs: 258000, endedOffsetMs: 300000, status: "competent" },
+        { code: "235.3.2", title: "Build the masonry", startedOffsetMs: 300000, endedOffsetMs: 350000, status: "action" },
+      ],
+    }],
+  };
+}
+
+test("2.42 replaces the generic player with an AC-indexed clickable evidence viewer when a matching video observation is exported", async () => {
+  const record = sampleRecord();
+  const sandbox = {
+    Blob,
+    Date,
+    TextEncoder,
+    MilosCore: { getObservations: () => [record] },
+    MilosObservationBundle: { makeZip: async (entries) => entries },
+  };
+  sandbox.globalThis = sandbox;
+  vm.runInNewContext(source, sandbox);
+
+  const result = await sandbox.MilosObservationBundle.makeZip([
+    { name: "Evidence_Record.pdf", blob: new Blob(["pdf"], { type: "application/pdf" }), date: new Date() },
+    { name: "235_LO3_test.mp4", blob: new Blob(["video"], { type: "video/mp4" }), date: new Date() },
+  ]);
+
+  assert.equal(result[0].name, "00_OPEN_EVIDENCE.html");
+  const html = await result[0].blob.text();
+  assert.match(html, /Milos Evidence Viewer/);
+  assert.match(html, /IQA \/ EQA/);
+  assert.match(html, /235\.3\.1/);
+  assert.match(html, /Set out the work/);
+  assert.match(html, /04:18/);
+  assert.match(html, /data-evidence-id/);
+  assert.match(html, /activateCriterion/);
+  assert.match(html, /pendingSeek/);
+  assert.match(html, /loadFromZip/);
+  assert.match(html, /Everything stays on this device/);
+  assert.equal(sandbox.MilosEvidenceTimeline.clickableAcTimestamps, true);
+  assert.equal(sandbox.MilosObservationBundle.clickableAcTimeline, true);
+});
+
+test("2.42 keeps the 2.41 generic player as fallback when no matching saved video observation can be identified", async () => {
+  let delegated = null;
+  const sandbox = {
+    Blob,
+    Date,
+    TextEncoder,
+    MilosCore: { getObservations: () => [] },
+    MilosObservationBundle: { makeZip: async (entries) => { delegated = entries; return entries; } },
+  };
+  sandbox.globalThis = sandbox;
+  vm.runInNewContext(source, sandbox);
+
+  const original = [
+    { name: "random.mp4", blob: new Blob(["video"], { type: "video/mp4" }), date: new Date() },
+  ];
+  const result = await sandbox.MilosObservationBundle.makeZip(original);
+  assert.equal(result, delegated);
+  assert.equal(result.length, 1);
+  assert.equal(result[0].name, "random.mp4");
+});
+
+test("2.42 timeline wrapper loads after the phone-safe player, before both ZIP exporters, and is cached offline", () => {
+  const player = index.indexOf("milos-evidence-player-v241.js");
+  const timeline = index.indexOf("milos-evidence-timeline-v242.js");
+  const standardExporter = index.indexOf("milos-observation-export-v225.js");
+  const videoExporter = index.indexOf("milos-video-evidence-v231.js");
+  assert.ok(player >= 0 && timeline > player);
+  assert.ok(standardExporter > timeline && videoExporter > timeline);
+  assert.match(index, /milos-evidence-timeline-v242\.js\?v=2\.42/);
+  assert.match(index, /milos-app-version" content="2\.42"/);
+  assert.match(sw, /milos-assessor-shell-v2\.42/);
+  assert.match(sw, /milos-evidence-timeline-v242\.js/);
+});
