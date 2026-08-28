@@ -1,10 +1,12 @@
 {
-  "version": "2.47",
-  "title": "Simpler observation decisions and feedback",
+  "version": "2.48",
+  "title": "Travel and expenses trial",
   "details": [
-    "Video observations now use two clear decisions: Competent and More required",
-    "When More required is selected, Milos can draft feedback for a future observation or learner evidence after recording",
-    "Video evidence PDFs use the same wording and show mapped units in a compact unit-and-criterion list without source mapping references",
-    "Camera recording, stored media, signatures, QR handling, course mapping and existing evidence remain unchanged"
+    "Add a local base address and preferred map app",
+    "Store learner site addresses and calculate one-way road mileage when requested",
+    "Calculate mileage for booked review and observation visits and export a mileage CSV",
+    "Suggest an efficient same-day learner route and open it in Google Maps or Waze",
+    "Store petrol, hotel, parking and other receipt files locally without requiring manual labels",
+    "Assessment, review, observation, QR, media and evidence workflows are unchanged"
   ]
 }
