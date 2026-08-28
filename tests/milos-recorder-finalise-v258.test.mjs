@@ -8,7 +8,7 @@ const sw=readFileSync(new URL('../sw.js',import.meta.url),'utf8');
 const pkg=JSON.parse(readFileSync(new URL('../package.json',import.meta.url),'utf8'));
 const update=JSON.parse(readFileSync(new URL('../update.json',import.meta.url),'utf8'));
 
-test('2.58 recorder uses one finalisation layer instead of stacked hotfixes',()=>{
+test('recorder uses one finalisation layer instead of stacked hotfixes',()=>{
   assert.match(index,/milos-recorder-finalise-v258\.js\?v=2\.\d+/);
   assert.doesNotMatch(index,/milos-recorder-recovery-v256\.js/);
   assert.doesNotMatch(index,/milos-recorder-finalise-v257\.js/);
@@ -17,21 +17,27 @@ test('2.58 recorder uses one finalisation layer instead of stacked hotfixes',()=
   assert.doesNotMatch(sw,/milos-recorder-finalise-v257\.js/);
 });
 
-test('2.58 recorder has bounded stop and WebM duration finalisation',()=>{
-  assert.match(js,/STOP_TIMEOUT=1200/);
-  assert.match(js,/FIX_TIMEOUT=1800/);
-  assert.match(js,/dispatchEvent\(new Event\('stop'\)\)/);
-  assert.match(js,/setTimeout\(syntheticStop,STOP_TIMEOUT\)/);
-  assert.match(js,/ysFixWebmDuration/);
-  assert.match(js,/setTimeout\(\(\)=>finish\(blob\),FIX_TIMEOUT\)/);
+test('recorder preserves native final data ordering before missing-stop recovery',()=>{
+  assert.match(js,/native\.addEventListener\('dataavailable'/);
+  assert.match(js,/target\.state==='inactive'/);
+  assert.match(js,/DATA_QUIET_MS/);
+  assert.match(js,/FORCE_TRACKS_MS/);
+  assert.match(js,/HARD_STOP_MS/);
+  assert.match(js,/inactive-without-stop-event/);
 });
 
-test('2.58 recorder retains unexpected-stop recovery and visible saving state',()=>{
-  assert.match(js,/meta\.unexpected=true/);
-  assert.match(js,/return'recording'/);
+test('unexpected stop recovery no longer permanently lies about recorder state',()=>{
+  assert.match(js,/meta\.unexpected&&meta\.recoveryWindow&&actual==='inactive'/);
+  assert.match(js,/pair\.meta\.recoveryWindow=true/);
+  assert.match(js,/pair\.meta\.recoveryWindow=false/);
   assert.match(js,/REC STOPPED/);
   assert.match(js,/CLIP HELD/);
-  assert.match(js,/Saving clip…/);
+});
+
+test('live observation persistence bypasses expensive WebM duration rewrite',()=>{
+  assert.match(js,/if\(visible\(\)\|\|active\?\.meta\?\.recoveryReason\|\|blob\.size>FIX_MAX_BYTES\)return Promise\.resolve\(blob\)/);
+  assert.match(js,/FIX_MAX_BYTES=12\*1024\*1024/);
+  assert.match(js,/FIX_TIMEOUT_MS=1800/);
 });
 
 test('current release metadata remains aligned after recorder repair',()=>{
