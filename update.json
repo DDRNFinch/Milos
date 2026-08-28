@@ -3,9 +3,9 @@
   "title": "Calendar addresses now drive mileage",
   "details": [
     "Every learner booking with a visit address in the Milos calendar can now contribute to mileage, including Meeting bookings",
-    "The address saved on the calendar booking is now the source of truth for mileage and route planning",
-    "Learner profile site addresses remain useful as defaults when creating a booking but no longer override or supply mileage afterwards",
-    "The mileage PDF uses the same calendar addresses and now labels Meeting bookings correctly",
-    "Existing calendar bookings already containing an address are included when mileage is recalculated; the learner profile does not need an address"
+    "The address saved on the calendar booking is the source of truth for mileage and route planning",
+    "Learner profile site addresses remain useful only as defaults when creating a booking and do not override or supply mileage afterwards",
+    "The mileage PDF uses the same calendar addresses and labels Meeting bookings correctly",
+    "Existing calendar bookings already containing an address are included when mileage is recalculated; no learner profile address is required"
   ]
 }
