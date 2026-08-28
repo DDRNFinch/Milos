@@ -1,10 +1,10 @@
 {
-  "version": "2.46",
-  "title": "Larger mobile observation controls",
+  "version": "2.47",
+  "title": "Simpler observation decisions and feedback",
   "details": [
-    "Observation AC text is larger and easier to read on a phone",
-    "Competent, With actions and Further evidence controls are larger and easier to press",
-    "Next AC and Finish LO controls are larger and make better use of the available screen space",
-    "Recording, evidence, storage, export, QR and course behaviour are unchanged"
+    "Video observations now use two clear decisions: Competent and More required",
+    "When More required is selected, Milos can draft feedback for a future observation or learner evidence after recording",
+    "Video evidence PDFs use the same wording and show mapped units in a compact unit-and-criterion list without source mapping references",
+    "Camera recording, stored media, signatures, QR handling, course mapping and existing evidence remain unchanged"
   ]
 }
