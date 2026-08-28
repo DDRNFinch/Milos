@@ -22,6 +22,35 @@ jobs:
         run: npm run check
       - name: Run Milos regression tests
         run: npm test
+      - name: Run Chromium recorder smoke
+        shell: bash
+        run: |
+          BROWSER="$(command -v google-chrome || command -v chromium || command -v chromium-browser || true)"
+          test -n "$BROWSER"
+          python3 -m http.server 4173 >/tmp/milos-http.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
+          sleep 1
+          set +e
+          OUT="$(timeout 25s "$BROWSER" \
+            --headless=new \
+            --no-sandbox \
+            --disable-gpu \
+            --disable-dev-shm-usage \
+            --mute-audio \
+            --use-fake-device-for-media-stream \
+            --use-fake-ui-for-media-stream \
+            --autoplay-policy=no-user-gesture-required \
+            --user-agent='Mozilla/5.0 (Linux; Android 16; Pixel 9) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Mobile Safari/537.36' \
+            --virtual-time-budget=15000 \
+            --dump-dom \
+            http://127.0.0.1:4173/tests/browser-recorder-v264.html 2>/tmp/milos-chrome.err)"
+          STATUS=$?
+          set -e
+          echo "$OUT"
+          cat /tmp/milos-chrome.err || true
+          test "$STATUS" -eq 0
+          echo "$OUT" | grep -q 'data-result="PASS"'
       - name: Verify clean runtime set
         shell: bash
         run: |
