@@ -17,15 +17,11 @@ test('recorder uses one finalisation layer instead of stacked hotfixes',()=>{
   assert.doesNotMatch(sw,/milos-recorder-finalise-v257\.js/);
 });
 
-test('Android observation finalisation calls native MediaRecorder.stop before any track fallback',()=>{
-  assert.match(js,/const result=target\.stop\(\)/);
+test('Android observation finalisation calls native MediaRecorder.stop and keeps track shutdown only as fallback',()=>{
+  assert.match(js,/return target\.stop\(\)/);
   assert.match(js,/STOP_FALLBACK_MS=2500/);
   assert.match(js,/emergencyFinish\(target,meta\)/);
   assert.match(js,/track\.stop\(\)/);
-  const nativeStopAt=js.indexOf('const result=target.stop()');
-  const emergencyAt=js.indexOf('function emergencyFinish');
-  assert.ok(nativeStopAt>=0);
-  assert.ok(emergencyAt>=0);
   assert.doesNotMatch(js,/endAndroidTracks\(target,meta\)/);
   assert.doesNotMatch(js,/tracks-ended-timeout/);
 });
@@ -39,8 +35,8 @@ test('observation requestData remains available and Android MP4 is not selected'
 });
 
 test('track shutdown is emergency fallback only after native stop timeout',()=>{
-  assert.match(js,/setTimeout\(\(\)=>emergencyFinish\(target,meta\),STOP_FALLBACK_MS\)/);
-  assert.match(js,/setTimeout\(\(\)=>dispatchRecoveredStop\(target,meta,'native-stop-timeout'\),FALLBACK_TRACK_GRACE_MS\)/);
+  assert.match(js,/fallbackTimer=setTimeout\(\(\)=>\{meta\.fallbackTimer=0;emergencyFinish\(target,meta\);\},STOP_FALLBACK_MS\)/);
+  assert.match(js,/dispatchRecoveredStop\(target,meta,'native-stop-timeout',true\)/);
   assert.match(js,/androidStopStrategy:IS_ANDROID\?'native-stop-first':'native-stop'/);
 });
 
