@@ -1,12 +1,11 @@
 {
-  "version": "2.48",
-  "title": "Travel and expenses trial",
+  "version": "2.49",
+  "title": "Easier learner sites and visit addresses",
   "details": [
-    "Add a local base address and preferred map app",
-    "Store learner site addresses and calculate one-way road mileage when requested",
-    "Calculate mileage for booked review and observation visits and export a mileage CSV",
-    "Suggest an efficient same-day learner route and open it in Google Maps or Waze",
-    "Store petrol, hotel, parking and other receipt files locally without requiring manual labels",
-    "Assessment, review, observation, QR, media and evidence workflows are unchanged"
+    "Learner profiles can keep a mentor name and permanent site address for quick reference",
+    "Calendar bookings automatically use the learner's permanent site address, but it can be changed for one visit without altering the profile",
+    "Pressing a visit address opens the assessor's preferred maps app for directions from the current location",
+    "Mileage and route planning use the booking address when a visit has moved to a different site",
+    "Assessment, review, observation, evidence and QR workflows are unchanged"
   ]
 }
