@@ -52,9 +52,11 @@ test("2.71 leaves the original timeline untouched if its metadata cannot be extr
   assert.equal(await result[0].blob.text(), original);
 });
 
-test("2.71 viewer is retired from the current runtime in favour of 2.72", () => {
+test("2.71 viewer remains retired while the current responsive viewer and seek repair are live", () => {
   assert.doesNotMatch(index, /milos-evidence-viewer-v271\.js\?v=/);
   assert.doesNotMatch(sw, /milos-evidence-viewer-v271\.js/);
-  assert.match(index, /milos-evidence-viewer-v272\.js\?v=2\.72/);
+  assert.match(index, /milos-evidence-viewer-v272\.js\?v=[0-9.]+/);
+  assert.match(index, /milos-evidence-timestamp-v273\.js\?v=[0-9.]+/);
   assert.match(sw, /milos-evidence-viewer-v272\.js/);
+  assert.match(sw, /milos-evidence-timestamp-v273\.js/);
 });
