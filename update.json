@@ -1,12 +1,12 @@
 {
-  "version": "2.55",
-  "title": "Review check-ins and faster calendar access",
+  "version": "2.68",
+  "title": "Restored Milos tools with proven camera",
   "details": [
-    "Today now stays white with a blue outline so calendar bookings remain visible",
-    "The old generic Booking option is now Distance Booking with an editable mileage value starting at 0 miles",
-    "Booked reviews and observations can be opened directly from the calendar, while meetings open a simple notes page",
-    "Reviews can optionally schedule an editable midpoint check-in with a simple notes form",
-    "Evia wellbeing check-in history is shown as reference during a review without Milos writing or inferring the wellbeing statement",
-    "Review update messages now fade and are removed automatically"
+    "Restores the travel, mileage, calendar, manual Evia, profile and review improvements added after 2.46",
+    "Keeps the exact Milos 2.46 video evidence recorder and media stack that successfully saved on Android",
+    "Does not load the 2.47 simplified observation outcome overlay",
+    "Today remains outlined, calendar quick access is restored, and review midpoint check-ins are available",
+    "Evia wellbeing history is restored as review reference only",
+    "Distance Booking and the later mileage and address tools are restored"
   ]
 }
