@@ -19,18 +19,18 @@ test('2.51 groups learners sharing a site postcode into one physical stop',()=>{
   assert.match(js,/names\.join\(' \+ '\)/);
 });
 
-test('2.51 shared sites are geocoded once and routed once',()=>{
+test('same-site calendar visits are geocoded once and routed once',()=>{
   assert.match(js,/shared=group\.profiles\.length>1/);
   assert.match(js,/if\(!shared&&cached/);
   assert.match(js,/group\.bookings\.forEach/);
   assert.match(js,/const groups=groupBookings\(dateRows\)/);
   assert.match(js,/roadRoute\(\[d\.base,\.\.\.order\.map\(item=>item\.site\),d\.base\]\)/);
-  assert.match(js,/same visit address are treated as one physical stop/i);
+  assert.match(js,/same calendar visit address are combined into one stop/i);
 });
 
-test('2.51 route planning also combines duplicate same-site learners',()=>{
+test('route planning still combines duplicate same-site learners',()=>{
   assert.match(js,/const groups=groupBookings\(fakeBookings\)/);
-  assert.match(js,/Learners at the same address are combined into one stop/);
+  assert.match(js,/Learners at the same calendar visit address are combined into one stop/);
 });
 
 test('2.51 interception remains loaded before the existing 2.49 visit handler',()=>{
