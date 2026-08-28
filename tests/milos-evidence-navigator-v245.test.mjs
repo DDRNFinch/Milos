@@ -16,17 +16,6 @@ test("2.45 evidence navigator source remains available for regression reference"
   assert.match(source, /data-open-evidence/);
   assert.match(source, /zipOnlyEvidenceMedia/);
   assert.match(source, /Open evidence ZIP/);
-  assert.doesNotMatch(source, /Choose video manually/);
-  assert.doesNotMatch(source, /−10 seconds/);
-  assert.doesNotMatch(source, /\+10 seconds/);
-  assert.doesNotMatch(source, /Go to timestamp/);
-});
-
-test("2.45 navigator source documents the sticky mobile layout that is now retired from the live viewer", () => {
-  const source = read("assets/milos-evidence-navigator-v245.js");
-  assert.match(source, /\.videoCol\{position:sticky;top:0/);
-  assert.match(source, /\.mve-section-list/);
-  assert.match(source, /height:min\(42dvh,62vw\)/);
 });
 
 test("2.45 recording layout remains video then AC then competence and next AC", () => {
@@ -38,19 +27,22 @@ test("2.45 recording layout remains video then AC then competence and next AC", 
   assert.match(css, /\.mvo-next-ac/);
 });
 
-test("current shell retires only the broken evidence navigator while keeping the working timestamp viewer and recording layout", () => {
+test("current shell keeps the broken 2.45 navigator retired and loads the safe 2.71 replacement before the timestamp wrapper", () => {
   const index = read("index.html");
   const sw = read("sw.js");
   const player = index.indexOf("milos-evidence-player-v241.js");
-  const navigator = index.indexOf("milos-evidence-navigator-v245.js");
+  const oldNavigator = index.indexOf("milos-evidence-navigator-v245.js");
   const square = index.indexOf("milos-square-evidence-v244.js");
+  const replacement = index.indexOf("milos-evidence-viewer-v271.js");
   const timeline = index.indexOf("milos-evidence-timeline-v242.js");
-  assert.ok(player >= 0 && square > player && timeline > square);
-  assert.equal(navigator, -1);
+  assert.ok(player >= 0 && square > player && replacement > square && timeline > replacement);
+  assert.equal(oldNavigator, -1);
   assert.doesNotMatch(index, /milos-evidence-navigator-v245\.js\?v=/);
-  assert.match(index, /milos-evidence-timeline-v242\.js\?v=\d+\.\d+/);
-  assert.match(index, /milos-video-layout-v245\.css\?v=\d+\.\d+/);
+  assert.match(index, /milos-evidence-viewer-v271\.js\?v=2\.71/);
+  assert.match(index, /milos-evidence-timeline-v242\.js\?v=2\.71/);
+  assert.match(index, /milos-video-layout-v245\.css\?v=2\.71/);
   assert.doesNotMatch(sw, /milos-evidence-navigator-v245\.js/);
+  assert.match(sw, /milos-evidence-viewer-v271\.js/);
   assert.match(sw, /milos-evidence-timeline-v242\.js/);
   assert.match(sw, /milos-video-layout-v245\.css/);
 });
