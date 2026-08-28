@@ -1,4 +1,5 @@
-const CACHE_NAME = "milos-assessor-shell-v2.46";
+// Milos 2.68 restores non-video features while retaining the proven 2.46 camera stack
+const CACHE_NAME = "milos-assessor-shell-v2.68";
 const CACHE_PREFIX = "milos-assessor-shell-";
 const APP_SHELL = [
   "./",
@@ -39,6 +40,9 @@ const APP_SHELL = [
   "./assets/milos-review-compliance-v223.js",
   "./assets/milos-review-compliance-v223.css",
   "./assets/milos-app.js",
+  "./assets/milos-manual-evia-v254.js",
+  "./assets/milos-review-calendar-v255.js",
+  "./assets/milos-review-calendar-v255.css",
   "./assets/fix-webm-duration-1.0.6.js",
   "./assets/milos-video-observation-v226.css",
   "./assets/milos-ksb-video-v230.css",
@@ -51,8 +55,17 @@ const APP_SHELL = [
   "./assets/milos-week-calendar-v228.js",
   "./assets/milos-week-calendar-v228.css",
   "./assets/milos-calendar-manager-v230.css",
+  "./assets/milos-travel-v248.js",
+  "./assets/milos-travel-v248.css",
   "./assets/milos-standard-ui-v229.js",
   "./assets/milos-standard-ui-v229.css",
+  "./assets/milos-same-site-mileage-v251.js",
+  "./assets/milos-visit-address-v249.js",
+  "./assets/milos-geocode-fallback-v250.js",
+  "./assets/milos-profile-branding-v252.js",
+  "./assets/milos-full-calendar-v252.js",
+  "./assets/milos-route-selection-v252.js",
+  "./assets/milos-mileage-pdf-v252.js",
   "./assets/milos-review-deadlines-v215.js",
   "./assets/milos-uk-dates-v215.js",
   "./assets/milos-planning-v213.js",

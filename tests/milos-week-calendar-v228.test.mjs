@@ -25,6 +25,13 @@ test('calendar replaces the arch dock and centres Today',()=>{
   assert.match(css,/\.mcal-strip\{display:flex;[^}]*overflow-x:auto/);
 });
 
+test('today uses a blue outline so booking dots stay visible',()=>{
+  assert.match(css,/\.mcal-day\.is-today\{[^}]*background:rgba\(255,255,255,\.94\)/);
+  assert.match(css,/\.mcal-day\.is-today\{[^}]*border:2px solid #315485/);
+  assert.match(css,/\.mcal-day\.is-today>i b\{background:#315485\}/);
+  assert.doesNotMatch(css,/\.mcal-day\.is-today\{background:#315485/);
+});
+
 test('bookings expose complete details and can be edited rescheduled or deleted',()=>{
   assert.match(js,/data-mcal-event=/);
   assert.match(js,/mcal-detail-grid/);

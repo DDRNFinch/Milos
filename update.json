@@ -1,10 +1,12 @@
 {
-  "version": "2.46",
-  "title": "Larger mobile observation controls",
+  "version": "2.68",
+  "title": "Restored Milos tools with proven camera",
   "details": [
-    "Observation AC text is larger and easier to read on a phone",
-    "Competent, With actions and Further evidence controls are larger and easier to press",
-    "Next AC and Finish LO controls are larger and make better use of the available screen space",
-    "Recording, evidence, storage, export, QR and course behaviour are unchanged"
+    "Restores the travel, mileage, calendar, manual Evia, profile and review improvements added after 2.46",
+    "Keeps the exact Milos 2.46 video evidence recorder and media stack that successfully saved on Android",
+    "Does not load the 2.47 simplified observation outcome overlay",
+    "Today remains outlined, calendar quick access is restored, and review midpoint check-ins are available",
+    "Evia wellbeing history is restored as review reference only",
+    "Distance Booking and the later mileage and address tools are restored"
   ]
 }
