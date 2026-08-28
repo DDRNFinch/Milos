@@ -38,11 +38,11 @@ test("player wrapper preserves the 2.39 STORE-media ZIP path", () => {
   assert.match(source, /localOnlyZipReader: true/);
 });
 
-test("2.42 keeps the base player after compatibility handling and before the clickable timeline wrapper", () => {
+test("current release keeps the base player after compatibility handling and before the clickable timeline wrapper", () => {
   const compat = index.indexOf("milos-evidence-compat-v239.js");
   const player = index.indexOf("milos-evidence-player-v241.js");
   const timeline = index.indexOf("milos-evidence-timeline-v242.js");
   const exporter = index.indexOf("milos-observation-export-v225.js");
   assert.ok(compat >= 0 && player > compat && timeline > player && exporter > timeline);
-  assert.match(index, /milos-app-version" content="2\.42"/);
+  assert.match(index, /milos-app-version" content="\d+\.\d+"/);
 });

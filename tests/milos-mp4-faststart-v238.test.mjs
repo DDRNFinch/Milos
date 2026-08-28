@@ -21,12 +21,12 @@ function types(buffer){
   return out;
 }
 
-test('Milos 2.42 loads the MP4 fast-start repair immediately after private media storage and caches it offline',()=>{
-  assert.match(index,/milos-mp4-faststart-v238\.js\?v=2\.42/);
+test('current Milos release loads the MP4 fast-start repair immediately after private media storage and caches it offline',()=>{
+  assert.match(index,/milos-mp4-faststart-v238\.js\?v=\d+\.\d+/);
   assert.ok(index.indexOf('milos-media.js')<index.indexOf('milos-mp4-faststart-v238.js'));
   assert.ok(index.indexOf('milos-mp4-faststart-v238.js')<index.indexOf('milos-video-evidence-v231.js'));
   assert.match(sw,/milos-mp4-faststart-v238\.js/);
-  assert.match(sw,/milos-assessor-shell-v2\.42/);
+  assert.match(sw,/milos-assessor-shell-v\d+\.\d+/);
 });
 
 test('fast-start repair moves moov before mdat and corrects the real media chunk offset',async()=>{

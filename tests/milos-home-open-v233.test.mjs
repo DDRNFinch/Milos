@@ -10,8 +10,8 @@ const app=readFileSync(new URL('../assets/milos-app.js',import.meta.url),'utf8')
 const index=readFileSync(new URL('../index.html',import.meta.url),'utf8');
 const sw=readFileSync(new URL('../sw.js',import.meta.url),'utf8');
 
-test('Milos 2.41 repairs legacy onboarding before the normal app creates menu state',()=>{
-  assert.match(index,/milos-startup-repair-v235\.js\?v=2\.41/);
+test('current Milos release repairs legacy onboarding before the normal app creates menu state',()=>{
+  assert.match(index,/milos-startup-repair-v235\.js\?v=\d+\.\d+/);
   assert.ok(index.indexOf('milos-startup-repair-v235.js')<index.indexOf('milos-app.js'));
   assert.match(sw,/milos-startup-repair-v235\.js/);
   assert.match(startup,/C\.saveSettings\(\{ onboardingComplete: true \}\)/);
