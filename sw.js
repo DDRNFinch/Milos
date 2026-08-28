@@ -1,3 +1,4 @@
+// Milos 2.52 document-branding cache refresh
 const CACHE_NAME = "milos-assessor-shell-v2.52";
 const CACHE_PREFIX = "milos-assessor-shell-";
 const APP_SHELL = [
