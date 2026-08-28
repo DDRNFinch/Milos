@@ -1,6 +1,6 @@
 {
   "name": "milos-assessor-assistant",
-  "version": "2.58.0",
+  "version": "2.59.0",
   "private": true,
   "description": "Offline-first assessor companion for Evia",
   "scripts": {
