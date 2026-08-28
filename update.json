@@ -1,11 +1,11 @@
 {
-  "version": "2.53",
-  "title": "Calendar addresses now drive mileage",
+  "version": "2.54",
+  "title": "Manual Evia data and more accurate mileage",
   "details": [
-    "Every learner booking with a visit address in the Milos calendar can now contribute to mileage, including Meeting bookings",
-    "The address saved on the calendar booking is the source of truth for mileage and route planning",
-    "Learner profile site addresses remain useful only as defaults when creating a booking and do not override or supply mileage afterwards",
-    "The mileage PDF uses the same calendar addresses and labels Meeting bookings correctly",
-    "Existing calendar bookings already containing an address are included when mileage is recalculated; no learner profile address is required"
+    "Every field Milos normally receives from an Evia progress scan can now be entered or edited manually from the learner, review or observation screen",
+    "Manual Evia data covers course identity, dates, KSB or AC coverage, OTJ or GLH, targets, evidence counts, Coach activity, EPA practice, confidence, wellbeing and Symi attendance",
+    "Today is now shown with a blue outline in the home calendar so booking dots remain visible",
+    "Mileage now resolves the UK postcode before road routing and ignores older cached map matches after this update",
+    "The saved calendar booking address remains the source of truth for every visit and the saved base is automatically rechecked when mileage is recalculated"
   ]
 }
