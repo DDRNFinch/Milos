@@ -10,7 +10,7 @@ const sw=readFileSync(new URL('../sw.js',import.meta.url),'utf8');
 const pkg=JSON.parse(readFileSync(new URL('../package.json',import.meta.url),'utf8'));
 const update=JSON.parse(readFileSync(new URL('../update.json',import.meta.url),'utf8'));
 
-test('2.54 still counts any learner calendar booking with an address, including meetings',()=>{
+test('calendar mileage still counts learner visits with addresses, including meetings',()=>{
   assert.match(sameSite,/function isCalendarVisit\(booking\)/);
   assert.match(sameSite,/booking&&booking\.date&&booking\.profileId&&bookingAddress\(booking\)/);
   assert.match(sameSite,/bookings\(\)\.filter\(b=>b\.date>=from&&b\.date<=to&&isCalendarVisit\(b\)\)/);
@@ -38,12 +38,13 @@ test('mileage PDF follows the same calendar booking rules',()=>{
   assert.match(pdf,/No calendar visits with learner addresses were found/);
 });
 
-test('2.54 release metadata is aligned',()=>{
-  assert.equal(pkg.version,'2.54.0');
-  assert.equal(update.version,'2.54');
-  assert.match(index,/milos-app-version" content="2\.54"/);
-  assert.match(index,/milos-same-site-mileage-v251\.js\?v=2\.54/);
-  assert.match(index,/milos-visit-address-v249\.js\?v=2\.54/);
-  assert.match(index,/milos-mileage-pdf-v252\.js\?v=2\.54/);
-  assert.match(sw,/milos-assessor-shell-v2\.54/);
+test('calendar mileage assets remain aligned with the current release',()=>{
+  const current=index.match(/milos-app-version\" content=\"([^\"]+)\"/)?.[1];
+  assert.ok(current);
+  assert.equal(pkg.version,`${current}.0`);
+  assert.equal(update.version,current);
+  assert.match(index,new RegExp(`milos-same-site-mileage-v251\\.js\\?v=${current.replaceAll('.','\\.')}`));
+  assert.match(index,new RegExp(`milos-visit-address-v249\\.js\\?v=${current.replaceAll('.','\\.')}`));
+  assert.match(index,new RegExp(`milos-mileage-pdf-v252\\.js\\?v=${current.replaceAll('.','\\.')}`));
+  assert.match(sw,new RegExp(`milos-assessor-shell-v${current.replaceAll('.','\\.')}`));
 });
