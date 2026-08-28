@@ -24,15 +24,15 @@ function localEntries(bytes) {
   return out;
 }
 
-test("2.41 evidence compatibility loads before export consumers and is cached", () => {
+test("2.42 evidence compatibility loads before export consumers and is cached", () => {
   const bundleAt = index.indexOf("milos-observation-bundle-v22.js");
   const compatAt = index.indexOf("milos-evidence-compat-v239.js");
   const exportAt = index.indexOf("milos-observation-export-v225.js");
   const videoAt = index.indexOf("milos-video-evidence-v231.js");
   assert.ok(bundleAt >= 0 && compatAt > bundleAt);
   assert.ok(exportAt > compatAt && videoAt > compatAt);
-  assert.match(index, /milos-app-version" content="2\.41"/);
-  assert.match(sw, /milos-assessor-shell-v2\.41/);
+  assert.match(index, /milos-app-version" content="2\.42"/);
+  assert.match(sw, /milos-assessor-shell-v2\.42/);
   assert.match(sw, /milos-evidence-compat-v239\.js/);
 });
 
