@@ -1,11 +1,11 @@
 {
-  "version": "2.62",
-  "title": "Android Video Observation final-AC repair",
+  "version": "2.63",
+  "title": "Android recorder track-stop repair",
   "details": [
-    "Removes the forced requestData call that could collide with MediaRecorder stop on an Android chunk boundary and leave the final LO stuck",
-    "Keeps the native dataavailable then stop finalisation sequence intact instead of trying to manufacture a normal stop",
-    "Prefers the mature WebM MediaRecorder path on Android while retaining MP4 recording support for Apple devices",
-    "Keeps the short live-save WebM rewrite bypass so persistence stays responsive, while later playback and export can still repair seekability",
+    "Removes the native MediaRecorder.stop call from Android Video Observation finalisation because the real device recording shows that call can freeze the browser UI indefinitely",
+    "Ends the camera and microphone tracks instead and lets MediaRecorder flush naturally",
+    "Uses a bounded fallback only after the source tracks are already ended, so Milos can continue even if Android omits the final stop notification",
+    "Uses one-second recording chunks on Android to minimise any tail loss if the browser fails to emit a final data chunk",
     "Keeps existing Milos learner data, observations, reviews, QR, evidence and document formats unchanged"
   ]
 }
