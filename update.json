@@ -1,11 +1,12 @@
 {
-  "version": "2.54",
-  "title": "Manual Evia data and more accurate mileage",
+  "version": "2.55",
+  "title": "Review check-ins and faster calendar access",
   "details": [
-    "Every field Milos normally receives from an Evia progress scan can now be entered or edited manually from the learner, review or observation screen",
-    "Manual Evia data covers course identity, dates, KSB or AC coverage, OTJ or GLH, targets, evidence counts, Coach activity, EPA practice, confidence, wellbeing and Symi attendance",
-    "Today is now shown with a blue outline in the home calendar so booking dots remain visible",
-    "Mileage now resolves the UK postcode before road routing and ignores older cached map matches after this update",
-    "The saved calendar booking address remains the source of truth for every visit and the saved base is automatically rechecked when mileage is recalculated"
+    "Today now stays white with a blue outline so calendar bookings remain visible",
+    "The old generic Booking option is now Distance Booking with an editable mileage value starting at 0 miles",
+    "Booked reviews and observations can be opened directly from the calendar, while meetings open a simple notes page",
+    "Reviews can optionally schedule an editable midpoint check-in with a simple notes form",
+    "Evia wellbeing check-in history is shown as reference during a review without Milos writing or inferring the wellbeing statement",
+    "Review update messages now fade and are removed automatically"
   ]
 }
