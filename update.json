@@ -1,10 +1,11 @@
 {
-  "version": "2.57",
-  "title": "Observation finish button hotfix",
+  "version": "2.58",
+  "title": "Observation recorder finalisation repair",
   "details": [
-    "Fixes the Android observation fault where the camera stops but Finish LO stays on screen and never completes",
-    "If Android fails to send the recorder stop event, Milos now releases the clip automatically after a short safety timeout and continues to the feedback screen",
-    "The Finish control now shows Saving clip while Milos finalises the recording and ignores repeated taps during that process",
-    "The existing Competent and More required decisions, stored video chunks and observation workflow are otherwise unchanged"
+    "Replaces the two previous recorder recovery layers with one finalisation layer to avoid them interfering with each other",
+    "If Android misses the MediaRecorder stop event, Milos releases the buffered clip after 1.2 seconds and continues",
+    "If WebM duration repair stalls on an incomplete Android recording, Milos now falls back to the original recorded blob instead of remaining on Saving clip",
+    "Unexpected camera stops still keep the buffered clip available so a judgement can be selected and the LO can be finished",
+    "Review, calendar, QR, mileage, course and existing observation records are unchanged"
   ]
 }
