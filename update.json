@@ -1,11 +1,11 @@
 {
-  "version": "2.51",
-  "title": "Correct same-site visit mileage",
+  "version": "2.52",
+  "title": "Mileage PDF, branded documents and full calendar",
   "details": [
-    "Learners visited at the same address on the same day are now treated as one physical stop",
-    "Mileage uses base to site and back rather than counting the same site more than once",
-    "The mileage list keeps all learner names so the visit record remains clear",
-    "Route planning also combines learners at the same address into one stop",
-    "Calendar, learner profiles, assessments, reviews, observations, evidence and QR workflows are unchanged"
+    "Mileage exports are now a single PDF showing each visit route, addresses, leg mileage, totals and stored receipts",
+    "Assessor details now include college name, college logo and place of work, with branding added to Milos PDFs",
+    "The home calendar now says Open Calendar and opens a full monthly view; tapping a day uses the existing editable booking view",
+    "Planning and Private by design are removed from the More menu",
+    "Route learner checkboxes now remain selected so efficient routes can be planned normally"
   ]
 }
