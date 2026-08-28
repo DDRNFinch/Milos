@@ -26,9 +26,8 @@
   try{evidence=JSON.parse(dataNode.textContent||"{}")}catch(_){return}
   if(!evidence||!Array.isArray(evidence.criteria))return;
 
-  let loadedFile=files.value||"";
+  let loadedFile=player.readyState>=1?(files.value||""):"";
   let pending=null;
-  let switchTimer=0;
 
   function zipReady(){return !!(zipPicker.files&&zipPicker.files.length)}
   function restrictedLocal(){return location.protocol==="content:"||/Android/i.test(navigator.userAgent||"")}
@@ -41,20 +40,21 @@
     status.textContent=text||"";
     status.className="status";
   }
+  function stamp(seconds){
+    const target=Math.max(0,Number(seconds)||0);
+    return Math.floor(target/60).toString().padStart(2,"0")+":"+Math.floor(target%60).toString().padStart(2,"0");
+  }
   function seek(seconds,code){
     const target=Math.max(0,Number(seconds)||0);
     try{
       if(Number.isFinite(player.duration)&&player.duration>0)player.currentTime=Math.min(target,player.duration);
       else player.currentTime=target;
     }catch(_){return false}
-    setStatus(code?"Showing "+code+" at "+Math.floor(target/60).toString().padStart(2,"0")+":"+Math.floor(target%60).toString().padStart(2,"0")+".":"");
+    setStatus(code?"Showing "+code+" at "+stamp(target)+".":"");
     return true;
   }
   function applyPending(){
-    if(!pending)return;
-    if(files.value!==pending.file)return;
-    loadedFile=files.value;
-    if(player.readyState<1)return;
+    if(!pending||loadedFile!==pending.file||player.readyState<1)return;
     const target=pending;
     pending=null;
     seek(target.seconds,target.code);
@@ -104,19 +104,10 @@
     }
   },true);
 
-  zipPicker.addEventListener("change",function(){
-    if(!pending)return;
-    clearTimeout(switchTimer);
-    switchTimer=setTimeout(function(){
-      if(!pending)return;
-      if(files.value!==pending.file){
-        files.value=pending.file;
-        files.dispatchEvent(new Event("change",{bubbles:true}));
-      }
-    },250);
+  player.addEventListener("loadedmetadata",function(){
+    loadedFile=files.value||"";
+    applyPending();
   });
-
-  player.addEventListener("loadedmetadata",function(){loadedFile=files.value||loadedFile;applyPending()});
   player.addEventListener("durationchange",applyPending);
 
   global.MilosEvidenceTimestampRuntime={version:"2.73",directSeek:true,preservesZipFlow:true};
