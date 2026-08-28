@@ -1,11 +1,11 @@
 {
-  "version": "2.61",
-  "title": "Video Observation finalisation stability repair",
+  "version": "2.62",
+  "title": "Android Video Observation final-AC repair",
   "details": [
-    "Fixes the final-AC Video Observation freeze that could leave Milos on Saving clip with a black camera preview",
-    "Preserves native MediaRecorder dataavailable then stop ordering instead of declaring a stop while the recorder is still active",
-    "Recovers a genuinely missing stop event only after the recorder has become inactive, with a bounded track-stop fallback for stuck devices",
-    "Defers WebM duration rewriting only during the live save window so the clip can be stored without blocking the UI, while later playback and export can still repair seekability",
-    "Keeps the existing Milos observation, review, QR, evidence and local learner data formats unchanged"
+    "Removes the forced requestData call that could collide with MediaRecorder stop on an Android chunk boundary and leave the final LO stuck",
+    "Keeps the native dataavailable then stop finalisation sequence intact instead of trying to manufacture a normal stop",
+    "Prefers the mature WebM MediaRecorder path on Android while retaining MP4 recording support for Apple devices",
+    "Keeps the short live-save WebM rewrite bypass so persistence stays responsive, while later playback and export can still repair seekability",
+    "Keeps existing Milos learner data, observations, reviews, QR, evidence and document formats unchanged"
   ]
 }
