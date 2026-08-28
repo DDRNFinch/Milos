@@ -1,12 +1,10 @@
 {
-  "version": "2.68",
-  "title": "Restored Milos tools with proven camera",
+  "version": "2.69",
+  "title": "Reliable install of restored Milos",
   "details": [
-    "Restores the travel, mileage, calendar, manual Evia, profile and review improvements added after 2.46",
-    "Keeps the exact Milos 2.46 video evidence recorder and media stack that successfully saved on Android",
-    "Does not load the 2.47 simplified observation outcome overlay",
-    "Today remains outlined, calendar quick access is restored, and review midpoint check-ins are available",
-    "Evia wellbeing history is restored as review reference only",
-    "Distance Booking and the later mileage and address tools are restored"
+    "Fixes the installed-app update handover so the restored Milos shell actually replaces the older cached version",
+    "Keeps the exact Android-working Milos 2.46 camera and media stack unchanged",
+    "Keeps all non-video features restored in 2.68",
+    "Does not restore the 2.47 observation outcome overlay or any later recorder hotfix"
   ]
 }

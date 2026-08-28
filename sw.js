@@ -1,5 +1,5 @@
-// Milos 2.68 restores non-video features while retaining the proven 2.46 camera stack
-const CACHE_NAME = "milos-assessor-shell-v2.68";
+// Milos 2.69 install-only repair; camera/media stack remains locked to proven 2.46
+const CACHE_NAME = "milos-assessor-shell-v2.69";
 const CACHE_PREFIX = "milos-assessor-shell-";
 const APP_SHELL = [
   "./",
@@ -80,6 +80,19 @@ const APP_SHELL = [
   "./course-packs/Trowel_Occupations_6570-05_v1.nisi"
 ];
 
+async function refreshIndex(cache) {
+  try {
+    const url = new URL(`./index.html?check=${Date.now()}`, self.registration.scope).toString();
+    const fresh = await fetch(url, { cache: "no-store" });
+    if (!fresh.ok) return null;
+    await cache.put("./index.html", fresh.clone());
+    await cache.put("./", fresh.clone());
+    return fresh;
+  } catch (_) {
+    return null;
+  }
+}
+
 self.addEventListener("install", (event) => {
   event.waitUntil((async () => {
     const cache = await caches.open(CACHE_NAME);
@@ -92,6 +105,8 @@ self.addEventListener("activate", (event) => {
   event.waitUntil((async () => {
     const keys = await caches.keys();
     await Promise.all(keys.filter((key) => key.startsWith(CACHE_PREFIX) && key !== CACHE_NAME).map((key) => caches.delete(key)));
+    const cache = await caches.open(CACHE_NAME);
+    await refreshIndex(cache);
     await self.clients.claim();
   })());
 });
@@ -114,6 +129,10 @@ self.addEventListener("fetch", (event) => {
   if (request.mode === "navigate") {
     event.respondWith((async () => {
       const cache = await caches.open(CACHE_NAME);
+      if (url.searchParams.has("milos_update")) {
+        const fresh = await refreshIndex(cache);
+        if (fresh) return fresh;
+      }
       const cached = (await cache.match("./index.html")) || (await cache.match("./"));
       if (cached) return cached;
       try {

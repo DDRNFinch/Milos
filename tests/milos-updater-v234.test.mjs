@@ -13,18 +13,26 @@ test('current Milos release uses the lightweight updater',()=>{
   assert.doesNotMatch(updater,/milos-update-layer|waitCache|Preparing the new offline copy/);
 });
 
-test('installed shell remains version-stable between explicit updates',()=>{
+test('installed shell remains stable except during an explicit update handover',()=>{
   assert.match(sw,/const CACHE_NAME = "milos-assessor-shell-v\d+\.\d+"/);
   assert.match(sw,/const cached = \(await cache\.match\("\.\/index\.html"\)\)/);
-  assert.doesNotMatch(sw,/await cache\.put\("\.\/index\.html", response\.clone\(\)\)/);
+  assert.match(sw,/async function refreshIndex\(cache\)/);
+  assert.match(sw,/url\.searchParams\.has\("milos_update"\)/);
 });
 
-test('updater waits for worker readiness then reloads without a blocking overlay',()=>{
+test('updater waits for the new worker then opens a cache-busting update route',()=>{
   assert.match(updater,/serviceWorker\.register\('\.\/sw\.js'/);
+  assert.match(updater,/waitForUpdateWorker/);
   assert.match(updater,/SKIP_WAITING/);
   assert.match(updater,/controllerchange/);
-  assert.match(updater,/location\.reload/);
-  assert.doesNotMatch(updater,/location\.replace/);
+  assert.match(updater,/location\.replace\(`\.\/\?milos_update=/);
+});
+
+test('new service worker refreshes index on activation before claiming clients',()=>{
+  const activate=sw.match(/self\.addEventListener\("activate"[\s\S]*?\n\}\);/)?.[0]||'';
+  assert.match(activate,/await refreshIndex\(cache\)/);
+  assert.match(activate,/await self\.clients\.claim\(\)/);
+  assert.ok(activate.indexOf('refreshIndex') < activate.indexOf('clients.claim'));
 });
 
 test('version-check index requests bypass the cached shell',()=>{
