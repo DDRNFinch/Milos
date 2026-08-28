@@ -34,13 +34,13 @@ test('2.48 supports same-day route planning mileage and receipts',()=>{
   assert.match(css,/\.mtravel-sheet/);
 });
 
-test('2.48 shell and updater include travel assets',()=>{
-  assert.equal(pkg.version,'2.48.0');
-  assert.equal(update.version,'2.48');
-  assert.match(index,/milos-app-version" content="2\.48"/);
-  assert.match(index,/milos-travel-v248\.css\?v=2\.48/);
-  assert.match(index,/milos-travel-v248\.js\?v=2\.48/);
-  assert.match(sw,/milos-assessor-shell-v2\.48/);
+test('2.48 travel layer remains loaded and cached in the current release',()=>{
+  assert.match(pkg.version,/^2\.\d+\.0$/);
+  assert.match(update.version,/^2\.\d+$/);
+  assert.match(index,/milos-app-version" content="2\.\d+"/);
+  assert.match(index,/milos-travel-v248\.css\?v=2\.\d+/);
+  assert.match(index,/milos-travel-v248\.js\?v=2\.\d+/);
+  assert.match(sw,/milos-assessor-shell-v2\.\d+/);
   assert.match(sw,/milos-travel-v248\.js/);
   assert.match(sw,/milos-travel-v248\.css/);
 });
