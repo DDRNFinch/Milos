@@ -1,5 +1,5 @@
-// Milos 2.52 document-branding cache refresh
-const CACHE_NAME = "milos-assessor-shell-v2.52";
+// Milos 2.53 calendar mileage source refresh
+const CACHE_NAME = "milos-assessor-shell-v2.53";
 const CACHE_PREFIX = "milos-assessor-shell-";
 const APP_SHELL = [
   "./",
