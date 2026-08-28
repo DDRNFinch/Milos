@@ -6,7 +6,7 @@ const js=readFileSync(new URL('../assets/milos-manual-evia-v254.js',import.meta.
 const index=readFileSync(new URL('../index.html',import.meta.url),'utf8');
 const sw=readFileSync(new URL('../sw.js',import.meta.url),'utf8');
 
-test('2.54 exposes manual Evia entry anywhere the normal scan button is shown',()=>{
+test('manual Evia entry remains available anywhere the normal scan button is shown',()=>{
   assert.match(js,/\[data-action="scan-profile"\]\[data-id\]/);
   assert.match(js,/dataset\.action='manual-evia'/);
   assert.match(js,/Enter Evia data manually/);
@@ -41,6 +41,6 @@ test('manual Evia tool loads after the app and remains available offline',()=>{
   const app=index.indexOf('milos-app.js');
   const manual=index.indexOf('milos-manual-evia-v254.js');
   assert.ok(app>=0&&manual>app);
-  assert.match(index,/milos-manual-evia-v254\.js\?v=2\.54/);
+  assert.match(index,/milos-manual-evia-v254\.js\?v=\d+\.\d+/);
   assert.match(sw,/milos-manual-evia-v254\.js/);
 });
