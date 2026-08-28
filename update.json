@@ -1,10 +1,11 @@
 {
-  "version": "2.59",
-  "title": "Observation recorder update delivery repair",
+  "version": "2.60",
+  "title": "Video Observation finalisation stability repair",
   "details": [
-    "Fixes the update loop that could reload the old Milos shell and offer the same update again",
-    "The updater now waits for the new service worker to take control before reopening Milos",
-    "The updated shell is refreshed from the network before Milos reopens so the 2.58 recorder finalisation repair actually loads",
-    "No review, calendar, mileage, QR, course, evidence or document behaviour is changed in this release"
+    "Fixes the final-AC Video Observation freeze that could leave Milos on Saving clip with a black camera preview",
+    "Preserves native MediaRecorder dataavailable then stop ordering instead of declaring a stop while the recorder is still active",
+    "Recovers a genuinely missing stop event only after the recorder has become inactive, with a bounded track-stop fallback for stuck devices",
+    "Saves the live observation WebM without running the synchronous duration rewrite before persistence, avoiding the main-thread lock seen during finalisation",
+    "Keeps the existing Milos observation, review, QR, evidence and local learner data formats unchanged"
   ]
 }
