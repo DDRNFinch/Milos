@@ -88,21 +88,23 @@ test("2.42 keeps the 2.41 generic player as fallback when no matching saved vide
   assert.equal(result[0].name, "random.mp4");
 });
 
-test("current release keeps the working AC timestamp engine and layers the safe responsive viewer before it", () => {
+test("current release keeps the working AC timestamp engine and layers the streamlined viewer before it", () => {
   const player = index.indexOf("milos-evidence-player-v241.js");
   const square = index.indexOf("milos-square-evidence-v244.js");
-  const viewer = index.indexOf("milos-evidence-viewer-v271.js");
+  const viewer = index.indexOf("milos-evidence-viewer-v272.js");
   const timeline = index.indexOf("milos-evidence-timeline-v242.js");
   const standardExporter = index.indexOf("milos-observation-export-v225.js");
   const videoExporter = index.indexOf("milos-video-evidence-v231.js");
   assert.ok(player >= 0 && square > player && viewer > square && timeline > viewer);
   assert.ok(standardExporter > timeline && videoExporter > timeline);
-  assert.match(index, /milos-evidence-viewer-v271\.js\?v=2\.71/);
-  assert.match(index, /milos-evidence-timeline-v242\.js\?v=2\.71/);
+  assert.match(index, /milos-evidence-viewer-v272\.js\?v=2\.72/);
+  assert.match(index, /milos-evidence-timeline-v242\.js\?v=2\.72/);
+  assert.doesNotMatch(index, /milos-evidence-viewer-v271\.js\?v=/);
   assert.doesNotMatch(index, /milos-evidence-navigator-v245\.js/);
-  assert.match(index, /milos-app-version" content="2\.71"/);
-  assert.match(sw, /milos-assessor-shell-v2\.71/);
-  assert.match(sw, /milos-evidence-viewer-v271\.js/);
+  assert.match(index, /milos-app-version" content="2\.72"/);
+  assert.match(sw, /milos-assessor-shell-v2\.72/);
+  assert.match(sw, /milos-evidence-viewer-v272\.js/);
   assert.match(sw, /milos-evidence-timeline-v242\.js/);
+  assert.doesNotMatch(sw, /milos-evidence-viewer-v271\.js/);
   assert.doesNotMatch(sw, /milos-evidence-navigator-v245\.js/);
 });
