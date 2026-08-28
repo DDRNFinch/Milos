@@ -1,11 +1,11 @@
 {
-  "version": "2.49",
-  "title": "Easier learner sites and visit addresses",
+  "version": "2.50",
+  "title": "More reliable mileage address matching",
   "details": [
-    "Learner profiles can keep a mentor name and permanent site address for quick reference",
-    "Calendar bookings automatically use the learner's permanent site address, but it can be changed for one visit without altering the profile",
-    "Pressing a visit address opens the assessor's preferred maps app for directions from the current location",
-    "Mileage and route planning use the booking address when a visit has moved to a different site",
+    "Mileage and route calculations first use the full visit address as before",
+    "If the full site address is not recognised, Milos now retries using the UK postcode instead of immediately rejecting the address",
+    "Google Maps and Waze navigation behaviour is unchanged",
+    "Permanent learner sites and one-visit address overrides are unchanged",
     "Assessment, review, observation, evidence and QR workflows are unchanged"
   ]
 }
