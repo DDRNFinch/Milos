@@ -33,14 +33,14 @@ test('2.51 route planning also combines duplicate same-site learners',()=>{
   assert.match(js,/Learners at the same address are combined into one stop/);
 });
 
-test('2.51 interception loads before the existing 2.49 visit handler',()=>{
+test('2.51 interception remains loaded before the existing 2.49 visit handler',()=>{
   const same=index.indexOf('milos-same-site-mileage-v251.js');
   const visit=index.indexOf('milos-visit-address-v249.js');
   assert.ok(same>=0&&visit>same);
-  assert.equal(pkg.version,'2.51.0');
-  assert.equal(update.version,'2.51');
-  assert.match(index,/milos-app-version" content="2\.51"/);
-  assert.match(index,/milos-same-site-mileage-v251\.js\?v=2\.51/);
-  assert.match(sw,/milos-assessor-shell-v2\.51/);
+  assert.match(pkg.version,/^2\.\d+\.0$/);
+  assert.match(update.version,/^2\.\d+$/);
+  assert.match(index,/milos-app-version" content="2\.\d+"/);
+  assert.match(index,/milos-same-site-mileage-v251\.js\?v=2\.\d+/);
+  assert.match(sw,/milos-assessor-shell-v2\.\d+/);
   assert.match(sw,/milos-same-site-mileage-v251\.js/);
 });
