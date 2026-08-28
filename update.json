@@ -1,11 +1,11 @@
 {
-  "version": "2.40",
-  "title": "Portable IQA/EQA evidence playback",
+  "version": "2.41",
+  "title": "Phone-safe evidence ZIP playback",
   "details": [
-    "Every evidence ZIP with video now includes 00_OPEN_EVIDENCE.html, an offline browser player designed for external IQA/EQA review",
-    "The player has its own draggable timeline, -10/+10 second controls and a timestamp box so reviewers can type a PDF time such as 04:18 and jump straight to it",
-    "The player also includes a manual video file picker as a fallback if a computer blocks relative local-file playback",
-    "Reviewers are told to extract the ZIP before playback because opening media directly inside an archive can make some operating-system ZIP viewers expose it as a one-way stream",
-    "The existing 2.39 protections remain: MP4 fast-start repair at export and STORE mode for video/audio entries with no video re-encoding"
+    "The Evidence Player can now read video and audio directly from the Complete Evidence ZIP on Android, iPhone and desktop instead of relying on the browser being allowed to open neighbouring local files",
+    "Reviewers tap Open complete evidence ZIP once and choose the ZIP they received; the player reads the ZIP locally on the device and nothing is uploaded",
+    "The video selector, draggable timeline, -10/+10 second controls and PDF timestamp jump all work with media loaded directly from the ZIP",
+    "Current Milos evidence packages store video and audio uncompressed inside the ZIP for reliable direct access, while documents remain DEFLATE-compressed",
+    "The manual single-video picker remains as a fallback and the existing MP4 fast-start and WebM duration protections are retained"
   ]
 }
