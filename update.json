@@ -1,12 +1,11 @@
 {
-  "version": "2.55",
-  "title": "Review check-ins and faster calendar access",
+  "version": "2.56",
+  "title": "Observation recorder recovery",
   "details": [
-    "Today now stays white with a blue outline so calendar bookings remain visible",
-    "The old generic Booking option is now Distance Booking with an editable mileage value starting at 0 miles",
-    "Booked reviews and observations can be opened directly from the calendar, while meetings open a simple notes page",
-    "Reviews can optionally schedule an editable midpoint check-in with a simple notes form",
-    "Evia wellbeing check-in history is shown as reference during a review without Milos writing or inferring the wellbeing statement",
-    "Review update messages now fade and are removed automatically"
+    "If the phone camera or microphone stops unexpectedly during a video observation, Milos no longer leaves the assessment screen frozen",
+    "The recorded clip is retained so Competent or More required and the Finish controls remain usable",
+    "If the recorder stops on the final AC after a judgement has already been selected, Milos finishes and saves that clip automatically",
+    "The stopped recording time is held on screen instead of continuing to count after the camera has stopped",
+    "Review, calendar, evidence, QR, mileage and course behaviour are otherwise unchanged"
   ]
 }
