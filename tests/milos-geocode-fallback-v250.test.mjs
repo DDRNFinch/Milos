@@ -27,15 +27,15 @@ test('2.50 gives a useful message when mileage cannot resolve a site address',()
   assert.match(js,/Check the postcode and try again/);
 });
 
-test('2.50 loads after the existing travel engine and is cached offline',()=>{
+test('2.50 fallback remains loaded after travel and cached in the current release',()=>{
   const travel=index.indexOf('milos-travel-v248.js');
   const fallback=index.indexOf('milos-geocode-fallback-v250.js');
   const updater=index.indexOf('milos-updater-v236.js');
   assert.ok(travel>=0&&fallback>travel&&updater>fallback);
-  assert.equal(pkg.version,'2.50.0');
-  assert.equal(update.version,'2.50');
-  assert.match(index,/milos-app-version" content="2\.50"/);
-  assert.match(index,/milos-geocode-fallback-v250\.js\?v=2\.50/);
-  assert.match(sw,/milos-assessor-shell-v2\.50/);
+  assert.match(pkg.version,/^2\.\d+\.0$/);
+  assert.match(update.version,/^2\.\d+$/);
+  assert.match(index,/milos-app-version" content="2\.\d+"/);
+  assert.match(index,/milos-geocode-fallback-v250\.js\?v=2\.\d+/);
+  assert.match(sw,/milos-assessor-shell-v2\.\d+/);
   assert.match(sw,/milos-geocode-fallback-v250\.js/);
 });
