@@ -22,9 +22,10 @@ function paintUnexpected(meta){
   if(timer&&meta.startedAt&&meta.stoppedAt)timer.textContent=fmt(meta.stoppedAt-meta.startedAt);
   if(hint)hint.textContent='Recording stopped unexpectedly. The captured clip is held. Choose a judgement and finish this LO.';
 }
-function dispatchRecoveredStop(target,meta,reason){
-  if(meta.stopSeen||meta.replayedStop)return;
+function dispatchRecoveredStop(target,meta,reason,forceReplay=false){
+  if(meta.replayedStop||(!forceReplay&&meta.stopSeen))return;
   meta.replayedStop=true;
+  meta.syntheticFinalised=true;
   meta.recoveryReason=reason||'stop-timeout';
   try{target.dispatchEvent(new Event('stop'));}catch(_){}
 }
@@ -32,14 +33,15 @@ function emergencyFinish(target,meta){
   if(meta.stopSeen||meta.replayedStop)return;
   const tracks=target.stream?.getTracks?.()||[];
   for(const track of tracks){try{track.stop();}catch(_){}}
-  setTimeout(()=>dispatchRecoveredStop(target,meta,'native-stop-timeout'),FALLBACK_TRACK_GRACE_MS);
+  setTimeout(()=>dispatchRecoveredStop(target,meta,'native-stop-timeout',true),FALLBACK_TRACK_GRACE_MS);
 }
 function wrap(native){
-  const meta={evidence:visible(),startedAt:0,stoppedAt:0,stopRequested:false,stopSeen:false,unexpected:false,replayedStop:false,recoveryReason:'',liveSaveUntil:0,lastDataAt:0};
+  const meta={evidence:visible(),startedAt:0,stoppedAt:0,stopRequested:false,stopSeen:false,unexpected:false,replayedStop:false,syntheticFinalised:false,recoveryReason:'',liveSaveUntil:0,lastDataAt:0,fallbackTimer:0};
   let proxy=null;
   proxy=new Proxy(native,{get(target,prop){
     if(prop==='state'){
       const actual=Reflect.get(target,prop,target);
+      if(meta.syntheticFinalised)return'inactive';
       if(meta.evidence&&meta.unexpected&&!meta.stopRequested&&actual==='inactive')return'recording';
       return actual;
     }
@@ -57,17 +59,16 @@ function wrap(native){
       meta.stopRequested=true;
       meta.liveSaveUntil=Date.now()+LIVE_SAVE_BYPASS_MS;
       if(target.state==='inactive'){
-        queueMicrotask(()=>dispatchRecoveredStop(target,meta,'already-inactive'));
+        queueMicrotask(()=>dispatchRecoveredStop(target,meta,'already-inactive',true));
         return;
       }
-      const fallback=setTimeout(()=>emergencyFinish(target,meta),STOP_FALLBACK_MS);
+      meta.fallbackTimer=setTimeout(()=>{meta.fallbackTimer=0;emergencyFinish(target,meta);},STOP_FALLBACK_MS);
       try{
-        const result=target.stop();
-        return result;
+        return target.stop();
       }catch(error){
-        clearTimeout(fallback);
+        if(meta.fallbackTimer){clearTimeout(meta.fallbackTimer);meta.fallbackTimer=0;}
         if(target.state==='inactive'){
-          queueMicrotask(()=>dispatchRecoveredStop(target,meta,'inactive-after-stop-error'));
+          queueMicrotask(()=>dispatchRecoveredStop(target,meta,'inactive-after-stop-error',true));
           return;
         }
         throw error;
@@ -78,6 +79,7 @@ function wrap(native){
   }});
   native.addEventListener('dataavailable',event=>{if(event?.data?.size)meta.lastDataAt=Date.now();});
   native.addEventListener('stop',()=>{
+    if(meta.fallbackTimer){clearTimeout(meta.fallbackTimer);meta.fallbackTimer=0;}
     meta.stopSeen=true;
     meta.stoppedAt=Date.now();
     if(!meta.evidence||meta.stopRequested)return;
