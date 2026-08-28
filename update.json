@@ -1,11 +1,10 @@
 {
-  "version": "2.58",
-  "title": "Observation recorder finalisation repair",
+  "version": "2.59",
+  "title": "Observation recorder update delivery repair",
   "details": [
-    "Replaces the two previous recorder recovery layers with one finalisation layer to avoid them interfering with each other",
-    "If Android misses the MediaRecorder stop event, Milos releases the buffered clip after 1.2 seconds and continues",
-    "If WebM duration repair stalls on an incomplete Android recording, Milos now falls back to the original recorded blob instead of remaining on Saving clip",
-    "Unexpected camera stops still keep the buffered clip available so a judgement can be selected and the LO can be finished",
-    "Review, calendar, QR, mileage, course and existing observation records are unchanged"
+    "Fixes the update loop that could reload the old Milos shell and offer the same update again",
+    "The updater now waits for the new service worker to take control before reopening Milos",
+    "The updated shell is refreshed from the network before Milos reopens so the 2.58 recorder finalisation repair actually loads",
+    "No review, calendar, mileage, QR, course, evidence or document behaviour is changed in this release"
   ]
 }
