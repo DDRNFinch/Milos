@@ -155,10 +155,20 @@ test('unexpected stopped recorder impersonates recording only during recovery co
   assert.equal(recorder.state, 'inactive');
 });
 
-test('live observation save does not run synchronous WebM duration rewrite before persistence', async () => {
+test('live persistence window skips WebM duration rewrite without disabling later repair', async () => {
   const { context, getFixCalls } = setup();
+  const recorder = new context.MediaRecorder(new FakeStream());
+  recorder.start();
+  recorder.stop();
+  await wait(20);
   const blob = new Blob(['raw-webm'], { type: 'video/webm' });
-  const result = await context.ysFixWebmDuration(blob, 9000, { logger: false });
+  const saved = await context.ysFixWebmDuration(blob, 9000, { logger: false });
   assert.equal(getFixCalls(), 0);
-  assert.equal(result, blob);
+  assert.equal(saved, blob);
+
+  for (let i = 0; i < 12; i += 1) context.Date.now();
+  const repaired = await context.ysFixWebmDuration(blob, 9000, { logger: false });
+  assert.equal(getFixCalls(), 1);
+  assert.ok(repaired instanceof Blob);
+  assert.ok(repaired.size > blob.size);
 });
