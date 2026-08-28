@@ -1,11 +1,11 @@
 {
-  "version": "2.63",
-  "title": "Android recorder track-stop repair",
+  "version": "2.64",
+  "title": "Bounded video finalisation pipeline",
   "details": [
-    "Removes the native MediaRecorder.stop call from Android Video Observation finalisation because the real device recording shows that call can freeze the browser UI indefinitely",
-    "Ends the camera and microphone tracks instead and lets MediaRecorder flush naturally",
-    "Uses a bounded fallback only after the source tracks are already ended, so Milos can continue even if Android omits the final stop notification",
-    "Uses one-second recording chunks on Android to minimise any tail loss if the browser fails to emit a final data chunk",
-    "Keeps existing Milos learner data, observations, reviews, QR, evidence and document formats unchanged"
+    "Adds a hard Android completion bound around the LO stop notification so Video Observation cannot wait forever for a missing stop event",
+    "Keeps the 2.63 track-ending strategy and one-second Android recording chunks",
+    "Replaces the video evidence media write with a bounded IndexedDB path that proceeds after the put request succeeds even if Android delays transaction completion",
+    "Retries private media storage once with a fresh database connection instead of hanging indefinitely",
+    "Keeps existing learner data, observations, reviews, QR, evidence and document formats unchanged"
   ]
 }
