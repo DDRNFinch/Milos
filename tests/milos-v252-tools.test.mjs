@@ -22,6 +22,8 @@ test('mileage export remains PDF only with routes, leg miles and receipts',()=>{
   assert.match(mileage,/Download mileage PDF/);assert.match(mileage,/data-msame-download/);assert.match(mileage,/roadRoute/);assert.match(mileage,/leg\?\.miles/);assert.match(mileage,/Receipts & supporting documents/);assert.match(mileage,/image receipts are reproduced/i);assert.doesNotMatch(mileage,/\.zip/i);
 });
 test('current release still loads and caches all four 2.52 feature tools',()=>{
-  for(const file of ['milos-profile-branding-v252.js','milos-full-calendar-v252.js','milos-route-selection-v252.js','milos-mileage-pdf-v252.js']){assert.ok(index.includes(`${file}?v=2.53`));assert.match(sw,new RegExp(file.replaceAll('.','\\.')));}
-  assert.equal(pkg.version,'2.53.0');assert.equal(update.version,'2.53');assert.match(index,/milos-app-version" content="2\.53"/);assert.match(sw,/milos-assessor-shell-v2\.53/);
+  const current=index.match(/milos-app-version" content="([^"]+)"/)?.[1];
+  assert.ok(current);
+  for(const file of ['milos-profile-branding-v252.js','milos-full-calendar-v252.js','milos-route-selection-v252.js','milos-mileage-pdf-v252.js']){assert.ok(index.includes(`${file}?v=${current}`));assert.match(sw,new RegExp(file.replaceAll('.','\\.')));}
+  assert.equal(pkg.version,`${current}.0`);assert.equal(update.version,current);assert.match(sw,new RegExp(`milos-assessor-shell-v${current.replaceAll('.','\\.')}`));
 });
