@@ -1,11 +1,11 @@
 {
-  "version": "2.39",
-  "title": "Cross-platform seekable evidence ZIP",
+  "version": "2.40",
+  "title": "Portable IQA/EQA evidence playback",
   "details": [
-    "MP4 evidence is fast-start repaired again at the final ZIP boundary so older and newer recordings cannot bypass the seek repair during export",
-    "Video and audio files are stored in the ZIP using standard STORE mode instead of DEFLATE so archive viewers are not forced to expose them as one-way compressed streams",
-    "PDF and document entries remain DEFLATE-compressed, so the evidence pack remains a normal compressed ZIP",
-    "The MP4 video data is not re-encoded, so video and audio quality are unchanged",
-    "The evidence format is designed for IQA/EQA use across different Windows, macOS and browser/player setups with direct timeline seeking"
+    "Every evidence ZIP with video now includes 00_OPEN_EVIDENCE.html, an offline browser player designed for external IQA/EQA review",
+    "The player has its own draggable timeline, -10/+10 second controls and a timestamp box so reviewers can type a PDF time such as 04:18 and jump straight to it",
+    "The player also includes a manual video file picker as a fallback if a computer blocks relative local-file playback",
+    "Reviewers are told to extract the ZIP before playback because opening media directly inside an archive can make some operating-system ZIP viewers expose it as a one-way stream",
+    "The existing 2.39 protections remain: MP4 fast-start repair at export and STORE mode for video/audio entries with no video re-encoding"
   ]
 }
