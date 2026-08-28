@@ -9,8 +9,17 @@ class FakeDocument{
   constructor(layer){this.layer=layer;this.listeners=[];}
   getElementById(id){return id==='milosVideoObservationLayer'?this.layer:null;}
   addEventListener(type,fn){if(type==='click')this.listeners.push(fn);}
+  querySelector(){return null;}
 }
-class FakeStream{getTracks(){return[];}}
+class FakeTrack{
+  constructor(stream){this.stream=stream;this.stopped=false;}
+  stop(){if(this.stopped)return;this.stopped=true;this.stream.trackStopped();}
+}
+class FakeStream{
+  constructor({autoFinish=true}={}){this.autoFinish=autoFinish;this.tracks=[new FakeTrack(this),new FakeTrack(this)];this.recorder=null;}
+  getTracks(){return this.tracks;}
+  trackStopped(){if(this.autoFinish&&this.tracks.every(track=>track.stopped)&&this.recorder)this.recorder.finishFromTracks();}
+}
 
 function setup({android=true}={}){
   let fakeNow=0;
@@ -18,32 +27,24 @@ function setup({android=true}={}){
   const fastSetTimeout=(fn,ms=0,...args)=>setTimeout(fn,Math.min(Number(ms)||0,6),...args);
   class FakeMediaRecorder extends EventTarget{
     static isTypeSupported(){return true;}
-    constructor(stream,options){super();this.stream=stream;this.options=options;this.state='inactive';this.mimeType=String(options?.mimeType||'video/webm');this.nativeRequestDataCalls=0;}
-    start(){this.state='recording';}
-    requestData(){
-      this.nativeRequestDataCalls+=1;
-      if(this.state!=='recording')throw new Error('inactive');
+    constructor(stream,options){
+      super();this.stream=stream;this.options=options;this.state='inactive';this.mimeType=String(options?.mimeType||'video/webm');
+      this.nativeRequestDataCalls=0;this.nativeStopCalls=0;this.startedTimeslice=0;if(stream)stream.recorder=this;
+    }
+    start(timeslice){this.state='recording';this.startedTimeslice=Number(timeslice||0);}
+    emitData(value='tail'){
       const event=new Event('dataavailable');
-      Object.defineProperty(event,'data',{value:new Blob(['manual'],{type:this.mimeType})});
+      Object.defineProperty(event,'data',{value:new Blob([value],{type:this.mimeType})});
       this.dispatchEvent(event);
     }
+    requestData(){this.nativeRequestDataCalls+=1;if(this.state!=='recording')throw new Error('inactive');this.emitData('manual');}
+    finishFromTracks(){if(this.state!=='recording')return;this.emitData('tail');this.state='inactive';this.dispatchEvent(new Event('stop'));}
     stop(){
+      this.nativeStopCalls+=1;
       if(this.state!=='recording')throw new Error('inactive');
-      fastSetTimeout(()=>{
-        const event=new Event('dataavailable');
-        Object.defineProperty(event,'data',{value:new Blob(['tail'],{type:this.mimeType})});
-        this.dispatchEvent(event);
-        this.state='inactive';
-        this.dispatchEvent(new Event('stop'));
-      },4);
+      fastSetTimeout(()=>this.finishFromTracks(),4);
     }
-    unexpectedStop(){
-      const event=new Event('dataavailable');
-      Object.defineProperty(event,'data',{value:new Blob(['held'],{type:this.mimeType})});
-      this.dispatchEvent(event);
-      this.state='inactive';
-      this.dispatchEvent(new Event('stop'));
-    }
+    unexpectedStop(){this.emitData('held');this.state='inactive';this.dispatchEvent(new Event('stop'));}
   }
   const layer={hidden:false,querySelector(){return null;}};
   const document=new FakeDocument(layer);
@@ -58,7 +59,7 @@ function setup({android=true}={}){
   vm.runInNewContext(js,context,{filename:'milos-recorder-finalise-v258.js'});
   return{context,getFixCalls:()=>fixCalls};
 }
-const wait=(ms=30)=>new Promise(resolve=>setTimeout(resolve,ms));
+const wait=(ms=40)=>new Promise(resolve=>setTimeout(resolve,ms));
 
 test('Android advertises WebM support but suppresses MP4 support for observation codec selection',()=>{
   const{context}=setup({android:true});
@@ -71,23 +72,52 @@ test('Apple keeps native MP4 capability available',()=>{
   assert.equal(context.MediaRecorder.isTypeSupported('video/mp4'),true);
 });
 
-test('observation requestData is not forwarded and native stop still emits final data before stop',async()=>{
-  const{context}=setup();
-  const recorder=new context.MediaRecorder(new FakeStream(),{mimeType:'video/webm'});
+test('Android observation finalisation never calls native MediaRecorder.stop',async()=>{
+  const{context}=setup({android:true});
+  const stream=new FakeStream({autoFinish:true});
+  const recorder=new context.MediaRecorder(stream,{mimeType:'video/webm'});
   const order=[];
   recorder.addEventListener('dataavailable',event=>{if(event.data?.size)order.push('data');});
   recorder.addEventListener('stop',()=>order.push('stop'));
-  recorder.start();
+  recorder.start(2000);
+  assert.equal(recorder.startedTimeslice,1000);
   recorder.requestData();
   assert.equal(recorder.nativeRequestDataCalls,0);
   recorder.stop();
   await wait();
+  assert.equal(recorder.nativeStopCalls,0);
+  assert.ok(stream.getTracks().every(track=>track.stopped));
   assert.deepEqual(order,['data','stop']);
   assert.equal(recorder.state,'inactive');
 });
 
+test('Android track-end fallback resolves even when native recorder never sends stop',async()=>{
+  const{context}=setup({android:true});
+  const stream=new FakeStream({autoFinish:false});
+  const recorder=new context.MediaRecorder(stream,{mimeType:'video/webm'});
+  let stops=0;
+  recorder.start(2000);
+  recorder.addEventListener('stop',()=>{stops+=1;});
+  recorder.stop();
+  await wait(80);
+  assert.equal(recorder.nativeStopCalls,0);
+  assert.ok(stream.getTracks().every(track=>track.stopped));
+  assert.equal(stops,1);
+  assert.equal(recorder.state,'inactive');
+});
+
+test('Apple still uses native MediaRecorder.stop',async()=>{
+  const{context}=setup({android:false});
+  const stream=new FakeStream({autoFinish:false});
+  const recorder=new context.MediaRecorder(stream,{mimeType:'video/mp4'});
+  recorder.start(2000);
+  recorder.stop();
+  await wait();
+  assert.equal(recorder.nativeStopCalls,1);
+});
+
 test('unexpected native stop is held for judgement then replays only the awaited stop notification',async()=>{
-  const{context}=setup();
+  const{context}=setup({android:true});
   const recorder=new context.MediaRecorder(new FakeStream(),{mimeType:'video/webm'});
   recorder.start();
   recorder.unexpectedStop();
@@ -101,7 +131,7 @@ test('unexpected native stop is held for judgement then replays only the awaited
 });
 
 test('live save skips WebM rewrite but later playback/export can repair it',async()=>{
-  const{context,getFixCalls}=setup();
+  const{context,getFixCalls}=setup({android:true});
   const recorder=new context.MediaRecorder(new FakeStream(),{mimeType:'video/webm'});
   recorder.start();
   recorder.stop();
