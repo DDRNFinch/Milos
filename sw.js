@@ -1,5 +1,5 @@
-// Milos 2.72 streamlines the local evidence viewer; camera/media stack remains locked to proven 2.46
-const CACHE_NAME = "milos-assessor-shell-v2.72";
+// Milos 2.73 repairs evidence timestamp seeking; camera/media stack remains locked to proven 2.46
+const CACHE_NAME = "milos-assessor-shell-v2.73";
 const CACHE_PREFIX = "milos-assessor-shell-";
 const APP_SHELL = [
   "./",
@@ -36,6 +36,7 @@ const APP_SHELL = [
   "./assets/milos-square-evidence-v244.js",
   "./assets/milos-evidence-viewer-v272.js",
   "./assets/milos-evidence-timeline-v242.js",
+  "./assets/milos-evidence-timestamp-v273.js",
   "./assets/milos-observation-export-v225.js",
   "./assets/milos-review-compliance-v223.js",
   "./assets/milos-review-compliance-v223.css",
