@@ -1,11 +1,11 @@
 {
-  "version": "2.41",
-  "title": "Phone-safe evidence ZIP playback",
+  "version": "2.42",
+  "title": "One-tap AC evidence timestamps",
   "details": [
-    "The Evidence Player can now read video and audio directly from the Complete Evidence ZIP on Android, iPhone and desktop instead of relying on the browser being allowed to open neighbouring local files",
-    "Reviewers tap Open complete evidence ZIP once and choose the ZIP they received; the player reads the ZIP locally on the device and nothing is uploaded",
-    "The video selector, draggable timeline, -10/+10 second controls and PDF timestamp jump all work with media loaded directly from the ZIP",
-    "Current Milos evidence packages store video and audio uncompressed inside the ZIP for reliable direct access, while documents remain DEFLATE-compressed",
-    "The manual single-video picker remains as a fallback and the existing MP4 fast-start and WebM duration protections are retained"
+    "Complete Evidence ZIPs now open with an IQA/EQA-friendly AC timeline beside the video",
+    "Every recorded AC is listed with its wording, competence decision and exact timestamp; tapping the timestamp loads the correct video and jumps straight to that evidence",
+    "The reviewer only chooses the Complete Evidence ZIP once on phone, then all AC timestamp buttons work locally without uploading evidence",
+    "The AC list can be filtered by AC code, LO or wording and clearly identifies direct observation versus witness evidence",
+    "The existing manual timestamp box, video selector, draggable timeline, MP4 fast-start repair, WebM duration repair and STORE-media ZIP compatibility are retained"
   ]
 }
