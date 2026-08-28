@@ -29,10 +29,8 @@ jobs:
           test -n "$BROWSER"
           python3 -m http.server 4173 >/tmp/milos-http.log 2>&1 &
           SERVER_PID=$!
-          trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
-          sleep 1
-          set +e
-          OUT="$(timeout 25s "$BROWSER" \
+          PROFILE_DIR="$(mktemp -d)"
+          "$BROWSER" \
             --headless=new \
             --no-sandbox \
             --disable-gpu \
@@ -42,15 +40,24 @@ jobs:
             --use-fake-ui-for-media-stream \
             --autoplay-policy=no-user-gesture-required \
             --user-agent='Mozilla/5.0 (Linux; Android 16; Pixel 9) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Mobile Safari/537.36' \
-            --virtual-time-budget=15000 \
-            --dump-dom \
-            http://127.0.0.1:4173/tests/browser-recorder-v264.html 2>/tmp/milos-chrome.err)"
+            --remote-debugging-address=127.0.0.1 \
+            --remote-debugging-port=9222 \
+            --user-data-dir="$PROFILE_DIR" \
+            about:blank >/tmp/milos-chrome.out 2>/tmp/milos-chrome.err &
+          CHROME_PID=$!
+          cleanup(){
+            kill "$CHROME_PID" 2>/dev/null || true
+            kill "$SERVER_PID" 2>/dev/null || true
+            rm -rf "$PROFILE_DIR"
+          }
+          trap cleanup EXIT
+          set +e
+          timeout 22s node tests/run-browser-recorder-v264.mjs
           STATUS=$?
           set -e
-          echo "$OUT"
+          cat /tmp/milos-chrome.out || true
           cat /tmp/milos-chrome.err || true
           test "$STATUS" -eq 0
-          echo "$OUT" | grep -q 'data-result="PASS"'
       - name: Verify clean runtime set
         shell: bash
         run: |
