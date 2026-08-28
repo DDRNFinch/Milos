@@ -9,7 +9,7 @@
   const state={busy:false,lastMileage:null,lastRoute:null};
 
   function clean(value,max=500){return C.cleanText?C.cleanText(value,max):String(value==null?'':value).trim().slice(0,max);}
-  function esc(value){return C.escapeHtml?C.escapeHtml(value):String(value==null?'':value).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));}
+  function esc(value){return C.escapeHtml?C.escapeHtml(value):String(value==null?'':value).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#39;'}[ch]));}
   function readTravel(){try{const raw=JSON.parse(localStorage.getItem(STORE_KEY)||'{}');return Object.assign({baseAddress:'',base:null,mapApp:'google',mileageRate:'',sites:{},dailyMileage:{},bookingLocations:{}},raw||{});}catch(_){return{baseAddress:'',base:null,mapApp:'google',mileageRate:'',sites:{},dailyMileage:{},bookingLocations:{}};}}
   function writeTravel(data){localStorage.setItem(STORE_KEY,JSON.stringify(data));return data;}
   function bookings(){try{const rows=JSON.parse(localStorage.getItem(BOOKING_KEY)||'[]');return Array.isArray(rows)?rows:[];}catch(_){return[];}}
@@ -18,7 +18,8 @@
   function permanentAddress(id){const d=readTravel(),site=d.sites&&d.sites[id]||{};return clean(site.address,300);}
   function bookingAddress(booking){return clean(booking&&booking.location,300)||permanentAddress(booking&&booking.profileId);}
   function normaliseAddress(value){return clean(value,300).toLowerCase().replace(/[^a-z0-9]+/g,' ').replace(/\s+/g,' ').trim();}
-  function siteKey(value){return normaliseAddress(value);}
+  function ukPostcode(value){const match=clean(value,300).toUpperCase().match(/\b(?:GIR\s?0AA|[A-Z]{1,2}\d[A-Z\d]?\s?\d[A-Z]{2})\b/i);if(!match)return'';return match[0].replace(/\s+/g,'');}
+  function siteKey(value){const postcode=ukPostcode(value);return postcode?`postcode:${postcode}`:`address:${normaliseAddress(value)}`;}
   function dateText(key){const d=new Date(`${key}T12:00:00`);return Number.isFinite(d.getTime())?d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):key;}
   function toast(message,error){let el=document.getElementById('msameToast');if(!el){el=document.createElement('div');el.id='msameToast';el.className='mvisit-toast';document.body.appendChild(el);}el.textContent=message;el.classList.toggle('is-error',!!error);el.classList.add('is-visible');clearTimeout(toast.timer);toast.timer=setTimeout(()=>el.classList.remove('is-visible'),3200);}
 
@@ -38,10 +39,10 @@
 
   async function locateGroup(group){
     const api=window.MilosTravel;if(!api||typeof api.geocode!=='function')throw new Error('Road address lookup is not ready.');
-    const d=readTravel(),booking=group.bookings[0],p=group.profiles[0],address=group.address,bookingId=booking&&booking.id,profileId=p&&p.id;
+    const d=readTravel(),booking=group.bookings[0],p=group.profiles[0],address=group.address,bookingId=booking&&booking.id,profileId=p&&p.id,shared=group.profiles.length>1;
     const cached=d.bookingLocations&&bookingId?d.bookingLocations[bookingId]:null,site=d.sites&&profileId?d.sites[profileId]:null;
-    if(cached&&siteKey(cached.address)===group.key&&Number.isFinite(Number(cached.lat))&&Number.isFinite(Number(cached.lon)))return Object.assign({},cached,{address});
-    if(site&&siteKey(site.address)===group.key&&Number.isFinite(Number(site.lat))&&Number.isFinite(Number(site.lon)))return Object.assign({},site,{address});
+    if(!shared&&cached&&siteKey(cached.address)===group.key&&Number.isFinite(Number(cached.lat))&&Number.isFinite(Number(cached.lon)))return Object.assign({},cached,{address});
+    if(!shared&&site&&siteKey(site.address)===group.key&&Number.isFinite(Number(site.lat))&&Number.isFinite(Number(site.lon)))return Object.assign({},site,{address});
     const point=await api.geocode(address),located={address,lat:Number(point.lat),lon:Number(point.lon),displayName:clean(point.displayName||address,300),calculatedAt:Date.now()};
     d.bookingLocations=d.bookingLocations||{};
     group.bookings.forEach(item=>{if(item.id)d.bookingLocations[item.id]=located;});
