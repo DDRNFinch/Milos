@@ -47,8 +47,10 @@ jobs:
           CHROME_PID=$!
           cleanup(){
             kill "$CHROME_PID" 2>/dev/null || true
+            wait "$CHROME_PID" 2>/dev/null || true
             kill "$SERVER_PID" 2>/dev/null || true
-            rm -rf "$PROFILE_DIR"
+            wait "$SERVER_PID" 2>/dev/null || true
+            rm -rf "$PROFILE_DIR" 2>/dev/null || true
           }
           trap cleanup EXIT
           set +e
