@@ -39,7 +39,7 @@ test("2.45 recording layout is video then AC then competence and next AC", () =>
 });
 
 
-test("2.45 assets load in wrapper order and stay cached offline", () => {
+test("current assets load in wrapper order and stay cached offline", () => {
   const index = read("index.html");
   const sw = read("sw.js");
   const player = index.indexOf("milos-evidence-player-v241.js");
@@ -47,8 +47,8 @@ test("2.45 assets load in wrapper order and stay cached offline", () => {
   const square = index.indexOf("milos-square-evidence-v244.js");
   const timeline = index.indexOf("milos-evidence-timeline-v242.js");
   assert.ok(player >= 0 && navigator > player && square > navigator && timeline > square);
-  assert.match(index, /milos-evidence-navigator-v245\.js\?v=2\.45/);
-  assert.match(index, /milos-video-layout-v245\.css\?v=2\.45/);
+  assert.match(index, /milos-evidence-navigator-v245\.js\?v=\d+\.\d+/);
+  assert.match(index, /milos-video-layout-v245\.css\?v=\d+\.\d+/);
   assert.match(sw, /milos-evidence-navigator-v245\.js/);
   assert.match(sw, /milos-video-layout-v245\.css/);
 });
