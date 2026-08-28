@@ -6,7 +6,11 @@ import {readFileSync} from 'node:fs';
 const source=readFileSync(new URL('../assets/milos-finalise-pipeline-v264.js',import.meta.url),'utf8');
 const wait=(ms=30)=>new Promise(resolve=>setTimeout(resolve,ms));
 
-function fastTimer(fn,ms=0,...args){return setTimeout(fn,Math.min(Number(ms)||0,8),...args);}
+function fastTimer(fn,ms=0,...args){
+  const value=Number(ms)||0;
+  const scaled=value<=2?1:Math.max(2,Math.round(value/500));
+  return setTimeout(fn,scaled,...args);
+}
 
 class SilentRecorder extends EventTarget{
   static isTypeSupported(){return true;}
