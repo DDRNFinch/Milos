@@ -1,0 +1,28 @@
+/* Milos 2.44 — true 1:1 evidence framing while recording. */
+.mvo-ac-screen .mvo-ac-video{
+  flex:0 0 auto!important;
+  width:min(100%,calc(100dvh - 215px),720px)!important;
+  height:auto!important;
+  min-height:0!important;
+  max-height:none!important;
+  aspect-ratio:1/1!important;
+  align-self:center!important;
+  background:#05080d!important;
+}
+.mvo-ac-screen .mvo-ac-video video{
+  width:100%!important;
+  height:100%!important;
+  aspect-ratio:1/1!important;
+  object-fit:contain!important;
+  background:#05080d!important;
+}
+@media(max-width:520px){
+  .mvo-ac-screen .mvo-ac-video{
+    width:min(100%,calc(100dvh - 200px),720px)!important;
+  }
+}
+@media(max-height:620px){
+  .mvo-ac-screen .mvo-ac-video{
+    width:min(100%,calc(100dvh - 185px),720px)!important;
+  }
+}
