@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (name) => fs.readFileSync(path.join(root, name), "utf8");
 
-test("2.45 evidence navigator uses one ZIP and hierarchical recorded sections", () => {
+test("2.45 evidence navigator source remains available for regression reference", () => {
   const source = read("assets/milos-evidence-navigator-v245.js");
   assert.match(source, /Introduction/);
   assert.match(source, /LO"\+lo/);
@@ -22,14 +22,14 @@ test("2.45 evidence navigator uses one ZIP and hierarchical recorded sections", 
   assert.doesNotMatch(source, /Go to timestamp/);
 });
 
-test("2.45 phone viewer keeps video sticky while LO and AC list scrolls", () => {
+test("2.45 navigator source documents the sticky mobile layout that is now retired from the live viewer", () => {
   const source = read("assets/milos-evidence-navigator-v245.js");
   assert.match(source, /\.videoCol\{position:sticky;top:0/);
   assert.match(source, /\.mve-section-list/);
   assert.match(source, /height:min\(42dvh,62vw\)/);
 });
 
-test("2.45 recording layout is video then AC then competence and next AC", () => {
+test("2.45 recording layout remains video then AC then competence and next AC", () => {
   const css = read("assets/milos-video-layout-v245.css");
   assert.match(css, /\.mvo-ac-video\{[\s\S]*order:1/);
   assert.match(css, /\.mvo-ac-head\{[\s\S]*order:2/);
@@ -38,17 +38,19 @@ test("2.45 recording layout is video then AC then competence and next AC", () =>
   assert.match(css, /\.mvo-next-ac/);
 });
 
-
-test("current assets load in wrapper order and stay cached offline", () => {
+test("current shell retires only the broken evidence navigator while keeping the working timestamp viewer and recording layout", () => {
   const index = read("index.html");
   const sw = read("sw.js");
   const player = index.indexOf("milos-evidence-player-v241.js");
   const navigator = index.indexOf("milos-evidence-navigator-v245.js");
   const square = index.indexOf("milos-square-evidence-v244.js");
   const timeline = index.indexOf("milos-evidence-timeline-v242.js");
-  assert.ok(player >= 0 && navigator > player && square > navigator && timeline > square);
-  assert.match(index, /milos-evidence-navigator-v245\.js\?v=\d+\.\d+/);
+  assert.ok(player >= 0 && square > player && timeline > square);
+  assert.equal(navigator, -1);
+  assert.doesNotMatch(index, /milos-evidence-navigator-v245\.js\?v=/);
+  assert.match(index, /milos-evidence-timeline-v242\.js\?v=\d+\.\d+/);
   assert.match(index, /milos-video-layout-v245\.css\?v=\d+\.\d+/);
-  assert.match(sw, /milos-evidence-navigator-v245\.js/);
+  assert.doesNotMatch(sw, /milos-evidence-navigator-v245\.js/);
+  assert.match(sw, /milos-evidence-timeline-v242\.js/);
   assert.match(sw, /milos-video-layout-v245\.css/);
 });
