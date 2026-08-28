@@ -88,24 +88,26 @@ test("2.42 keeps the 2.41 generic player as fallback when no matching saved vide
   assert.equal(result[0].name, "random.mp4");
 });
 
-test("current release keeps the working AC timestamp engine and direct seek repair in the intended order", () => {
+test("current release keeps the working AC timestamp engine and applies direct seek inside the export chain", () => {
   const player = index.indexOf("milos-evidence-player-v241.js");
   const square = index.indexOf("milos-square-evidence-v244.js");
+  const seekRepair = index.indexOf("milos-evidence-timestamp-v274.js");
   const viewer = index.indexOf("milos-evidence-viewer-v272.js");
   const timeline = index.indexOf("milos-evidence-timeline-v242.js");
-  const seekRepair = index.indexOf("milos-evidence-timestamp-v273.js");
   const standardExporter = index.indexOf("milos-observation-export-v225.js");
   const videoExporter = index.indexOf("milos-video-evidence-v231.js");
-  assert.ok(player >= 0 && square > player && viewer > square && timeline > viewer && seekRepair > timeline);
-  assert.ok(standardExporter > seekRepair && videoExporter > seekRepair);
+  assert.ok(player >= 0 && square > player && seekRepair > square && viewer > seekRepair && timeline > viewer);
+  assert.ok(standardExporter > timeline && videoExporter > timeline);
+  assert.match(index, /milos-evidence-timestamp-v274\.js\?v=[0-9.]+/);
   assert.match(index, /milos-evidence-viewer-v272\.js\?v=[0-9.]+/);
   assert.match(index, /milos-evidence-timeline-v242\.js\?v=[0-9.]+/);
-  assert.match(index, /milos-evidence-timestamp-v273\.js\?v=[0-9.]+/);
+  assert.doesNotMatch(index, /milos-evidence-timestamp-v273\.js\?v=/);
   assert.doesNotMatch(index, /milos-evidence-viewer-v271\.js\?v=/);
   assert.doesNotMatch(index, /milos-evidence-navigator-v245\.js/);
+  assert.match(sw, /milos-evidence-timestamp-v274\.js/);
   assert.match(sw, /milos-evidence-viewer-v272\.js/);
   assert.match(sw, /milos-evidence-timeline-v242\.js/);
-  assert.match(sw, /milos-evidence-timestamp-v273\.js/);
+  assert.doesNotMatch(sw, /milos-evidence-timestamp-v273\.js/);
   assert.doesNotMatch(sw, /milos-evidence-viewer-v271\.js/);
   assert.doesNotMatch(sw, /milos-evidence-navigator-v245\.js/);
 });
