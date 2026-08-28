@@ -17,24 +17,33 @@ test('recorder uses one finalisation layer instead of stacked hotfixes',()=>{
   assert.doesNotMatch(sw,/milos-recorder-finalise-v257\.js/);
 });
 
-test('observation finalisation no longer forwards forced requestData before native stop',()=>{
-  assert.match(js,/if\(meta\.evidence\)return;/);
-  assert.match(js,/return target\.stop\(\)/);
-  assert.doesNotMatch(js,/FORCE_TRACKS_MS/);
-  assert.doesNotMatch(js,/HARD_STOP_MS/);
-  assert.doesNotMatch(js,/inactive-without-stop-event/);
+test('Android observation finalisation ends source tracks instead of calling native MediaRecorder.stop',()=>{
+  assert.match(js,/if\(IS_ANDROID&&meta\.evidence\)/);
+  assert.match(js,/endAndroidTracks\(target,meta\)/);
+  assert.match(js,/track\.stop\(\)/);
+  assert.match(js,/ANDROID_DRAIN_MS=1600/);
+  assert.match(js,/ANDROID_TIMESLICE_MS=1000/);
+  assert.match(js,/tracks-ended-timeout/);
 });
 
-test('Android does not opt into MP4 MediaRecorder merely because Chromium reports support',()=>{
+test('observation requestData is suppressed and Android MP4 is not selected',()=>{
+  assert.match(js,/if\(meta\.evidence\)return;/);
   assert.match(js,/IS_ANDROID=\/Android\/i/);
   assert.match(js,/IS_ANDROID&&value\.includes\('video\/mp4'\)/);
-  assert.match(js,/return false/);
+});
+
+test('fallback only manufactures completion after camera and microphone tracks were ended',()=>{
+  const stopTracksAt=js.indexOf('track.stop()');
+  const recoveredAt=js.indexOf("deliverRecoveredStop(target,meta,'tracks-ended-timeout')");
+  assert.ok(stopTracksAt>=0);
+  assert.ok(recoveredAt>stopTracksAt);
+  assert.match(js,/meta\.syntheticFinalised=true/);
+  assert.match(js,/if\(meta\.syntheticFinalised\)return'inactive'/);
 });
 
 test('unexpected native stop can still finish after native final data has already been emitted',()=>{
   assert.match(js,/meta\.unexpected&&!meta\.stopRequested&&actual==='inactive'/);
-  assert.match(js,/target\.state==='inactive'/);
-  assert.match(js,/target\.dispatchEvent\(new Event\('stop'\)\)/);
+  assert.match(js,/already-inactive/);
   assert.match(js,/REC STOPPED/);
   assert.match(js,/CLIP HELD/);
 });
