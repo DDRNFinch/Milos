@@ -8,7 +8,7 @@ const sw=readFileSync(new URL('../sw.js',import.meta.url),'utf8');
 
 test('2.54 exposes manual Evia entry anywhere the normal scan button is shown',()=>{
   assert.match(js,/\[data-action="scan-profile"\]\[data-id\]/);
-  assert.match(js,/data\.action='manual-evia'/);
+  assert.match(js,/dataset\.action='manual-evia'/);
   assert.match(js,/Enter Evia data manually/);
   assert.match(js,/Edit Evia data/);
 });
