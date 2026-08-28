@@ -1,11 +1,11 @@
 {
-  "version": "2.60",
+  "version": "2.61",
   "title": "Video Observation finalisation stability repair",
   "details": [
     "Fixes the final-AC Video Observation freeze that could leave Milos on Saving clip with a black camera preview",
     "Preserves native MediaRecorder dataavailable then stop ordering instead of declaring a stop while the recorder is still active",
     "Recovers a genuinely missing stop event only after the recorder has become inactive, with a bounded track-stop fallback for stuck devices",
-    "Saves the live observation WebM without running the synchronous duration rewrite before persistence, avoiding the main-thread lock seen during finalisation",
+    "Defers WebM duration rewriting only during the live save window so the clip can be stored without blocking the UI, while later playback and export can still repair seekability",
     "Keeps the existing Milos observation, review, QR, evidence and local learner data formats unchanged"
   ]
 }
