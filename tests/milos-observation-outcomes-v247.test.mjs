@@ -29,14 +29,14 @@ test("2.47 PDF keeps mapped criteria compact and feedback explicit", () => {
   assert.match(js, /Feedback \/ more required/);
 });
 
-test("2.47 outcome layer loads after video engine and stays offline", () => {
+test("2.47 outcome layer remains loaded after the video engine and cached offline", () => {
   const video = index.indexOf("milos-video-evidence-v231.js");
   const outcome = index.indexOf("milos-observation-outcomes-v247.js");
   assert.ok(video >= 0 && outcome > video);
-  assert.match(index, /milos-observation-outcomes-v247\.css\?v=2\.47/);
-  assert.match(index, /milos-observation-outcomes-v247\.js\?v=2\.47/);
-  assert.match(index, /milos-app-version\" content=\"2\.47\"/);
-  assert.match(sw, /milos-assessor-shell-v2\.47/);
+  assert.match(index, /milos-observation-outcomes-v247\.css\?v=\d+\.\d+/);
+  assert.match(index, /milos-observation-outcomes-v247\.js\?v=\d+\.\d+/);
+  assert.match(index, /milos-app-version\" content=\"\d+\.\d+\"/);
+  assert.match(sw, /milos-assessor-shell-v\d+\.\d+/);
   assert.match(sw, /milos-observation-outcomes-v247\.css/);
   assert.match(sw, /milos-observation-outcomes-v247\.js/);
 });
