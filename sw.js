@@ -1,5 +1,5 @@
-// Milos 2.62 Android recorder finalisation release
-const CACHE_NAME = "milos-assessor-shell-v2.62";
+// Milos 2.63 Android track-stop finalisation release
+const CACHE_NAME = "milos-assessor-shell-v2.63";
 const CACHE_PREFIX = "milos-assessor-shell-";
 const APP_SHELL = [
   "./",
