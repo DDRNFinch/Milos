@@ -2,12 +2,12 @@
 'use strict';
 const NativeMediaRecorder=window.MediaRecorder;
 if(!NativeMediaRecorder)return;
-const VERSION='2.63';
+const VERSION='2.65';
 const LIVE_SAVE_BYPASS_MS=10000;
 const FIX_TIMEOUT_MS=1800;
 const FIX_MAX_BYTES=12*1024*1024;
-const ANDROID_DRAIN_MS=1600;
-const DATA_QUIET_MS=180;
+const STOP_FALLBACK_MS=2500;
+const FALLBACK_TRACK_GRACE_MS=250;
 const ANDROID_TIMESLICE_MS=1000;
 const IS_ANDROID=/Android/i.test(navigator.userAgent||'');
 let active=null;
@@ -22,41 +22,24 @@ function paintUnexpected(meta){
   if(timer&&meta.startedAt&&meta.stoppedAt)timer.textContent=fmt(meta.stoppedAt-meta.startedAt);
   if(hint)hint.textContent='Recording stopped unexpectedly. The captured clip is held. Choose a judgement and finish this LO.';
 }
-function deliverRecoveredStop(target,meta,reason,forceReplay=false){
-  if(meta.replayedStop||(!forceReplay&&meta.stopSeen))return;
+function dispatchRecoveredStop(target,meta,reason){
+  if(meta.stopSeen||meta.replayedStop)return;
   meta.replayedStop=true;
-  meta.syntheticFinalised=true;
-  meta.recoveryReason=reason||'tracks-ended';
+  meta.recoveryReason=reason||'stop-timeout';
   try{target.dispatchEvent(new Event('stop'));}catch(_){}
 }
-function endAndroidTracks(target,meta){
-  const started=Date.now();
+function emergencyFinish(target,meta){
+  if(meta.stopSeen||meta.replayedStop)return;
   const tracks=target.stream?.getTracks?.()||[];
   for(const track of tracks){try{track.stop();}catch(_){}}
-  const check=()=>{
-    if(meta.stopSeen||meta.replayedStop)return;
-    const quiet=meta.lastDataAt?Date.now()-meta.lastDataAt:DATA_QUIET_MS;
-    if(target.state==='inactive'){
-      if(quiet<DATA_QUIET_MS){setTimeout(check,DATA_QUIET_MS-quiet);return;}
-      deliverRecoveredStop(target,meta,'inactive-after-tracks-ended');
-      return;
-    }
-    if(Date.now()-started>=ANDROID_DRAIN_MS){
-      if(quiet<DATA_QUIET_MS){setTimeout(check,DATA_QUIET_MS-quiet);return;}
-      deliverRecoveredStop(target,meta,'tracks-ended-timeout');
-      return;
-    }
-    setTimeout(check,80);
-  };
-  setTimeout(check,DATA_QUIET_MS);
+  setTimeout(()=>dispatchRecoveredStop(target,meta,'native-stop-timeout'),FALLBACK_TRACK_GRACE_MS);
 }
 function wrap(native){
-  const meta={evidence:visible(),startedAt:0,stoppedAt:0,stopRequested:false,stopSeen:false,unexpected:false,replayedStop:false,syntheticFinalised:false,recoveryReason:'',liveSaveUntil:0,lastDataAt:0};
+  const meta={evidence:visible(),startedAt:0,stoppedAt:0,stopRequested:false,stopSeen:false,unexpected:false,replayedStop:false,recoveryReason:'',liveSaveUntil:0,lastDataAt:0};
   let proxy=null;
   proxy=new Proxy(native,{get(target,prop){
     if(prop==='state'){
       const actual=Reflect.get(target,prop,target);
-      if(meta.syntheticFinalised)return'inactive';
       if(meta.evidence&&meta.unexpected&&!meta.stopRequested&&actual==='inactive')return'recording';
       return actual;
     }
@@ -66,7 +49,6 @@ function wrap(native){
       return target.start(...args);
     };
     if(prop==='requestData')return(...args)=>{
-      if(meta.evidence)return;
       if(target.state!=='recording')return;
       try{return target.requestData(...args);}catch(_){return;}
     };
@@ -75,14 +57,21 @@ function wrap(native){
       meta.stopRequested=true;
       meta.liveSaveUntil=Date.now()+LIVE_SAVE_BYPASS_MS;
       if(target.state==='inactive'){
-        queueMicrotask(()=>deliverRecoveredStop(target,meta,'already-inactive',true));
+        queueMicrotask(()=>dispatchRecoveredStop(target,meta,'already-inactive'));
         return;
       }
-      if(IS_ANDROID&&meta.evidence){
-        endAndroidTracks(target,meta);
-        return;
+      const fallback=setTimeout(()=>emergencyFinish(target,meta),STOP_FALLBACK_MS);
+      try{
+        const result=target.stop();
+        return result;
+      }catch(error){
+        clearTimeout(fallback);
+        if(target.state==='inactive'){
+          queueMicrotask(()=>dispatchRecoveredStop(target,meta,'inactive-after-stop-error'));
+          return;
+        }
+        throw error;
       }
-      return target.stop();
     };
     const value=Reflect.get(target,prop,target);
     return typeof value==='function'?value.bind(target):value;
@@ -90,9 +79,9 @@ function wrap(native){
   native.addEventListener('dataavailable',event=>{if(event?.data?.size)meta.lastDataAt=Date.now();});
   native.addEventListener('stop',()=>{
     meta.stopSeen=true;
+    meta.stoppedAt=Date.now();
     if(!meta.evidence||meta.stopRequested)return;
     meta.unexpected=true;
-    meta.stoppedAt=Date.now();
     active={proxy,meta};
     paintUnexpected(meta);
   });
@@ -135,5 +124,5 @@ document.addEventListener('click',event=>{
   setTimeout(()=>{if(button.isConnected&&button.textContent==='Finishing recording…'){button.disabled=false;button.textContent=old;}},6000);
 },true);
 const meta=document.querySelector?.('meta[name="milos-app-version"]');if(meta)meta.setAttribute('content',VERSION);
-window.MilosRecorderFinalise258=Object.freeze({version:VERSION,androidWebmPreferred:IS_ANDROID,androidStopStrategy:IS_ANDROID?'end-media-tracks':'native-stop',androidTimesliceMs:ANDROID_TIMESLICE_MS,androidDrainMs:ANDROID_DRAIN_MS,observationRequestDataSuppressed:true,liveSaveBypassMs:LIVE_SAVE_BYPASS_MS,durationFixTimeoutMs:FIX_TIMEOUT_MS,durationFixMaxBytes:FIX_MAX_BYTES});
+window.MilosRecorderFinalise258=Object.freeze({version:VERSION,androidWebmPreferred:IS_ANDROID,androidStopStrategy:IS_ANDROID?'native-stop-first':'native-stop',androidTimesliceMs:ANDROID_TIMESLICE_MS,stopFallbackMs:STOP_FALLBACK_MS,fallbackTrackGraceMs:FALLBACK_TRACK_GRACE_MS,observationRequestDataSuppressed:false,liveSaveBypassMs:LIVE_SAVE_BYPASS_MS,durationFixTimeoutMs:FIX_TIMEOUT_MS,durationFixMaxBytes:FIX_MAX_BYTES});
 })();
