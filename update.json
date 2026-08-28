@@ -1,11 +1,10 @@
 {
-  "version": "2.56",
-  "title": "Observation recorder recovery",
+  "version": "2.57",
+  "title": "Observation finish button hotfix",
   "details": [
-    "If the phone camera or microphone stops unexpectedly during a video observation, Milos no longer leaves the assessment screen frozen",
-    "The recorded clip is retained so Competent or More required and the Finish controls remain usable",
-    "If the recorder stops on the final AC after a judgement has already been selected, Milos finishes and saves that clip automatically",
-    "The stopped recording time is held on screen instead of continuing to count after the camera has stopped",
-    "Review, calendar, evidence, QR, mileage and course behaviour are otherwise unchanged"
+    "Fixes the Android observation fault where the camera stops but Finish LO stays on screen and never completes",
+    "If Android fails to send the recorder stop event, Milos now releases the clip automatically after a short safety timeout and continues to the feedback screen",
+    "The Finish control now shows Saving clip while Milos finalises the recording and ignores repeated taps during that process",
+    "The existing Competent and More required decisions, stored video chunks and observation workflow are otherwise unchanged"
   ]
 }
