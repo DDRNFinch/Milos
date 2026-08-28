@@ -19,12 +19,13 @@ test('installed shell remains version-stable between explicit updates',()=>{
   assert.doesNotMatch(sw,/await cache\.put\("\.\/index\.html", response\.clone\(\)\)/);
 });
 
-test('updater waits for worker readiness then reloads without a blocking overlay',()=>{
+test('updater waits for worker readiness then reopens the fresh shell without a blocking overlay',()=>{
   assert.match(updater,/serviceWorker\.register\('\.\/sw\.js'/);
   assert.match(updater,/SKIP_WAITING/);
   assert.match(updater,/controllerchange/);
-  assert.match(updater,/location\.reload/);
-  assert.doesNotMatch(updater,/location\.replace/);
+  assert.match(updater,/location\.replace/);
+  assert.match(updater,/milos_update=/);
+  assert.match(sw,/url\.searchParams\.has\("milos_update"\)/);
 });
 
 test('version-check index requests bypass the cached shell',()=>{
