@@ -1,4 +1,4 @@
-const CACHE_NAME = "milos-assessor-shell-v2.44";
+const CACHE_NAME = "milos-assessor-shell-v2.45";
 const CACHE_PREFIX = "milos-assessor-shell-";
 const APP_SHELL = [
   "./",
@@ -32,6 +32,7 @@ const APP_SHELL = [
   "./assets/milos-observation-bundle-v22.js",
   "./assets/milos-evidence-compat-v239.js",
   "./assets/milos-evidence-player-v241.js",
+  "./assets/milos-evidence-navigator-v245.js",
   "./assets/milos-square-evidence-v244.js",
   "./assets/milos-evidence-timeline-v242.js",
   "./assets/milos-observation-export-v225.js",
@@ -46,6 +47,7 @@ const APP_SHELL = [
   "./assets/milos-square-evidence-v244.css",
   "./assets/milos-full-criteria-prompts-v243.js",
   "./assets/milos-full-criteria-prompts-v243.css",
+  "./assets/milos-video-layout-v245.css",
   "./assets/milos-week-calendar-v228.js",
   "./assets/milos-week-calendar-v228.css",
   "./assets/milos-calendar-manager-v230.css",
