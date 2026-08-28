@@ -3,7 +3,8 @@
   const C=window.MilosCore;
   if(!C||!window.document)return;
 
-  const VERSION='2.53';
+  const VERSION='2.54';
+  const GEO_VERSION='2.54-postcode-first';
   const STORE_KEY='milos-travel-v1';
   const BOOKING_KEY='milos-calendar-bookings-v1';
   const state={busy:false,lastMileage:null,lastRoute:null};
@@ -22,6 +23,17 @@
   function siteKey(value){const postcode=ukPostcode(value);return postcode?`postcode:${postcode}`:`address:${normaliseAddress(value)}`;}
   function dateText(key){const d=new Date(`${key}T12:00:00`);return Number.isFinite(d.getTime())?d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):key;}
   function toast(message,error){let el=document.getElementById('msameToast');if(!el){el=document.createElement('div');el.id='msameToast';el.className='mvisit-toast';document.body.appendChild(el);}el.textContent=message;el.classList.toggle('is-error',!!error);el.classList.add('is-visible');clearTimeout(toast.timer);toast.timer=setTimeout(()=>el.classList.remove('is-visible'),3200);}
+  function currentGeoVersion(){return window.MilosTravel?.geocodeVersion||GEO_VERSION;}
+  function freshLocation(value){return !!(value&&Number.isFinite(Number(value.lat))&&Number.isFinite(Number(value.lon))&&value.geocodeVersion===currentGeoVersion());}
+
+  async function ensureBase(d){
+    if(!d.baseAddress&&!d.base)throw new Error('Set and calculate your base address first.');
+    if(freshLocation(d.base))return d.base;
+    if(!d.baseAddress)throw new Error('Open Travel > Profile and save your base address again.');
+    const api=window.MilosTravel;if(!api||typeof api.geocode!=='function')throw new Error('Road address lookup is not ready.');
+    const point=await api.geocode(d.baseAddress),base={address:d.baseAddress,lat:Number(point.lat),lon:Number(point.lon),displayName:clean(point.displayName||d.baseAddress,300),precision:point.precision||'',postcode:point.postcode||ukPostcode(d.baseAddress),geocodeVersion:point.geocodeVersion||currentGeoVersion(),calculatedAt:Date.now()};
+    d.base=base;writeTravel(d);return base;
+  }
 
   function groupBookings(rows){
     const groups=new Map();
@@ -41,9 +53,9 @@
     const api=window.MilosTravel;if(!api||typeof api.geocode!=='function')throw new Error('Road address lookup is not ready.');
     const d=readTravel(),booking=group.bookings[0],p=group.profiles[0],address=group.address,bookingId=booking&&booking.id,profileId=p&&p.id,shared=group.profiles.length>1;
     const cached=d.bookingLocations&&bookingId?d.bookingLocations[bookingId]:null,site=d.sites&&profileId?d.sites[profileId]:null;
-    if(!shared&&cached&&siteKey(cached.address)===group.key&&Number.isFinite(Number(cached.lat))&&Number.isFinite(Number(cached.lon)))return Object.assign({},cached,{address});
-    if(!shared&&site&&siteKey(site.address)===group.key&&Number.isFinite(Number(site.lat))&&Number.isFinite(Number(site.lon)))return Object.assign({},site,{address});
-    const point=await api.geocode(address),located={address,lat:Number(point.lat),lon:Number(point.lon),displayName:clean(point.displayName||address,300),calculatedAt:Date.now()};
+    if(!shared&&cached&&siteKey(cached.address)===group.key&&freshLocation(cached))return Object.assign({},cached,{address});
+    if(!shared&&site&&siteKey(site.address)===group.key&&freshLocation(site))return Object.assign({},site,{address});
+    const point=await api.geocode(address),located={address,lat:Number(point.lat),lon:Number(point.lon),displayName:clean(point.displayName||address,300),precision:point.precision||'',postcode:point.postcode||ukPostcode(address),geocodeVersion:point.geocodeVersion||currentGeoVersion(),calculatedAt:Date.now()};
     d.bookingLocations=d.bookingLocations||{};
     group.bookings.forEach(item=>{if(item.id)d.bookingLocations[item.id]=located;});
     writeTravel(d);
@@ -57,7 +69,7 @@
     const body=form.closest('.mtravel-body');if(!body)return;
     body.querySelectorAll('.mvisit-mileage-result,.msame-mileage-result').forEach(el=>el.remove());
     const wrap=document.createElement('div');wrap.className='msame-mileage-result';
-    wrap.innerHTML=`<div class="mtravel-summary"><div><span>Total business miles</span><strong>${result.total.toFixed(1)}</strong></div>${rate?`<div><span>At £${rate.toFixed(2)}/mile</span><strong>£${(result.total*rate).toFixed(2)}</strong></div>`:''}</div><div class="mtravel-day-list">${result.days.map(day=>`<div><strong>${esc(dateText(day.date))}</strong><span>${esc(day.labels.join(' → '))}</span><b>${day.miles.toFixed(1)} mi</b></div>`).join('')||'<p>No calendar visits with learner addresses were found in this period.</p>'}</div><button class="mtravel-secondary mtravel-download" type="button" data-msame-download>Download mileage CSV</button><p class="mtravel-note">Mileage uses the visit address saved on each calendar booking. A learner profile address is only a default when creating the booking; the calendar entry is the source of truth.</p>`;
+    wrap.innerHTML=`<div class="mtravel-summary"><div><span>Total business miles</span><strong>${result.total.toFixed(1)}</strong></div>${rate?`<div><span>At £${rate.toFixed(2)}/mile</span><strong>£${(result.total*rate).toFixed(2)}</strong></div>`:''}</div><div class="mtravel-day-list">${result.days.map(day=>`<div><strong>${esc(dateText(day.date))}</strong><span>${esc(day.labels.join(' → '))}</span><b>${day.miles.toFixed(1)} mi</b></div>`).join('')||'<p>No calendar visits with learner addresses were found in this period.</p>'}</div><button class="mtravel-secondary mtravel-download" type="button" data-msame-download>Download mileage CSV</button><p class="mtravel-note">Mileage uses the postcode/address saved on each calendar booking and recalculates the road route from your saved base. Old cached map matches are ignored after this accuracy update.</p>`;
     form.after(wrap);
   }
 
@@ -70,8 +82,8 @@
 
   async function calculateMileage(form){
     const data=new FormData(form),from=clean(data.get('from'),20),to=clean(data.get('to'),20),d=readTravel();
-    if(!d.base)throw new Error('Set and calculate your base address first.');
     const api=window.MilosTravel;if(!api||typeof api.roadRoute!=='function')throw new Error('Road mileage is not ready.');
+    const base=await ensureBase(d);
     const rows=bookings().filter(b=>b.date>=from&&b.date<=to&&isCalendarVisit(b));
     const byDate=new Map();rows.forEach(b=>{const list=byDate.get(b.date)||[];list.push(b);byDate.set(b.date,list);});
     const days=[];
@@ -79,8 +91,8 @@
       const groups=groupBookings(dateRows),stops=[];
       for(const group of groups){const site=await locateGroup(group);stops.push({group,site,address:group.address});}
       if(!stops.length)continue;
-      const order=optimise(d.base,stops),route=await api.roadRoute([d.base,...order.map(item=>item.site),d.base]);
-      const day={date,labels:order.map(item=>item.group.names.join(' + ')),names:order.flatMap(item=>item.group.names),addresses:order.map(item=>item.address),miles:Number(route.miles||0),minutes:Number(route.minutes||0)};
+      const order=optimise(base,stops),route=await api.roadRoute([base,...order.map(item=>item.site),base]);
+      const day={date,labels:order.map(item=>item.group.names.join(' + ')),names:order.flatMap(item=>item.group.names),addresses:order.map(item=>item.address),miles:Number(route.miles||0),minutes:Number(route.minutes||0),geocodeVersion:currentGeoVersion()};
       days.push(day);d.dailyMileage=d.dailyMileage||{};d.dailyMileage[date]=day;
     }
     writeTravel(d);const total=Math.round(days.reduce((sum,item)=>sum+item.miles,0)*10)/10;state.lastMileage={from,to,days,total};renderMileage(form,state.lastMileage,Number(d.mileageRate||0));toast(`${total.toFixed(1)} business miles calculated.`);
@@ -96,19 +108,19 @@
   function renderRoute(form,result,d){
     const body=form.closest('.mtravel-body');if(!body)return;body.querySelectorAll('.mvisit-route-result,.msame-route-result').forEach(el=>el.remove());
     const wrap=document.createElement('div');wrap.className='msame-route-result mvisit-route-result';
-    wrap.innerHTML=`<span>Suggested order</span><ol>${result.order.map(item=>`<li>${esc(item.group.names.join(' + '))}<br><small>${esc(item.address)}</small></li>`).join('')}</ol><div class="mtravel-summary"><div><span>Round trip</span><strong>${result.miles.toFixed(1)} mi</strong></div><div><span>Driving</span><strong>${result.minutes} min</strong></div></div><a class="mtravel-primary mtravel-route-link" href="${esc(routeUrl(result.order,d))}" target="_blank" rel="noopener">${d.mapApp==='waze'&&result.order.length>1?'Open first leg in Waze':'Open route in '+(d.mapApp==='waze'?'Waze':'Google Maps')}</a><p class="mtravel-note">Learners at the same calendar visit address are combined into one stop.</p>`;
+    wrap.innerHTML=`<span>Suggested order</span><ol>${result.order.map(item=>`<li>${esc(item.group.names.join(' + '))}<br><small>${esc(item.address)}</small></li>`).join('')}</ol><div class="mtravel-summary"><div><span>Round trip</span><strong>${result.miles.toFixed(1)} mi</strong></div><div><span>Driving</span><strong>${result.minutes} min</strong></div></div><a class="mtravel-primary mtravel-route-link" href="${esc(routeUrl(result.order,d))}" target="_blank" rel="noopener">${d.mapApp==='waze'&&result.order.length>1?'Open first leg in Waze':'Open route in '+(d.mapApp==='waze'?'Waze':'Google Maps')}</a><p class="mtravel-note">Learners at the same calendar visit address are combined into one stop. Postcodes are resolved before road routing to avoid broad town or street matches.</p>`;
     form.after(wrap);
   }
 
   async function calculateRoute(form){
-    const d=readTravel();if(!d.base)throw new Error('Set and calculate your base address first.');
-    const api=window.MilosTravel;if(!api||typeof api.roadRoute!=='function')throw new Error('Road route planning is not ready.');
+    const d=readTravel();const api=window.MilosTravel;if(!api||typeof api.roadRoute!=='function')throw new Error('Road route planning is not ready.');
+    const base=await ensureBase(d);
     const checked=[...form.querySelectorAll('input[name="mvisitStops"]:checked')];if(!checked.length)return;
     const fakeBookings=checked.map((input,index)=>({id:clean(input.dataset.bookingId,120)||`route-${index}`,profileId:clean(input.dataset.profileId,120),location:clean(input.dataset.address,300)}));
     const groups=groupBookings(fakeBookings),stops=[];
     for(const group of groups){const site=await locateGroup(group);stops.push({group,site,address:group.address});}
     if(!stops.length)throw new Error('Selected calendar visits need an address.');
-    const order=optimise(d.base,stops),route=await api.roadRoute([d.base,...order.map(item=>item.site),d.base]);state.lastRoute={order,miles:Number(route.miles||0),minutes:Number(route.minutes||0)};renderRoute(form,state.lastRoute,d);toast(`Suggested route: ${state.lastRoute.miles.toFixed(1)} miles.`);
+    const order=optimise(base,stops),route=await api.roadRoute([base,...order.map(item=>item.site),base]);state.lastRoute={order,miles:Number(route.miles||0),minutes:Number(route.minutes||0)};renderRoute(form,state.lastRoute,d);toast(`Suggested route: ${state.lastRoute.miles.toFixed(1)} miles.`);
   }
 
   document.addEventListener('click',event=>{
@@ -119,8 +131,8 @@
     const form=event.target.closest&&event.target.closest('[data-mtravel-form]');if(!form)return;
     const kind=form.dataset.mtravelForm;if(kind!=='mileage'&&kind!=='route')return;
     event.preventDefault();event.stopImmediatePropagation();if(state.busy)return;state.busy=true;
-    (async()=>{try{if(kind==='mileage'){toast('Calculating visit mileage…');await calculateMileage(form);}else{toast('Calculating the suggested road route…');await calculateRoute(form);}}catch(err){toast(err&&err.message?err.message:'Travel calculation failed.',true);}finally{state.busy=false;}})();
+    (async()=>{try{if(kind==='mileage'){toast('Rechecking postcodes and calculating visit mileage…');await calculateMileage(form);}else{toast('Rechecking postcodes and calculating the suggested road route…');await calculateRoute(form);}}catch(err){toast(err&&err.message?err.message:'Travel calculation failed.',true);}finally{state.busy=false;}})();
   },true);
 
-  window.MilosSameSiteMileage=Object.freeze({version:VERSION,siteKey,groupBookings,isCalendarVisit});
+  window.MilosSameSiteMileage=Object.freeze({version:VERSION,siteKey,groupBookings,isCalendarVisit,freshLocation});
 })();
