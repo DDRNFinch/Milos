@@ -1,12 +1,10 @@
 {
-  "version": "2.45",
-  "title": "LO evidence navigator and cleaner recording layout",
+  "version": "2.46",
+  "title": "Larger mobile observation controls",
   "details": [
-    "Evidence packages now use one local ZIP selection instead of trying to open neighbouring video files that phones and desktop browsers can block",
-    "The evidence viewer now lists Introduction, each recorded learning outcome and Witness testimony as clear sections, with AC timestamps inside the selected section",
-    "On phones the evidence video stays fixed at the top while LO and AC sections scroll underneath",
-    "The extra minus 10 seconds, plus 10 seconds, manual timestamp box and Go to timestamp controls are removed from the visible viewer because AC timestamps now provide direct navigation",
-    "The live Milos recording screen now puts the camera first, the full AC directly underneath, then competence controls and Next AC, removing the unused black space below square video",
-    "Existing MP4 fast-start repair, WebM duration repair, original media quality and complete evidence ZIP export remain unchanged"
+    "Observation AC text is larger and easier to read on a phone",
+    "Competent, With actions and Further evidence controls are larger and easier to press",
+    "Next AC and Finish LO controls are larger and make better use of the available screen space",
+    "Recording, evidence, storage, export, QR and course behaviour are unchanged"
   ]
 }
