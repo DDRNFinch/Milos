@@ -1,5 +1,5 @@
-// Milos 2.60 recorder stability release
-const CACHE_NAME = "milos-assessor-shell-v2.60";
+// Milos 2.61 recorder stability release
+const CACHE_NAME = "milos-assessor-shell-v2.61";
 const CACHE_PREFIX = "milos-assessor-shell-";
 const APP_SHELL = [
   "./",
