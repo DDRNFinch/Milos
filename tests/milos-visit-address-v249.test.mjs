@@ -38,15 +38,15 @@ test('2.49 mileage and route planning use visit-specific booking addresses',()=>
   assert.match(js,/Where a calendar booking has its own visit address/);
 });
 
-test('2.49 shell loads visit workflow before the existing travel layer and keeps it offline',()=>{
+test('2.49 visit workflow remains loaded and cached in the current release',()=>{
   const standard=index.indexOf('milos-standard-ui-v229.js');
   const visit=index.indexOf('milos-visit-address-v249.js');
   const travel=index.indexOf('milos-travel-v248.js');
   assert.ok(standard>=0&&visit>standard&&travel>visit);
-  assert.equal(pkg.version,'2.49.0');
-  assert.equal(update.version,'2.49');
-  assert.match(index,/milos-app-version" content="2\.49"/);
-  assert.match(index,/milos-visit-address-v249\.js\?v=2\.49/);
-  assert.match(sw,/milos-assessor-shell-v2\.49/);
+  assert.match(pkg.version,/^2\.\d+\.0$/);
+  assert.match(update.version,/^2\.\d+$/);
+  assert.match(index,/milos-app-version" content="2\.\d+"/);
+  assert.match(index,/milos-visit-address-v249\.js\?v=2\.\d+/);
+  assert.match(sw,/milos-assessor-shell-v2\.\d+/);
   assert.match(sw,/milos-visit-address-v249\.js/);
 });
