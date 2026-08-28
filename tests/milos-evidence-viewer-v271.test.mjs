@@ -56,7 +56,9 @@ test("2.71 viewer remains retired while the current responsive viewer and seek r
   assert.doesNotMatch(index, /milos-evidence-viewer-v271\.js\?v=/);
   assert.doesNotMatch(sw, /milos-evidence-viewer-v271\.js/);
   assert.match(index, /milos-evidence-viewer-v272\.js\?v=[0-9.]+/);
-  assert.match(index, /milos-evidence-timestamp-v273\.js\?v=[0-9.]+/);
+  assert.match(index, /milos-evidence-timestamp-v274\.js\?v=[0-9.]+/);
+  assert.doesNotMatch(index, /milos-evidence-timestamp-v273\.js\?v=/);
   assert.match(sw, /milos-evidence-viewer-v272\.js/);
-  assert.match(sw, /milos-evidence-timestamp-v273\.js/);
+  assert.match(sw, /milos-evidence-timestamp-v274\.js/);
+  assert.doesNotMatch(sw, /milos-evidence-timestamp-v273\.js/);
 });
