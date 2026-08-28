@@ -60,9 +60,10 @@ test('review can schedule an editable calculated midpoint check-in',()=>{
 });
 
 test('midpoint and meeting check-in form is deliberately just a notes box',()=>{
-  assert.match(js,/form data-checkin-form/);
-  assert.match(js,/textarea name=\"notes\"/);
-  assert.doesNotMatch(js,/data-checkin-form[^`]*(?:rating|status|target|signature)/s);
+  const form=js.match(/<form data-checkin-form[\s\S]*?<\/form>/)?.[0]||'';
+  assert.ok(form,'check-in form should exist');
+  assert.match(form,/textarea name=\"notes\"/);
+  assert.doesNotMatch(form,/name=\"(?:rating|status|target|signature)/);
   assert.match(js,/milos-checkins-v1/);
 });
 
