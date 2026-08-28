@@ -3,7 +3,7 @@
   const C=window.MilosCore;
   if(!C||!window.document)return;
 
-  const VERSION='2.51';
+  const VERSION='2.53';
   const STORE_KEY='milos-travel-v1';
   const BOOKING_KEY='milos-calendar-bookings-v1';
   const state={busy:false,lastMileage:null,lastRoute:null};
@@ -15,8 +15,8 @@
   function bookings(){try{const rows=JSON.parse(localStorage.getItem(BOOKING_KEY)||'[]');return Array.isArray(rows)?rows:[];}catch(_){return[];}}
   function profiles(){return C.getProfiles?C.getProfiles():[];}
   function profile(id){return C.getProfile?C.getProfile(id):profiles().find(item=>item.id===id)||null;}
-  function permanentAddress(id){const d=readTravel(),site=d.sites&&d.sites[id]||{};return clean(site.address,300);}
-  function bookingAddress(booking){return clean(booking&&booking.location,300)||permanentAddress(booking&&booking.profileId);}
+  function bookingAddress(booking){return clean(booking&&booking.location,300);}
+  function isCalendarVisit(booking){return !!(booking&&booking.date&&booking.profileId&&bookingAddress(booking));}
   function normaliseAddress(value){return clean(value,300).toLowerCase().replace(/[^a-z0-9]+/g,' ').replace(/\s+/g,' ').trim();}
   function ukPostcode(value){const match=clean(value,300).toUpperCase().match(/\b(?:GIR\s?0AA|[A-Z]{1,2}\d[A-Z\d]?\s?\d[A-Z]{2})\b/i);if(!match)return'';return match[0].replace(/\s+/g,'');}
   function siteKey(value){const postcode=ukPostcode(value);return postcode?`postcode:${postcode}`:`address:${normaliseAddress(value)}`;}
@@ -57,7 +57,7 @@
     const body=form.closest('.mtravel-body');if(!body)return;
     body.querySelectorAll('.mvisit-mileage-result,.msame-mileage-result').forEach(el=>el.remove());
     const wrap=document.createElement('div');wrap.className='msame-mileage-result';
-    wrap.innerHTML=`<div class="mtravel-summary"><div><span>Total business miles</span><strong>${result.total.toFixed(1)}</strong></div>${rate?`<div><span>At £${rate.toFixed(2)}/mile</span><strong>£${(result.total*rate).toFixed(2)}</strong></div>`:''}</div><div class="mtravel-day-list">${result.days.map(day=>`<div><strong>${esc(dateText(day.date))}</strong><span>${esc(day.labels.join(' → '))}</span><b>${day.miles.toFixed(1)} mi</b></div>`).join('')||'<p>No review or observation visits with addresses were found in this period.</p>'}</div><button class="mtravel-secondary mtravel-download" type="button" data-msame-download>Download mileage CSV</button><p class="mtravel-note">Learners at the same visit address are treated as one physical stop, so the same site is not counted twice.</p>`;
+    wrap.innerHTML=`<div class="mtravel-summary"><div><span>Total business miles</span><strong>${result.total.toFixed(1)}</strong></div>${rate?`<div><span>At £${rate.toFixed(2)}/mile</span><strong>£${(result.total*rate).toFixed(2)}</strong></div>`:''}</div><div class="mtravel-day-list">${result.days.map(day=>`<div><strong>${esc(dateText(day.date))}</strong><span>${esc(day.labels.join(' → '))}</span><b>${day.miles.toFixed(1)} mi</b></div>`).join('')||'<p>No calendar visits with learner addresses were found in this period.</p>'}</div><button class="mtravel-secondary mtravel-download" type="button" data-msame-download>Download mileage CSV</button><p class="mtravel-note">Mileage uses the visit address saved on each calendar booking. A learner profile address is only a default when creating the booking; the calendar entry is the source of truth.</p>`;
     form.after(wrap);
   }
 
@@ -72,7 +72,7 @@
     const data=new FormData(form),from=clean(data.get('from'),20),to=clean(data.get('to'),20),d=readTravel();
     if(!d.base)throw new Error('Set and calculate your base address first.');
     const api=window.MilosTravel;if(!api||typeof api.roadRoute!=='function')throw new Error('Road mileage is not ready.');
-    const rows=bookings().filter(b=>b.date>=from&&b.date<=to&&b.profileId&&['review','observation','witness'].includes(b.type));
+    const rows=bookings().filter(b=>b.date>=from&&b.date<=to&&isCalendarVisit(b));
     const byDate=new Map();rows.forEach(b=>{const list=byDate.get(b.date)||[];list.push(b);byDate.set(b.date,list);});
     const days=[];
     for(const [date,dateRows] of [...byDate.entries()].sort((a,b)=>a[0].localeCompare(b[0]))){
@@ -96,7 +96,7 @@
   function renderRoute(form,result,d){
     const body=form.closest('.mtravel-body');if(!body)return;body.querySelectorAll('.mvisit-route-result,.msame-route-result').forEach(el=>el.remove());
     const wrap=document.createElement('div');wrap.className='msame-route-result mvisit-route-result';
-    wrap.innerHTML=`<span>Suggested order</span><ol>${result.order.map(item=>`<li>${esc(item.group.names.join(' + '))}<br><small>${esc(item.address)}</small></li>`).join('')}</ol><div class="mtravel-summary"><div><span>Round trip</span><strong>${result.miles.toFixed(1)} mi</strong></div><div><span>Driving</span><strong>${result.minutes} min</strong></div></div><a class="mtravel-primary mtravel-route-link" href="${esc(routeUrl(result.order,d))}" target="_blank" rel="noopener">${d.mapApp==='waze'&&result.order.length>1?'Open first leg in Waze':'Open route in '+(d.mapApp==='waze'?'Waze':'Google Maps')}</a><p class="mtravel-note">Learners at the same address are combined into one stop.</p>`;
+    wrap.innerHTML=`<span>Suggested order</span><ol>${result.order.map(item=>`<li>${esc(item.group.names.join(' + '))}<br><small>${esc(item.address)}</small></li>`).join('')}</ol><div class="mtravel-summary"><div><span>Round trip</span><strong>${result.miles.toFixed(1)} mi</strong></div><div><span>Driving</span><strong>${result.minutes} min</strong></div></div><a class="mtravel-primary mtravel-route-link" href="${esc(routeUrl(result.order,d))}" target="_blank" rel="noopener">${d.mapApp==='waze'&&result.order.length>1?'Open first leg in Waze':'Open route in '+(d.mapApp==='waze'?'Waze':'Google Maps')}</a><p class="mtravel-note">Learners at the same calendar visit address are combined into one stop.</p>`;
     form.after(wrap);
   }
 
@@ -107,7 +107,7 @@
     const fakeBookings=checked.map((input,index)=>({id:clean(input.dataset.bookingId,120)||`route-${index}`,profileId:clean(input.dataset.profileId,120),location:clean(input.dataset.address,300)}));
     const groups=groupBookings(fakeBookings),stops=[];
     for(const group of groups){const site=await locateGroup(group);stops.push({group,site,address:group.address});}
-    if(!stops.length)throw new Error('Selected visits need an address.');
+    if(!stops.length)throw new Error('Selected calendar visits need an address.');
     const order=optimise(d.base,stops),route=await api.roadRoute([d.base,...order.map(item=>item.site),d.base]);state.lastRoute={order,miles:Number(route.miles||0),minutes:Number(route.minutes||0)};renderRoute(form,state.lastRoute,d);toast(`Suggested route: ${state.lastRoute.miles.toFixed(1)} miles.`);
   }
 
@@ -122,5 +122,5 @@
     (async()=>{try{if(kind==='mileage'){toast('Calculating visit mileage…');await calculateMileage(form);}else{toast('Calculating the suggested road route…');await calculateRoute(form);}}catch(err){toast(err&&err.message?err.message:'Travel calculation failed.',true);}finally{state.busy=false;}})();
   },true);
 
-  window.MilosSameSiteMileage=Object.freeze({version:VERSION,siteKey,groupBookings});
+  window.MilosSameSiteMileage=Object.freeze({version:VERSION,siteKey,groupBookings,isCalendarVisit});
 })();
