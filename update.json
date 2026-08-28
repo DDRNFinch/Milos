@@ -1,12 +1,12 @@
 {
-  "version": "2.71",
-  "title": "Responsive evidence viewer restored",
+  "version": "2.72",
+  "title": "Evidence viewer streamlined",
   "details": [
-    "Restores the designed evidence viewer with the video held in place while AC timestamps scroll beside it on desktop and beneath it on phones",
-    "Keeps every AC timestamp clickable and grouped by Introduction, learning outcome and Witness testimony",
-    "Desktop evidence now keeps the original automatic sibling-video load attempt instead of forcing the ZIP picker first",
-    "Phone browsers that block local sibling files still require one explicit Open evidence ZIP tap because Android does not allow a webpage to grant itself file access; after that one selection Milos loads the videos and timestamp jumps automatically",
-    "The enhanced layout only hides the original timestamp viewer after its own evidence data has loaded successfully, so a presentation failure can no longer leave a blank panel",
+    "Makes the Android evidence flow feel deliberate rather than broken: the large red browser warning is removed and replaced with a simple Open evidence ZIP step",
+    "Tapping an AC timestamp or recording on Android can now open the ZIP picker directly when file permission is still needed, then Milos continues to the selected recording automatically",
+    "Once the ZIP is loaded, the permission button and helper text disappear so only the video and evidence navigation remain",
+    "Desktop keeps automatic neighbouring-video loading, while both desktop and phone keep the fixed video with scrolling timestamp navigation",
+    "The exported viewer states clearly that evidence files stay on the device and are not uploaded",
     "The proven Milos 2.46 camera/media stack and the reliable installed-app update handover are unchanged"
   ]
 }
