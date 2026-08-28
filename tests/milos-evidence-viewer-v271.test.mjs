@@ -52,8 +52,9 @@ test("2.71 restores the responsive viewer without hiding timestamps until the en
   assert.match(html, /position:sticky;top:0/);
   assert.match(html, /video stays in place while the evidence list scrolls/i);
   assert.match(html, /data-open-evidence/);
-  assert.match(html, />00:18<\/time>/);
-  assert.match(html, />00:43<\/time>/);
+  assert.match(html, /"seconds":18/);
+  assert.match(html, /"seconds":43/);
+  assert.match(html, /fmt\(item\.seconds\)/);
 });
 
 test("2.71 preserves automatic sibling-video loading for desktop and falls back to one ZIP permission on blocked phones", async () => {
