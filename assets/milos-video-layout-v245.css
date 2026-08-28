@@ -1,0 +1,88 @@
+.mvo-ac-screen{
+  background:#f6f8fb;
+  color:#172033;
+}
+.mvo-ac-video{
+  order:1;
+  flex:0 0 auto;
+  width:100%;
+  height:min(52dvh,100vw);
+  min-height:0!important;
+  max-height:720px;
+  background:#05080d;
+}
+.mvo-ac-video video{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  background:#05080d;
+}
+.mvo-ac-head{
+  order:2;
+  position:relative;
+  top:auto;
+  z-index:2;
+  max-height:22dvh!important;
+  overflow-y:auto!important;
+  background:#fff;
+  padding:10px 12px 11px;
+  border-bottom:1px solid rgba(23,32,51,.08);
+}
+.mvo-ac-head.mve-full-ac-head,
+.mvo-ac-head.mve-full-ksb-head{
+  max-height:22dvh!important;
+}
+.mvo-ac-controls{
+  order:3;
+  padding:8px 10px calc(10px + env(safe-area-inset-bottom));
+  background:#f6f8fb;
+}
+.mvo-decision-bar{
+  gap:7px;
+}
+.mvo-decision-bar button{
+  min-height:54px;
+}
+.mvo-next-ac{
+  min-height:50px;
+  margin-top:8px;
+}
+.mvo-recording-hint{
+  margin-top:5px;
+}
+@media(max-width:520px){
+  .mvo-ac-video{
+    height:min(50dvh,100vw);
+  }
+  .mvo-ac-head{
+    padding:9px 10px 10px;
+    max-height:21dvh!important;
+  }
+  .mvo-ac-head.mve-full-ac-head,
+  .mvo-ac-head.mve-full-ksb-head{
+    max-height:21dvh!important;
+  }
+  .mvo-ac-controls{
+    padding:7px 8px calc(8px + env(safe-area-inset-bottom));
+  }
+  .mvo-decision-bar button{
+    min-height:50px;
+  }
+}
+@media(max-height:680px){
+  .mvo-ac-video{
+    height:42dvh;
+    max-height:360px;
+  }
+  .mvo-ac-head,
+  .mvo-ac-head.mve-full-ac-head,
+  .mvo-ac-head.mve-full-ksb-head{
+    max-height:23dvh!important;
+  }
+  .mvo-decision-bar button{
+    min-height:44px;
+  }
+  .mvo-next-ac{
+    min-height:44px;
+  }
+}
