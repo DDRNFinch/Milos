@@ -32,14 +32,14 @@ test("2.43 removes the old two-line visual clamp and keeps long criteria readabl
   assert.match(css, /\.mvo-ac-head \.ksbv-question\{display:block;max-width:100%;overflow:visible/);
 });
 
-test("2.43 full-criteria layer remains loaded and cached in Milos 2.44 after the unified video evidence engine", () => {
+test("2.43 full-criteria layer remains loaded and cached in Milos 2.45 after the unified video evidence engine", () => {
   const engine = index.indexOf("milos-video-evidence-v231.js");
   const prompts = index.indexOf("milos-full-criteria-prompts-v243.js");
   assert.ok(engine >= 0 && prompts > engine);
-  assert.match(index, /milos-full-criteria-prompts-v243\.css\?v=2\.44/);
-  assert.match(index, /milos-full-criteria-prompts-v243\.js\?v=2\.44/);
-  assert.match(index, /milos-app-version" content="2\.44"/);
-  assert.match(sw, /milos-assessor-shell-v2\.44/);
+  assert.match(index, /milos-full-criteria-prompts-v243\.css\?v=2\.45/);
+  assert.match(index, /milos-full-criteria-prompts-v243\.js\?v=2\.45/);
+  assert.match(index, /milos-app-version" content="2\.45"/);
+  assert.match(sw, /milos-assessor-shell-v2\.45/);
   assert.match(sw, /milos-full-criteria-prompts-v243\.js/);
   assert.match(sw, /milos-full-criteria-prompts-v243\.css/);
 });
