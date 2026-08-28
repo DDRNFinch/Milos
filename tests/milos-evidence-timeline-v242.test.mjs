@@ -88,19 +88,18 @@ test("2.42 keeps the 2.41 generic player as fallback when no matching saved vide
   assert.equal(result[0].name, "random.mp4");
 });
 
-test("2.42 timeline wrapper remains loaded in the current Milos release after the phone-safe player and navigator/square wrappers, before both ZIP exporters, and is cached offline", () => {
+test("current release keeps the working AC timestamp viewer and does not load the navigator layer that hides it when its runtime fails", () => {
   const player = index.indexOf("milos-evidence-player-v241.js");
-  const navigator = index.indexOf("milos-evidence-navigator-v245.js");
   const square = index.indexOf("milos-square-evidence-v244.js");
   const timeline = index.indexOf("milos-evidence-timeline-v242.js");
   const standardExporter = index.indexOf("milos-observation-export-v225.js");
   const videoExporter = index.indexOf("milos-video-evidence-v231.js");
-  assert.ok(player >= 0 && navigator > player && square > navigator && timeline > square);
+  assert.ok(player >= 0 && square > player && timeline > square);
   assert.ok(standardExporter > timeline && videoExporter > timeline);
   assert.match(index, /milos-evidence-timeline-v242\.js\?v=\d+\.\d+/);
-  assert.match(index, /milos-evidence-navigator-v245\.js\?v=\d+\.\d+/);
+  assert.doesNotMatch(index, /milos-evidence-navigator-v245\.js/);
   assert.match(index, /milos-app-version" content="\d+\.\d+"/);
   assert.match(sw, /milos-assessor-shell-v\d+\.\d+/);
   assert.match(sw, /milos-evidence-timeline-v242\.js/);
-  assert.match(sw, /milos-evidence-navigator-v245\.js/);
+  assert.doesNotMatch(sw, /milos-evidence-navigator-v245\.js/);
 });
