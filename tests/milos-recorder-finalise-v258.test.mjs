@@ -17,19 +17,24 @@ test('recorder uses one finalisation layer instead of stacked hotfixes',()=>{
   assert.doesNotMatch(sw,/milos-recorder-finalise-v257\.js/);
 });
 
-test('recorder preserves native final data ordering before missing-stop recovery',()=>{
-  assert.match(js,/native\.addEventListener\('dataavailable'/);
-  assert.match(js,/target\.state==='inactive'/);
-  assert.match(js,/DATA_QUIET_MS/);
-  assert.match(js,/FORCE_TRACKS_MS/);
-  assert.match(js,/HARD_STOP_MS/);
-  assert.match(js,/inactive-without-stop-event/);
+test('observation finalisation no longer forwards forced requestData before native stop',()=>{
+  assert.match(js,/if\(meta\.evidence\)return;/);
+  assert.match(js,/return target\.stop\(\)/);
+  assert.doesNotMatch(js,/FORCE_TRACKS_MS/);
+  assert.doesNotMatch(js,/HARD_STOP_MS/);
+  assert.doesNotMatch(js,/inactive-without-stop-event/);
 });
 
-test('unexpected stop recovery no longer permanently lies about recorder state',()=>{
-  assert.match(js,/meta\.unexpected&&meta\.recoveryWindow&&actual==='inactive'/);
-  assert.match(js,/pair\.meta\.recoveryWindow=true/);
-  assert.match(js,/pair\.meta\.recoveryWindow=false/);
+test('Android does not opt into MP4 MediaRecorder merely because Chromium reports support',()=>{
+  assert.match(js,/IS_ANDROID=\/Android\/i/);
+  assert.match(js,/IS_ANDROID&&value\.includes\('video\/mp4'\)/);
+  assert.match(js,/return false/);
+});
+
+test('unexpected native stop can still finish after native final data has already been emitted',()=>{
+  assert.match(js,/meta\.unexpected&&!meta\.stopRequested&&actual==='inactive'/);
+  assert.match(js,/target\.state==='inactive'/);
+  assert.match(js,/target\.dispatchEvent\(new Event\('stop'\)\)/);
   assert.match(js,/REC STOPPED/);
   assert.match(js,/CLIP HELD/);
 });
@@ -38,7 +43,6 @@ test('WebM rewrite is bypassed only around live persistence and can run later',(
   assert.match(js,/LIVE_SAVE_BYPASS_MS=10000/);
   assert.match(js,/meta\.liveSaveUntil=Date\.now\(\)\+LIVE_SAVE_BYPASS_MS/);
   assert.match(js,/Date\.now\(\)<=active\.meta\.liveSaveUntil/);
-  assert.doesNotMatch(js,/if\(visible\(\)\|\|active\?\.meta\?\.recoveryReason/);
   assert.match(js,/FIX_MAX_BYTES=12\*1024\*1024/);
   assert.match(js,/FIX_TIMEOUT_MS=1800/);
 });
