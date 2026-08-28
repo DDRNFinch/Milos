@@ -8,22 +8,27 @@ const sw=readFileSync(new URL('../sw.js',import.meta.url),'utf8');
 const pkg=JSON.parse(readFileSync(new URL('../package.json',import.meta.url),'utf8'));
 const update=JSON.parse(readFileSync(new URL('../update.json',import.meta.url),'utf8'));
 
-test('2.51 groups learners sharing the same visit address into one physical stop',()=>{
+test('2.51 groups learners sharing a site postcode into one physical stop',()=>{
   assert.match(js,/function normaliseAddress/);
+  assert.match(js,/function ukPostcode/);
   assert.match(js,/function siteKey/);
+  assert.match(js,/postcode:\$\{postcode\}/);
   assert.match(js,/const groups=new Map\(\)/);
   assert.match(js,/groups\.get\(key\)/);
   assert.match(js,/group\.names\.push/);
   assert.match(js,/names\.join\(' \+ '\)/);
 });
 
-test('2.51 road mileage routes through grouped stops only once',()=>{
+test('2.51 shared sites are geocoded once and routed once',()=>{
+  assert.match(js,/shared=group\.profiles\.length>1/);
+  assert.match(js,/if\(!shared&&cached/);
+  assert.match(js,/group\.bookings\.forEach/);
   assert.match(js,/const groups=groupBookings\(dateRows\)/);
   assert.match(js,/roadRoute\(\[d\.base,\.\.\.order\.map\(item=>item\.site\),d\.base\]\)/);
   assert.match(js,/same visit address are treated as one physical stop/i);
 });
 
-test('2.51 route planning also combines duplicate same-address learners',()=>{
+test('2.51 route planning also combines duplicate same-site learners',()=>{
   assert.match(js,/const groups=groupBookings\(fakeBookings\)/);
   assert.match(js,/Learners at the same address are combined into one stop/);
 });
