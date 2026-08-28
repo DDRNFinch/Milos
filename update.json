@@ -1,11 +1,11 @@
 {
-  "version": "2.73",
-  "title": "Evidence timestamps repaired",
+  "version": "2.74",
+  "title": "Evidence timestamps wired correctly",
   "details": [
-    "Repairs the evidence viewer so tapping an AC timestamp seeks the loaded recording to that exact time again",
-    "Fixes the 2.72 regression where the redesigned timestamp row could highlight without moving the video",
-    "Timestamp taps now drive the actual video element directly and load the correct LO recording first when needed",
-    "The streamlined one-tap Android ZIP permission flow and fixed-video scrolling layout are retained",
-    "The proven Milos 2.46 camera/media recording stack is unchanged"
+    "Fixes the remaining Android evidence-viewer fault shown in the latest recording: Milos was still playing the 10-second introduction while LO timestamp rows were tapped",
+    "The direct timestamp repair is now applied while the evidence HTML is still being assembled, before the ZIP is finalised, so it is actually present in exported evidence",
+    "Tapping an AC now selects the correct LO recording first and then seeks the real video element to that AC time",
+    "The unsuccessful 2.73 runtime position has been retired from the live shell rather than layered on top",
+    "The streamlined Android ZIP flow, fixed-video scrolling layout and proven 2.46 camera/media recording stack are unchanged"
   ]
 }
