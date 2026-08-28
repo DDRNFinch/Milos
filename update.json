@@ -1,11 +1,11 @@
 {
-  "version": "2.42",
-  "title": "One-tap AC evidence timestamps",
+  "version": "2.43",
+  "title": "Full observation criteria prompts",
   "details": [
-    "Complete Evidence ZIPs now open with an IQA/EQA-friendly AC timeline beside the video",
-    "Every recorded AC is listed with its wording, competence decision and exact timestamp; tapping the timestamp loads the correct video and jumps straight to that evidence",
-    "The reviewer only chooses the Complete Evidence ZIP once on phone, then all AC timestamp buttons work locally without uploading evidence",
-    "The AC list can be filtered by AC code, LO or wording and clearly identifies direct observation versus witness evidence",
-    "The existing manual timestamp box, video selector, draggable timeline, MP4 fast-start repair, WebM duration repair and STORE-media ZIP compatibility are retained"
+    "NVQ video observations now show the full AC wording while recording instead of visually truncating it to two lines",
+    "KSB video observations now use the exact full KSB descriptions as the main observation prompt rather than the shorter generated opportunity wording",
+    "KSB prompts are clearly labelled Knowledge · theory, Skill · practical or Behaviour so the assessor can immediately see what kind of evidence is being considered",
+    "Long criteria remain readable on phone in a scrollable prompt area without changing the continuous recording, competence taps, LO actions or evidence timestamps",
+    "Witness video testimony keeps its witness cue as a secondary prompt while the exact mapped criteria remain primary"
   ]
 }
