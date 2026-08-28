@@ -22,8 +22,8 @@ function paintUnexpected(meta){
   if(timer&&meta.startedAt&&meta.stoppedAt)timer.textContent=fmt(meta.stoppedAt-meta.startedAt);
   if(hint)hint.textContent='Recording stopped unexpectedly. The captured clip is held. Choose a judgement and finish this LO.';
 }
-function deliverRecoveredStop(target,meta,reason){
-  if(meta.stopSeen||meta.replayedStop)return;
+function deliverRecoveredStop(target,meta,reason,forceReplay=false){
+  if(meta.replayedStop||(!forceReplay&&meta.stopSeen))return;
   meta.replayedStop=true;
   meta.syntheticFinalised=true;
   meta.recoveryReason=reason||'tracks-ended';
@@ -75,7 +75,7 @@ function wrap(native){
       meta.stopRequested=true;
       meta.liveSaveUntil=Date.now()+LIVE_SAVE_BYPASS_MS;
       if(target.state==='inactive'){
-        queueMicrotask(()=>deliverRecoveredStop(target,meta,'already-inactive'));
+        queueMicrotask(()=>deliverRecoveredStop(target,meta,'already-inactive',true));
         return;
       }
       if(IS_ANDROID&&meta.evidence){
