@@ -67,20 +67,22 @@ test('midpoint and meeting check-in form is deliberately just a notes box',()=>{
   assert.match(js,/milos-checkins-v1/);
 });
 
-test('2.55 review calendar layer loads in the intended order and remains offline',()=>{
+test('review calendar layer loads in the intended order and remains offline',()=>{
   const planning=index.indexOf('milos-planning-v213.js');
   const layer=index.indexOf('milos-review-calendar-v255.js');
   const records=index.indexOf('milos-record-management-v28.js');
   assert.ok(planning>=0&&layer>planning&&records>layer);
-  assert.match(index,/milos-review-calendar-v255\.js\?v=2\.55/);
-  assert.match(index,/milos-review-calendar-v255\.css\?v=2\.55/);
+  assert.match(index,/milos-review-calendar-v255\.js\?v=\d+\.\d+/);
+  assert.match(index,/milos-review-calendar-v255\.css\?v=\d+\.\d+/);
   assert.match(sw,/milos-review-calendar-v255\.js/);
   assert.match(sw,/milos-review-calendar-v255\.css/);
 });
 
-test('2.55 release metadata is aligned',()=>{
-  assert.equal(pkg.version,'2.55.0');
-  assert.equal(update.version,'2.55');
-  assert.match(index,/milos-app-version\" content=\"2\.55\"/);
-  assert.match(sw,/milos-assessor-shell-v2\.55/);
+test('current release metadata is aligned',()=>{
+  const appVersion=index.match(/milos-app-version\" content=\"([0-9.]+)\"/)?.[1];
+  const cacheVersion=sw.match(/milos-assessor-shell-v([0-9.]+)/)?.[1];
+  assert.ok(appVersion);
+  assert.equal(pkg.version,`${appVersion}.0`);
+  assert.equal(update.version,appVersion);
+  assert.equal(cacheVersion,appVersion);
 });
