@@ -1,11 +1,11 @@
 {
-  "version": "2.50",
-  "title": "More reliable mileage address matching",
+  "version": "2.51",
+  "title": "Correct same-site visit mileage",
   "details": [
-    "Mileage and route calculations first use the full visit address as before",
-    "If the full site address is not recognised, Milos now retries using the UK postcode instead of immediately rejecting the address",
-    "Google Maps and Waze navigation behaviour is unchanged",
-    "Permanent learner sites and one-visit address overrides are unchanged",
-    "Assessment, review, observation, evidence and QR workflows are unchanged"
+    "Learners visited at the same address on the same day are now treated as one physical stop",
+    "Mileage uses base to site and back rather than counting the same site more than once",
+    "The mileage list keeps all learner names so the visit record remains clear",
+    "Route planning also combines learners at the same address into one stop",
+    "Calendar, learner profiles, assessments, reviews, observations, evidence and QR workflows are unchanged"
   ]
 }
