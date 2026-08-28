@@ -22,6 +22,44 @@ jobs:
         run: npm run check
       - name: Run Milos regression tests
         run: npm test
+      - name: Run Chromium recorder smoke
+        shell: bash
+        run: |
+          BROWSER="$(command -v google-chrome || command -v chromium || command -v chromium-browser || true)"
+          test -n "$BROWSER"
+          python3 -m http.server 4173 >/tmp/milos-http.log 2>&1 &
+          SERVER_PID=$!
+          PROFILE_DIR="$(mktemp -d)"
+          "$BROWSER" \
+            --headless=new \
+            --no-sandbox \
+            --disable-gpu \
+            --disable-dev-shm-usage \
+            --mute-audio \
+            --use-fake-device-for-media-stream \
+            --use-fake-ui-for-media-stream \
+            --autoplay-policy=no-user-gesture-required \
+            --user-agent='Mozilla/5.0 (Linux; Android 16; Pixel 9) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Mobile Safari/537.36' \
+            --remote-debugging-address=127.0.0.1 \
+            --remote-debugging-port=9222 \
+            --user-data-dir="$PROFILE_DIR" \
+            about:blank >/tmp/milos-chrome.out 2>/tmp/milos-chrome.err &
+          CHROME_PID=$!
+          cleanup(){
+            kill "$CHROME_PID" 2>/dev/null || true
+            wait "$CHROME_PID" 2>/dev/null || true
+            kill "$SERVER_PID" 2>/dev/null || true
+            wait "$SERVER_PID" 2>/dev/null || true
+            rm -rf "$PROFILE_DIR" 2>/dev/null || true
+          }
+          trap cleanup EXIT
+          set +e
+          timeout 22s node tests/run-browser-recorder-v264.mjs
+          STATUS=$?
+          set -e
+          cat /tmp/milos-chrome.out || true
+          cat /tmp/milos-chrome.err || true
+          test "$STATUS" -eq 0
       - name: Verify clean runtime set
         shell: bash
         run: |

@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en-GB" data-result="RUNNING">
+<head><meta charset="utf-8"><title>Milos 2.64 recorder browser smoke</title></head>
+<body>
+  <div id="milosVideoObservationLayer">Browser recorder smoke running…</div>
+  <pre id="result">RUNNING</pre>
+  <script>
+    window.MilosCore = Object.freeze({
+      uid(prefix){ return `${prefix}-${Date.now()}-${Math.random().toString(16).slice(2)}`; },
+      cleanText(value,max){ return String(value == null ? '' : value).trim().slice(0,max || 500); }
+    });
+  </script>
+  <script src="../assets/milos-media.js"></script>
+  <script src="../assets/milos-recorder-finalise-v258.js"></script>
+  <script src="../assets/milos-finalise-pipeline-v264.js"></script>
+  <script>
+  (async()=>{
+    const result=document.getElementById('result');
+    const fail=(error)=>{
+      document.documentElement.dataset.result='FAIL';
+      result.textContent=`FAIL: ${error && (error.stack || error.message) || error}`;
+    };
+    try{
+      if(!navigator.mediaDevices?.getUserMedia) throw new Error('getUserMedia unavailable');
+      if(!window.MediaRecorder) throw new Error('MediaRecorder unavailable');
+      if(!window.MilosMedia?.putFile) throw new Error('MilosMedia unavailable');
+      if(window.MilosFinalisePipeline264?.version!=='2.64') throw new Error('2.64 finalise pipeline not loaded');
+
+      const stream=await navigator.mediaDevices.getUserMedia({audio:true,video:true});
+      const candidates=['video/webm;codecs=vp8,opus','video/webm'];
+      const mime=candidates.find(type=>!MediaRecorder.isTypeSupported||MediaRecorder.isTypeSupported(type))||'';
+      const recorder=mime?new MediaRecorder(stream,{mimeType:mime}):new MediaRecorder(stream);
+      const chunks=[];
+      recorder.addEventListener('dataavailable',event=>{if(event.data?.size)chunks.push(event.data);});
+      recorder.start(1000);
+      await new Promise(resolve=>setTimeout(resolve,3200));
+
+      const stopped=new Promise(resolve=>recorder.addEventListener('stop',resolve,{once:true}));
+      const stopStarted=performance.now();
+      recorder.stop();
+      await Promise.race([
+        stopped,
+        new Promise((_,reject)=>setTimeout(()=>reject(new Error('stop completion exceeded 4500 ms')),4500))
+      ]);
+      const stopElapsed=Math.round(performance.now()-stopStarted);
+      await new Promise(resolve=>setTimeout(resolve,350));
+
+      const type=recorder.mimeType||chunks[0]?.type||'video/webm';
+      const blob=new Blob(chunks,{type});
+      if(!blob.size) throw new Error('recorded blob is empty');
+      const file=new File([blob],'browser-recorder-smoke.webm',{type,lastModified:Date.now()});
+      const saved=await Promise.race([
+        MilosMedia.putFile(file),
+        new Promise((_,reject)=>setTimeout(()=>reject(new Error('MilosMedia.putFile exceeded 9000 ms')),9000))
+      ]);
+      if(!saved?.id) throw new Error('media metadata missing id');
+      const stored=await MilosMedia.getFile(saved.id);
+      if(!stored?.blob?.size) throw new Error('stored media blob missing or empty');
+      if(stored.blob.size!==blob.size) throw new Error(`stored blob size mismatch ${stored.blob.size} != ${blob.size}`);
+
+      document.documentElement.dataset.result='PASS';
+      result.textContent=`PASS size=${blob.size} chunks=${chunks.length} stopMs=${stopElapsed} strategy=${window.MilosRecorderFinalise258?.androidStopStrategy||'unknown'}`;
+      try{stream.getTracks().forEach(track=>track.stop());}catch(_){}
+    }catch(error){fail(error);}
+  })();
+  </script>
+</body>
+</html>
