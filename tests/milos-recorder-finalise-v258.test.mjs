@@ -34,8 +34,11 @@ test('unexpected stop recovery no longer permanently lies about recorder state',
   assert.match(js,/CLIP HELD/);
 });
 
-test('live observation persistence bypasses expensive WebM duration rewrite',()=>{
-  assert.match(js,/if\(visible\(\)\|\|active\?\.meta\?\.recoveryReason\|\|blob\.size>FIX_MAX_BYTES\)return Promise\.resolve\(blob\)/);
+test('WebM rewrite is bypassed only around live persistence and can run later',()=>{
+  assert.match(js,/LIVE_SAVE_BYPASS_MS=10000/);
+  assert.match(js,/meta\.liveSaveUntil=Date\.now\(\)\+LIVE_SAVE_BYPASS_MS/);
+  assert.match(js,/Date\.now\(\)<=active\.meta\.liveSaveUntil/);
+  assert.doesNotMatch(js,/if\(visible\(\)\|\|active\?\.meta\?\.recoveryReason/);
   assert.match(js,/FIX_MAX_BYTES=12\*1024\*1024/);
   assert.match(js,/FIX_TIMEOUT_MS=1800/);
 });
