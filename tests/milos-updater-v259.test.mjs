@@ -8,7 +8,7 @@ const sw=readFileSync(new URL('../sw.js',import.meta.url),'utf8');
 const pkg=JSON.parse(readFileSync(new URL('../package.json',import.meta.url),'utf8'));
 const update=JSON.parse(readFileSync(new URL('../update.json',import.meta.url),'utf8'));
 
-test('2.59 updater waits for the new worker and controller before reopening Milos',()=>{
+test('updater waits for the new worker and controller before reopening Milos',()=>{
   assert.match(updater,/waitForUpdateWorker/);
   assert.match(updater,/waitControllerChange/);
   assert.match(updater,/await reg\.update\(\)/);
@@ -16,22 +16,25 @@ test('2.59 updater waits for the new worker and controller before reopening Milo
   assert.match(updater,/milos_update=/);
 });
 
-test('2.59 service worker refreshes the HTML shell for explicit update navigation',()=>{
+test('service worker refreshes the HTML shell for explicit update navigation',()=>{
   assert.match(sw,/async function refreshIndex/);
   assert.match(sw,/index\.html\?check=/);
   assert.match(sw,/url\.searchParams\.has\("milos_update"\)/);
   assert.match(sw,/await refreshIndex\(cache\)/);
 });
 
-test('2.59 changes update delivery without replacing the recorder finaliser',()=>{
-  assert.match(index,/milos-recorder-finalise-v258\.js\?v=2\.59/);
+test('update delivery keeps one recorder finalisation layer',()=>{
+  assert.match(index,/milos-recorder-finalise-v258\.js\?v=2\.\d+/);
   assert.doesNotMatch(index,/milos-recorder-recovery-v256\.js/);
   assert.doesNotMatch(index,/milos-recorder-finalise-v257\.js/);
 });
 
-test('2.59 release metadata is aligned',()=>{
-  assert.equal(pkg.version,'2.59.0');
-  assert.equal(update.version,'2.59');
-  assert.match(index,/milos-app-version" content="2\.59"/);
-  assert.match(sw,/milos-assessor-shell-v2\.59/);
+test('release metadata is aligned',()=>{
+  const match=index.match(/milos-app-version" content="([^"]+)"/);
+  assert.ok(match);
+  const version=match[1];
+  assert.equal(pkg.version,`${version}.0`);
+  assert.equal(update.version,version);
+  assert.match(sw,new RegExp(`milos-assessor-shell-v${version.replace('.', '\\.')}`));
+  assert.match(updater,new RegExp(`version:'${version.replace('.', '\\.')}'`));
 });
