@@ -1,5 +1,5 @@
-// Milos 2.74 repairs evidence timestamp export wiring; camera/media stack remains locked to proven 2.46
-const CACHE_NAME = "milos-assessor-shell-v2.74";
+// Milos 2.75 reads the single Evia figures QR; camera/media stack remains locked to proven 2.46
+const CACHE_NAME = "milos-assessor-shell-v2.75";
 const CACHE_PREFIX = "milos-assessor-shell-";
 const APP_SHELL = [
   "./",
@@ -18,6 +18,7 @@ const APP_SHELL = [
   "./assets/milos-nvq-mapping-v22.js",
   "./assets/milos-evia-course-packs-v217.js",
   "./assets/milos-qr.js",
+  "./assets/milos-evia-figures-v275.js",
   "./assets/milos-coach-v222.js",
   "./assets/milos-attendance-v224.js",
   "./assets/milos-coach-qr-v222.js",
