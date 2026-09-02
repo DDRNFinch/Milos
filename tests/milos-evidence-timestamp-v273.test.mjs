@@ -11,11 +11,11 @@ test("2.73 timestamp repair remains available as regression history", () => {
   assert.match(source, /player\.currentTime=Math\.min\(target,player\.duration\)/);
 });
 
-test("2.73 timestamp repair is retired from the live 2.74 shell", () => {
+test("2.73 timestamp repair stays retired while the proven 2.74 repair remains live", () => {
   assert.doesNotMatch(index, /milos-evidence-timestamp-v273\.js\?v=/);
   assert.doesNotMatch(sw, /milos-evidence-timestamp-v273\.js/);
   assert.match(index, /milos-evidence-timestamp-v274\.js\?v=2\.74/);
-  assert.match(index, /milos-app-version" content="2\.74"/);
-  assert.match(sw, /milos-assessor-shell-v2\.74/);
+  assert.match(index, /milos-app-version" content="2\.75"/);
+  assert.match(sw, /milos-assessor-shell-v2\.75/);
   assert.match(sw, /milos-evidence-timestamp-v274\.js/);
 });
