@@ -24,7 +24,7 @@ test("2.74 patches the evidence HTML before delegating to the ZIP builder", asyn
   assert.match(resultHtml, /stopImmediatePropagation\(\)/);
 });
 
-test("2.74 timestamp layer sits inside the export chain before the responsive viewer and timeline", () => {
+test("2.74 timestamp layer remains inside the export chain in the current Milos release", () => {
   const repair = index.indexOf("milos-evidence-timestamp-v274.js");
   const viewer = index.indexOf("milos-evidence-viewer-v272.js");
   const timeline = index.indexOf("milos-evidence-timeline-v242.js");
@@ -32,8 +32,8 @@ test("2.74 timestamp layer sits inside the export chain before the responsive vi
   assert.ok(repair >= 0 && viewer > repair && timeline > viewer);
   assert.equal(oldRepair, -1);
   assert.match(index,/milos-evidence-timestamp-v274\.js\?v=2\.74/);
-  assert.match(index,/milos-app-version" content="2\.74"/);
-  assert.match(sw,/milos-assessor-shell-v2\.74/);
+  assert.match(index,/milos-app-version" content="2\.75"/);
+  assert.match(sw,/milos-assessor-shell-v2\.75/);
   assert.match(sw,/milos-evidence-timestamp-v274\.js/);
   assert.doesNotMatch(sw,/milos-evidence-timestamp-v273\.js/);
 });
