@@ -1,67 +1,85 @@
-/* Exact current Evia avatar component, recoloured only to Milos blue. */
+/* Milos avatar: visual match to the current Evia avatar, blue only. */
 .milos-app .milos-anchor {
   --milos-avatar-blue: #2c85f7;
   --milos-eye-x: 0em;
   --milos-eye-y: 0em;
   --milos-char-tilt: 0deg;
-  top: 50%;
-  width: 1em;
-  height: 1em;
-  font-size: clamp(123.75px, 34.5vw, 165px);
+  position: absolute !important;
+  left: 50% !important;
+  top: 50% !important;
+  width: 1em !important;
+  height: 1em !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 50% !important;
+  background: transparent !important;
+  font-size: clamp(123.75px, 34.5vw, 165px) !important;
+  transform: translate(-50%, -50%) !important;
+  opacity: 0;
   transition:
     top 1100ms cubic-bezier(0.22, 1, 0.36, 1),
     font-size 1100ms cubic-bezier(0.22, 1, 0.36, 1),
     opacity 0.6s ease,
-    transform 1100ms cubic-bezier(0.22, 1, 0.36, 1);
+    transform 1100ms cubic-bezier(0.22, 1, 0.36, 1) !important;
 }
 
+.milos-app.is-ready .milos-anchor { opacity: 1; }
+
 .milos-app.is-open .milos-anchor {
-  top: calc(max(18px, env(safe-area-inset-top)) + 28px);
-  width: 1em;
-  height: 1em;
-  font-size: clamp(61.875px, 17.25vw, 82.5px);
+  top: calc(max(18px, env(safe-area-inset-top)) + 28px) !important;
+  font-size: clamp(61.875px, 17.25vw, 82.5px) !important;
 }
 
 .milos-app.is-onboarding .milos-anchor {
-  top: clamp(5.9rem, 15.5vh, 8rem);
-  width: 1em;
-  height: 1em;
-  font-size: clamp(7rem, 13vw, 8.25rem);
+  top: clamp(5.9rem, 15.5vh, 8rem) !important;
+  font-size: clamp(7rem, 13vw, 8.25rem) !important;
 }
 
 .milos-app .milos-anchor .evia-float {
-  position: relative;
-  width: 1em;
-  height: 1em;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: milos-stageFloat 8s ease-in-out infinite;
+  position: relative !important;
+  display: flex !important;
+  width: 1em !important;
+  height: 1em !important;
+  align-items: center !important;
+  justify-content: center !important;
+  animation: milos-stageFloat 8s ease-in-out infinite !important;
 }
 
+/* Evia's large soft halo, recoloured blue. */
 .milos-app .milos-anchor .evia-float::before {
   content: "";
   position: absolute;
-  inset: 0.10em;
+  inset: -0.34em;
   border-radius: 50%;
-  background: radial-gradient(circle at center, rgba(44, 133, 247, 0.22), rgba(44, 133, 247, 0.08) 46%, rgba(44, 133, 247, 0) 76%);
-  filter: blur(0.10em);
-  transform: scale(1.12);
-  animation: milos-glowPulse 8s ease-in-out infinite;
+  background: radial-gradient(circle, rgba(44, 133, 247, 0.28) 0%, rgba(44, 133, 247, 0.09) 43%, rgba(44, 133, 247, 0) 72%);
+  filter: blur(0.11em);
+  animation: milos-glowPulse 4.4s ease-in-out infinite;
   z-index: 0;
   pointer-events: none;
 }
 
-/* Keep Milos's existing pose hook alive without drawing its old face. */
+.milos-app .milos-anchor .evia-halo { display: none !important; }
+
+/* milosFace remains only as Milos's existing expression hook. */
 .milos-app .milos-anchor #milosFace {
   display: contents !important;
+  width: auto !important;
+  height: auto !important;
+  border: 0 !important;
+  background: transparent !important;
+  filter: none !important;
+  animation: none !important;
+  transform: none !important;
 }
 
 .milos-app .milos-anchor .evia-character {
   position: relative;
+  display: flex;
   width: 1em;
   height: 1em;
-  display: flex;
   align-items: center;
   justify-content: center;
   transform: rotate(var(--milos-char-tilt));
@@ -72,14 +90,14 @@
 
 .milos-app .milos-anchor .evia-body {
   position: relative;
+  display: flex;
   width: 1em;
   height: 1em;
+  align-items: center;
+  justify-content: center;
   border: 0.026em solid var(--milos-avatar-blue);
   border-radius: 50%;
   background: transparent;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   filter:
     drop-shadow(0 0 0.038em rgba(44, 133, 247, 0.55))
     drop-shadow(0 0 0.105em rgba(44, 133, 247, 0.28))
@@ -98,16 +116,17 @@
   will-change: transform;
 }
 
+/* Match the visibly larger eyes on Evia. */
 .milos-app .milos-anchor .eye {
-  width: 0.235em;
-  height: 0.235em;
-  border: 0.022em solid var(--milos-avatar-blue);
+  width: 0.32em;
+  height: 0.32em;
+  flex: 0 0 auto;
+  border: 0.018em solid var(--milos-avatar-blue);
   border-radius: 50%;
   background: transparent;
   transform-origin: center;
   transition: transform 150ms ease;
   will-change: transform;
-  flex: 0 0 auto;
 }
 
 .milos-app .milos-anchor .evia-character.blink .eye {
@@ -117,37 +136,32 @@
 .milos-app .milos-anchor .evia-character.accent-wobble {
   animation: milos-accentWobble 1200ms cubic-bezier(0.22, 1, 0.36, 1);
 }
-
 .milos-app .milos-anchor .evia-character.accent-squish {
   animation: milos-accentSquish 1150ms cubic-bezier(0.22, 1, 0.36, 1);
 }
-
 .milos-app .milos-anchor .evia-character.accent-lean {
   animation: milos-accentLean 1350ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* Preserve Milos's current surrounding layout; avatar only. */
+/* Keep Milos's existing copy, but clear it from the avatar exactly as Evia does. */
 .milos-app .milos-home-copy {
-  top: calc(50% + clamp(88px, 24vw, 108px));
+  top: calc(50% + clamp(112px, 30vw, 138px)) !important;
 }
 
 @keyframes milos-stageFloat {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-8px); }
 }
-
 @keyframes milos-glowPulse {
-  0%, 100% { transform: scale(1.08); opacity: 0.8; }
-  50% { transform: scale(1.16); opacity: 1; }
+  0%, 100% { transform: scale(1.02); opacity: 0.82; }
+  50% { transform: scale(1.08); opacity: 1; }
 }
-
 @keyframes milos-bodyDrift {
   0%, 100% { transform: rotate(0deg) scale(1); }
   25% { transform: rotate(-0.6deg) scale(1.005, 0.995); }
   50% { transform: rotate(0.4deg) scale(0.995, 1.005); }
   75% { transform: rotate(-0.4deg) scale(1.003, 0.997); }
 }
-
 @keyframes milos-accentWobble {
   0% { transform: rotate(var(--milos-char-tilt)) scale(1); }
   20% { transform: rotate(calc(var(--milos-char-tilt) - 3deg)) scale(1.01); }
@@ -156,14 +170,12 @@
   80% { transform: rotate(calc(var(--milos-char-tilt) + 0.8deg)) scale(1.002); }
   100% { transform: rotate(var(--milos-char-tilt)) scale(1); }
 }
-
 @keyframes milos-accentSquish {
   0% { transform: rotate(var(--milos-char-tilt)) scale(1); }
   25% { transform: rotate(calc(var(--milos-char-tilt) - 1deg)) scale(1.05, 0.92); }
   55% { transform: rotate(calc(var(--milos-char-tilt) + 1deg)) scale(0.95, 1.06); }
   100% { transform: rotate(var(--milos-char-tilt)) scale(1); }
 }
-
 @keyframes milos-accentLean {
   0% { transform: translateX(0) rotate(var(--milos-char-tilt)) scale(1); }
   25% { transform: translateX(-0.02em) rotate(calc(var(--milos-char-tilt) - 2deg)) scale(1.01); }
