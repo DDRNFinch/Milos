@@ -1,11 +1,10 @@
 {
-  "version": "2.75",
-  "title": "Reads the single Evia figures QR",
+  "version": "2.76",
+  "title": "Milos now matches Evia's avatar",
   "details": [
-    "Milos can now read Evia's single shared figures QR directly",
-    "The imported Evia record supplies the course, Learning Hours and evidence count already used by Milos",
-    "Milos also preserves Evia's course progress, attendance, target counts and EPA figures in the learner snapshot for assessor use",
-    "No learner name, contact details, evidence files or evidence text are imported from the Evia QR",
-    "The existing camera/media recording stack and observation workflow are unchanged"
+    "Milos now uses the same current avatar proportions, eye spacing, line weight and movement as Evia",
+    "The avatar keeps Milos blue #2C85F7 instead of Evia yellow",
+    "The same Evia floating, glow, gaze and blink timings are used",
+    "Learners, reviews, observations, QR exchange and assessor records are unchanged"
   ]
 }

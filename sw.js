@@ -1,10 +1,11 @@
-// Milos 2.75 reads the single Evia figures QR; camera/media stack remains locked to proven 2.46
-const CACHE_NAME = "milos-assessor-shell-v2.75";
+// Milos 2.76 matches the current Evia avatar; assessor workflows remain unchanged
+const CACHE_NAME = "milos-assessor-shell-v2.76";
 const CACHE_PREFIX = "milos-assessor-shell-";
 const APP_SHELL = [
   "./",
   "./index.html",
   "./styles.css",
+  "./assets/milos-evia-avatar-v276.css",
   "./manifest.webmanifest",
   "./icon-192.png",
   "./icon-512.png",
@@ -42,6 +43,7 @@ const APP_SHELL = [
   "./assets/milos-review-compliance-v223.js",
   "./assets/milos-review-compliance-v223.css",
   "./assets/milos-app.js",
+  "./assets/milos-evia-avatar-v276.js",
   "./assets/milos-manual-evia-v254.js",
   "./assets/milos-review-calendar-v255.js",
   "./assets/milos-review-calendar-v255.css",

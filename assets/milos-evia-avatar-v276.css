@@ -1,0 +1,128 @@
+/* Milos avatar parity with the current Evia avatar. */
+.milos-app .milos-anchor {
+  --milos-avatar-blue: #2c85f7;
+  --milos-eye-x: 0em;
+  --milos-eye-y: 0em;
+  --milos-char-tilt: 0deg;
+  top: 50%;
+  width: 1em;
+  height: 1em;
+  font-size: clamp(123.75px, 34.5vw, 165px);
+  transition:
+    top 1100ms cubic-bezier(0.22, 1, 0.36, 1),
+    font-size 1100ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.6s ease,
+    transform 1100ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.milos-app.is-open .milos-anchor {
+  top: calc(max(18px, env(safe-area-inset-top)) + 28px);
+  width: 1em;
+  height: 1em;
+  font-size: clamp(61.875px, 17.25vw, 82.5px);
+}
+
+.milos-app.is-onboarding .milos-anchor {
+  top: clamp(5.9rem, 15.5vh, 8rem);
+  width: 1em;
+  height: 1em;
+  font-size: clamp(7rem, 13vw, 8.25rem);
+}
+
+.milos-app .milos-anchor .evia-float {
+  width: 1em;
+  height: 1em;
+  animation: milos-parity-stage-float 8s ease-in-out infinite;
+}
+
+.milos-app .milos-anchor .evia-halo {
+  inset: 0.10em;
+  border-radius: 50%;
+  background: radial-gradient(circle at center, rgba(44, 133, 247, 0.22), rgba(44, 133, 247, 0.08) 46%, rgba(44, 133, 247, 0) 76%);
+  filter: blur(0.10em);
+  transform: scale(1.12);
+  animation: milos-parity-glow-pulse 8s ease-in-out infinite;
+}
+
+.milos-app .milos-anchor .evia-face {
+  width: 1em;
+  height: 1em;
+  border: 0.026em solid var(--milos-avatar-blue);
+  border-radius: 50%;
+  background: transparent;
+  rotate: var(--milos-char-tilt) !important;
+  translate: 0 0 !important;
+  filter:
+    drop-shadow(0 0 0.038em rgba(44, 133, 247, 0.55))
+    drop-shadow(0 0 0.105em rgba(44, 133, 247, 0.28))
+    drop-shadow(0 0 0.22em rgba(44, 133, 247, 0.13));
+  animation: milos-parity-body-drift 10s ease-in-out infinite !important;
+  transition: rotate 1400ms cubic-bezier(0.22, 1, 0.36, 1), filter 0.32s ease;
+}
+
+.milos-app .milos-anchor:hover .evia-face,
+.milos-app .milos-anchor:active .evia-face {
+  filter:
+    drop-shadow(0 0 0.038em rgba(44, 133, 247, 0.55))
+    drop-shadow(0 0 0.105em rgba(44, 133, 247, 0.28))
+    drop-shadow(0 0 0.22em rgba(44, 133, 247, 0.13));
+}
+
+.milos-app .milos-anchor .evia-eyes {
+  width: auto;
+  gap: 0.105em;
+  transform: translate(var(--milos-eye-x), var(--milos-eye-y)) !important;
+  transition: transform 1200ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.milos-app .milos-anchor .evia-eye,
+.milos-app .milos-anchor .expression-smile .evia-eye {
+  width: 0.235em;
+  height: 0.235em;
+  aspect-ratio: auto;
+  flex: 0 0 auto;
+  border: 0.022em solid var(--milos-avatar-blue);
+  border-radius: 50% !important;
+  background: transparent;
+  animation: none !important;
+  transform: none !important;
+  transform-origin: center;
+  transition: transform 150ms ease;
+}
+
+.milos-app .milos-anchor.milos-parity-blink .evia-eye {
+  transform: scaleY(0.08) !important;
+}
+
+.milos-app .milos-home-copy {
+  top: calc(50% + clamp(88px, 24vw, 108px));
+}
+
+@keyframes milos-parity-stage-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes milos-parity-glow-pulse {
+  0%, 100% { transform: scale(1.08); opacity: 0.8; }
+  50% { transform: scale(1.16); opacity: 1; }
+}
+
+@keyframes milos-parity-body-drift {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  25% { transform: rotate(-0.6deg) scale(1.005, 0.995); }
+  50% { transform: rotate(0.4deg) scale(0.995, 1.005); }
+  75% { transform: rotate(-0.4deg) scale(1.003, 0.997); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .milos-app .milos-anchor,
+  .milos-app .milos-anchor .evia-float,
+  .milos-app .milos-anchor .evia-halo,
+  .milos-app .milos-anchor .evia-face,
+  .milos-app .milos-anchor .evia-eyes,
+  .milos-app .milos-anchor .evia-eye {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+  }
+}
