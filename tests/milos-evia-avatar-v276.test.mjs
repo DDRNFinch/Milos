@@ -26,8 +26,8 @@ test("Milos uses Evia gaze and blink timings", () => {
 });
 
 test("avatar parity files are production-loaded and cached", () => {
-  assert.match(index, /milos-evia-avatar-v276\.css\?v=2\.76/);
-  assert.match(index, /milos-evia-avatar-v276\.js\?v=2\.76/);
+  assert.match(index, /milos-evia-avatar-v276\.css\?v=2\.77/);
+  assert.match(index, /milos-evia-avatar-v276\.js\?v=2\.77/);
   assert.match(sw, /milos-evia-avatar-v276\.css/);
   assert.match(sw, /milos-evia-avatar-v276\.js/);
 });

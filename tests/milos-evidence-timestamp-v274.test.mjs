@@ -31,9 +31,9 @@ test("2.74 timestamp layer remains inside the export chain in the current Milos 
   const oldRepair = index.indexOf("milos-evidence-timestamp-v273.js");
   assert.ok(repair >= 0 && viewer > repair && timeline > viewer);
   assert.equal(oldRepair, -1);
-  assert.match(index,/milos-evidence-timestamp-v274\.js\?v=2\.76/);
-  assert.match(index,/milos-app-version" content="2\.76"/);
-  assert.match(sw,/milos-assessor-shell-v2\.76/);
+  assert.match(index,/milos-evidence-timestamp-v274\.js\?v=2\.77/);
+  assert.match(index,/milos-app-version" content="2\.77"/);
+  assert.match(sw,/milos-assessor-shell-v2\.77/);
   assert.match(sw,/milos-evidence-timestamp-v274\.js/);
   assert.doesNotMatch(sw,/milos-evidence-timestamp-v273\.js/);
 });

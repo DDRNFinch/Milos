@@ -1,5 +1,5 @@
-// Milos 2.76 matches the current Evia avatar; assessor workflows remain unchanged
-const CACHE_NAME = "milos-assessor-shell-v2.76";
+// Milos 2.77 adds the self-contained Evidence Viewer; assessor workflows remain unchanged
+const CACHE_NAME = "milos-assessor-shell-v2.77";
 const CACHE_PREFIX = "milos-assessor-shell-";
 const APP_SHELL = [
   "./",
@@ -38,6 +38,7 @@ const APP_SHELL = [
   "./assets/milos-square-evidence-v244.js",
   "./assets/milos-evidence-timestamp-v274.js",
   "./assets/milos-evidence-viewer-v272.js",
+  "./assets/milos-evidence-viewer-v277.js",
   "./assets/milos-evidence-timeline-v242.js",
   "./assets/milos-observation-export-v225.js",
   "./assets/milos-review-compliance-v223.js",
