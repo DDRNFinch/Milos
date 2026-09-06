@@ -1,11 +1,11 @@
 {
-  "version": "2.75",
-  "title": "Reads the single Evia figures QR",
+  "version": "2.77",
+  "title": "Milos evidence exports are now self-contained",
   "details": [
-    "Milos can now read Evia's single shared figures QR directly",
-    "The imported Evia record supplies the course, Learning Hours and evidence count already used by Milos",
-    "Milos also preserves Evia's course progress, attendance, target counts and EPA figures in the learner snapshot for assessor use",
-    "No learner name, contact details, evidence files or evidence text are imported from the Evia QR",
-    "The existing camera/media recording stack and observation workflow are unchanged"
+    "The Evidence Viewer now follows the Evia self-contained viewer pattern in Milos blue",
+    "The observation PDF and evidence media are embedded inside the viewer while the original files remain separately in the ZIP",
+    "Assessment criteria remain grouped and searchable, with recorded timestamps opening the correct evidence point",
+    "Learner, assessor, witness, mapping and observation context are preserved in the exported viewer",
+    "Learners, reviews, observations, QR exchange and evidence capture behaviour are otherwise unchanged"
   ]
 }
