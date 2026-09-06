@@ -1,0 +1,356 @@
+name: Verify Milos avatar visual match
+
+on:
+  push:
+    branches: [milos-avatar-exact-visual-v279]
+
+permissions:
+  contents: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: milos-avatar-exact-visual-v279
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Apply Evia visual proportions to Milos avatar only
+        shell: bash
+        run: |
+          cat > assets/milos-evia-avatar-v276.css <<'EOF'
+          /* Milos avatar: visual match to the current Evia avatar, blue only. */
+          .milos-app .milos-anchor {
+            --milos-avatar-blue: #2c85f7;
+            --milos-eye-x: 0em;
+            --milos-eye-y: 0em;
+            --milos-char-tilt: 0deg;
+            position: absolute !important;
+            left: 50% !important;
+            top: 50% !important;
+            width: 1em !important;
+            height: 1em !important;
+            min-width: 0 !important;
+            min-height: 0 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            border: 0 !important;
+            border-radius: 50% !important;
+            background: transparent !important;
+            font-size: clamp(123.75px, 34.5vw, 165px) !important;
+            transform: translate(-50%, -50%) !important;
+            opacity: 0;
+            transition:
+              top 1100ms cubic-bezier(0.22, 1, 0.36, 1),
+              font-size 1100ms cubic-bezier(0.22, 1, 0.36, 1),
+              opacity 0.6s ease,
+              transform 1100ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+          }
+
+          .milos-app.is-ready .milos-anchor { opacity: 1; }
+
+          .milos-app.is-open .milos-anchor {
+            top: calc(max(18px, env(safe-area-inset-top)) + 28px) !important;
+            font-size: clamp(61.875px, 17.25vw, 82.5px) !important;
+          }
+
+          .milos-app.is-onboarding .milos-anchor {
+            top: clamp(5.9rem, 15.5vh, 8rem) !important;
+            font-size: clamp(7rem, 13vw, 8.25rem) !important;
+          }
+
+          .milos-app .milos-anchor .evia-float {
+            position: relative !important;
+            display: flex !important;
+            width: 1em !important;
+            height: 1em !important;
+            align-items: center !important;
+            justify-content: center !important;
+            animation: milos-stageFloat 8s ease-in-out infinite !important;
+          }
+
+          /* Evia's large soft halo, recoloured blue. */
+          .milos-app .milos-anchor .evia-float::before {
+            content: "";
+            position: absolute;
+            inset: -0.34em;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(44, 133, 247, 0.28) 0%, rgba(44, 133, 247, 0.09) 43%, rgba(44, 133, 247, 0) 72%);
+            filter: blur(0.11em);
+            animation: milos-glowPulse 4.4s ease-in-out infinite;
+            z-index: 0;
+            pointer-events: none;
+          }
+
+          .milos-app .milos-anchor .evia-halo { display: none !important; }
+
+          /* milosFace remains only as Milos's existing expression hook. */
+          .milos-app .milos-anchor #milosFace {
+            display: contents !important;
+            width: auto !important;
+            height: auto !important;
+            border: 0 !important;
+            background: transparent !important;
+            filter: none !important;
+            animation: none !important;
+            transform: none !important;
+          }
+
+          .milos-app .milos-anchor .evia-character {
+            position: relative;
+            display: flex;
+            width: 1em;
+            height: 1em;
+            align-items: center;
+            justify-content: center;
+            transform: rotate(var(--milos-char-tilt));
+            transition: transform 1400ms cubic-bezier(0.22, 1, 0.36, 1);
+            z-index: 1;
+            will-change: transform;
+          }
+
+          .milos-app .milos-anchor .evia-body {
+            position: relative;
+            display: flex;
+            width: 1em;
+            height: 1em;
+            align-items: center;
+            justify-content: center;
+            border: 0.026em solid var(--milos-avatar-blue);
+            border-radius: 50%;
+            background: transparent;
+            filter:
+              drop-shadow(0 0 0.038em rgba(44, 133, 247, 0.55))
+              drop-shadow(0 0 0.105em rgba(44, 133, 247, 0.28))
+              drop-shadow(0 0 0.22em rgba(44, 133, 247, 0.13));
+            animation: milos-bodyDrift 10s ease-in-out infinite;
+            will-change: transform;
+          }
+
+          .milos-app .milos-anchor .eyes {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.105em;
+            transform: translate(var(--milos-eye-x), var(--milos-eye-y));
+            transition: transform 1200ms cubic-bezier(0.22, 1, 0.36, 1);
+            will-change: transform;
+          }
+
+          /* Match the visibly larger eyes on Evia. */
+          .milos-app .milos-anchor .eye {
+            width: 0.32em;
+            height: 0.32em;
+            flex: 0 0 auto;
+            border: 0.018em solid var(--milos-avatar-blue);
+            border-radius: 50%;
+            background: transparent;
+            transform-origin: center;
+            transition: transform 150ms ease;
+            will-change: transform;
+          }
+
+          .milos-app .milos-anchor .evia-character.blink .eye {
+            transform: scaleY(0.08);
+          }
+
+          .milos-app .milos-anchor .evia-character.accent-wobble {
+            animation: milos-accentWobble 1200ms cubic-bezier(0.22, 1, 0.36, 1);
+          }
+          .milos-app .milos-anchor .evia-character.accent-squish {
+            animation: milos-accentSquish 1150ms cubic-bezier(0.22, 1, 0.36, 1);
+          }
+          .milos-app .milos-anchor .evia-character.accent-lean {
+            animation: milos-accentLean 1350ms cubic-bezier(0.22, 1, 0.36, 1);
+          }
+
+          /* Keep Milos's existing copy, but clear it from the avatar exactly as Evia does. */
+          .milos-app .milos-home-copy {
+            top: calc(50% + clamp(112px, 30vw, 138px)) !important;
+          }
+
+          @keyframes milos-stageFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+          }
+          @keyframes milos-glowPulse {
+            0%, 100% { transform: scale(1.02); opacity: 0.82; }
+            50% { transform: scale(1.08); opacity: 1; }
+          }
+          @keyframes milos-bodyDrift {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(-0.6deg) scale(1.005, 0.995); }
+            50% { transform: rotate(0.4deg) scale(0.995, 1.005); }
+            75% { transform: rotate(-0.4deg) scale(1.003, 0.997); }
+          }
+          @keyframes milos-accentWobble {
+            0% { transform: rotate(var(--milos-char-tilt)) scale(1); }
+            20% { transform: rotate(calc(var(--milos-char-tilt) - 3deg)) scale(1.01); }
+            40% { transform: rotate(calc(var(--milos-char-tilt) + 2.4deg)) scale(1.01); }
+            60% { transform: rotate(calc(var(--milos-char-tilt) - 1.5deg)) scale(1.005); }
+            80% { transform: rotate(calc(var(--milos-char-tilt) + 0.8deg)) scale(1.002); }
+            100% { transform: rotate(var(--milos-char-tilt)) scale(1); }
+          }
+          @keyframes milos-accentSquish {
+            0% { transform: rotate(var(--milos-char-tilt)) scale(1); }
+            25% { transform: rotate(calc(var(--milos-char-tilt) - 1deg)) scale(1.05, 0.92); }
+            55% { transform: rotate(calc(var(--milos-char-tilt) + 1deg)) scale(0.95, 1.06); }
+            100% { transform: rotate(var(--milos-char-tilt)) scale(1); }
+          }
+          @keyframes milos-accentLean {
+            0% { transform: translateX(0) rotate(var(--milos-char-tilt)) scale(1); }
+            25% { transform: translateX(-0.02em) rotate(calc(var(--milos-char-tilt) - 2deg)) scale(1.01); }
+            60% { transform: translateX(0.01em) rotate(calc(var(--milos-char-tilt) + 1deg)) scale(1.005); }
+            100% { transform: translateX(0) rotate(var(--milos-char-tilt)) scale(1); }
+          }
+
+          @media (prefers-reduced-motion: reduce) {
+            .milos-app .milos-anchor,
+            .milos-app .milos-anchor .evia-float,
+            .milos-app .milos-anchor .evia-float::before,
+            .milos-app .milos-anchor .evia-body,
+            .milos-app .milos-anchor .evia-character,
+            .milos-app .milos-anchor .eyes,
+            .milos-app .milos-anchor .eye {
+              animation: none !important;
+              transition: none !important;
+            }
+          }
+          EOF
+
+          python - <<'PY'
+          from pathlib import Path
+          import json, re
+
+          index = Path('index.html')
+          text = index.read_text(encoding='utf-8')
+          if 'milos-app-version" content="2.78' not in text:
+              raise SystemExit('Expected Milos 2.78 before v2.79 avatar release')
+          text = text.replace('2.78', '2.79')
+
+          # Avatar CSS must be the final stylesheet so later Milos modules cannot override it.
+          avatar_link_re = re.compile(r'\s*<link rel="stylesheet" href="\./assets/milos-evia-avatar-v276\.css\?v=2\.79">\n?')
+          match = avatar_link_re.search(text)
+          if not match:
+              raise SystemExit('Avatar stylesheet link not found')
+          avatar_link = '  <link rel="stylesheet" href="./assets/milos-evia-avatar-v276.css?v=2.79">\n'
+          text = avatar_link_re.sub('\n', text, count=1)
+          first_script = text.find('  <script defer')
+          if first_script < 0:
+              raise SystemExit('No script block found')
+          text = text[:first_script] + avatar_link + text[first_script:]
+          index.write_text(text, encoding='utf-8')
+
+          js = Path('assets/milos-evia-avatar-v276.js')
+          s = js.read_text(encoding='utf-8').replace('const VERSION = "2.78";', 'const VERSION = "2.79";')
+          js.write_text(s, encoding='utf-8')
+
+          package = Path('package.json')
+          pdata = json.loads(package.read_text(encoding='utf-8'))
+          pdata['version'] = '2.79.0'
+          package.write_text(json.dumps(pdata, indent=2) + '\n', encoding='utf-8')
+
+          sw = Path('sw.js')
+          s = sw.read_text(encoding='utf-8')
+          s = s.replace('Milos 2.78 replaces only the avatar with the exact current Evia component in Milos blue', 'Milos 2.79 visually matches the Evia avatar in Milos blue')
+          s = s.replace('milos-assessor-shell-v2.78', 'milos-assessor-shell-v2.79')
+          sw.write_text(s, encoding='utf-8')
+
+          update = Path('update.json')
+          u = json.loads(update.read_text(encoding='utf-8'))
+          u['version'] = '2.79'
+          u['title'] = 'Milos avatar now visually matches Evia'
+          u['details'] = [
+            'Only the Milos avatar presentation has changed',
+            'The circle, large eyes, spacing, soft halo and movement now match the Evia avatar visually',
+            'Evia yellow is replaced with Milos blue #2C85F7',
+            'Milos header, background, calendar, menus, evidence viewer and assessor workflows are unchanged'
+          ]
+          update.write_text(json.dumps(u, indent=2) + '\n', encoding='utf-8')
+
+          for p in Path('tests').glob('*.mjs'):
+              t = p.read_text(encoding='utf-8')
+              if '2.78' in t:
+                  p.write_text(t.replace('2.78', '2.79'), encoding='utf-8')
+          PY
+
+          cat > tests/milos-avatar-visual-v279.test.mjs <<'EOF'
+          import test from 'node:test';
+          import assert from 'node:assert/strict';
+          import fs from 'node:fs';
+
+          const css = fs.readFileSync('assets/milos-evia-avatar-v276.css','utf8');
+          const index = fs.readFileSync('index.html','utf8');
+          const sw = fs.readFileSync('sw.js','utf8');
+
+          test('Milos uses Evia visual proportions in blue', () => {
+            assert.match(css, /--milos-avatar-blue:\s*#2c85f7/i);
+            assert.match(css, /font-size:\s*clamp\(123\.75px,\s*34\.5vw,\s*165px\)/);
+            assert.match(css, /width:\s*0\.32em/);
+            assert.match(css, /height:\s*0\.32em/);
+            assert.match(css, /gap:\s*0\.105em/);
+            assert.match(css, /inset:\s*-0\.34em/);
+            assert.match(css, /milos-home-copy[\s\S]*30vw/);
+          });
+
+          test('avatar stylesheet is loaded after all other styles', () => {
+            const avatar = index.indexOf('milos-evia-avatar-v276.css?v=2.79');
+            const lastOther = Math.max(
+              index.lastIndexOf('milos-review-calendar-v255.css'),
+              index.lastIndexOf('milos-travel-v248.css'),
+              index.lastIndexOf('milos-standard-ui-v229.css')
+            );
+            assert.ok(avatar > lastOther);
+            assert.ok(avatar < index.indexOf('<script defer'));
+          });
+
+          test('v2.79 cache release will replace installed avatar assets', () => {
+            assert.match(index, /milos-app-version" content="2\.79"/);
+            assert.match(sw, /milos-assessor-shell-v2\.79/);
+            assert.match(sw, /milos-evia-avatar-v276\.css/);
+            assert.match(sw, /milos-evia-avatar-v276\.js/);
+          });
+          EOF
+
+      - name: Check production JavaScript
+        run: |
+          for f in assets/*.js; do node --check "$f"; done
+
+      - name: Run complete Milos regression suite
+        run: npm test
+
+      - name: Verify avatar-only scope
+        shell: bash
+        run: |
+          python - <<'PY'
+          import subprocess
+          allowed = {
+            'assets/milos-evia-avatar-v276.css',
+            'assets/milos-evia-avatar-v276.js',
+            'index.html','package.json','sw.js','update.json',
+            'tests/milos-avatar-visual-v279.test.mjs'
+          }
+          changed = subprocess.check_output(['git','diff','--name-only','HEAD~1..HEAD'], text=True).splitlines()
+          # Existing release-assertion tests may be version-bumped only.
+          for p in changed:
+              if p.startswith('tests/') and p.endswith('.mjs'):
+                  continue
+              if p == '.github/workflows/avatar-visual-v279.yml':
+                  continue
+              if p not in allowed:
+                  raise SystemExit(f'Unexpected non-avatar file changed: {p}')
+          PY
+
+      - name: Commit verified avatar release and remove temporary workflow
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          rm .github/workflows/avatar-visual-v279.yml
+          git add -A
+          git commit -m 'Match Milos avatar visually to Evia'
+          git push origin HEAD:milos-avatar-exact-visual-v279
