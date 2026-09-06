@@ -92,8 +92,8 @@ test("v2.77 replaces the ZIP-dependent player with a self-contained Milos viewer
 
 test("viewer embeds source files and preserves assessor, learner, witness and mapping context", async () => {
   const { html } = await buildViewer();
-  assert.match(html, /YWJj/); // embedded clip.mp4
-  assert.match(html, /cGRm/); // embedded Observation.pdf
+  assert.match(html, /YWJj/);
+  assert.match(html, /cGRm/);
   assert.match(html, /Learner Name/);
   assert.match(html, /Assessor Name/);
   assert.match(html, /Site Supervisor/);
@@ -119,8 +119,8 @@ test("v2.77 viewer is loaded after v2.72 and before the timeline, and is cached 
   const newViewer = index.indexOf("milos-evidence-viewer-v277.js");
   const timeline = index.indexOf("milos-evidence-timeline-v242.js");
   assert.ok(oldViewer >= 0 && newViewer > oldViewer && timeline > newViewer);
-  assert.match(index, /milos-evidence-viewer-v277\.js\?v=2\.78/);
+  assert.match(index, /milos-evidence-viewer-v277\.js\?v=2\.79/);
   assert.match(sw, /milos-evidence-viewer-v277\.js/);
-  assert.match(index, /milos-app-version" content="2\.78/);
-  assert.match(sw, /milos-assessor-shell-v2\.78/);
+  assert.match(index, /milos-app-version" content="2\.79/);
+  assert.match(sw, /milos-assessor-shell-v2\.79/);
 });

@@ -1,7 +1,7 @@
 (function (global) {
   "use strict";
 
-  const VERSION = "2.78";
+  const VERSION = "2.79";
   const looks = [
     { x: 0, y: 0, tilt: 0 },
     { x: -0.038, y: 0, tilt: -1.2 },

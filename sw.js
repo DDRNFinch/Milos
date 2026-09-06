@@ -1,5 +1,5 @@
-// Milos 2.78 replaces only the avatar with the exact current Evia component in Milos blue
-const CACHE_NAME = "milos-assessor-shell-v2.78";
+// Milos 2.79 visually matches the Evia avatar in Milos blue
+const CACHE_NAME = "milos-assessor-shell-v2.79";
 const CACHE_PREFIX = "milos-assessor-shell-";
 const APP_SHELL = [
   "./",
