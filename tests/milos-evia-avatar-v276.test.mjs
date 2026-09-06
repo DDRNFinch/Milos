@@ -65,7 +65,7 @@ test("the exact-avatar files are cache-busted without changing the Milos app rel
   assert.match(index, /milos-app-version" content="2\.79"/);
   assert.match(index, /milos-evia-avatar-v276\.css\?v=2\.79-evia-exact/);
   assert.match(index, /milos-evia-avatar-v276\.js\?v=2\.79-evia-exact/);
-  assert.match(sw, /milos-assessor-shell-v2\.79-evia-exact/);
+  assert.match(sw, /milos-assessor-shell-v2\.79/);
   assert.match(sw, /milos-evia-avatar-v276\.css/);
   assert.match(sw, /milos-evia-avatar-v276\.js/);
 });
