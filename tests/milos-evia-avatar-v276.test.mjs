@@ -7,35 +7,44 @@ const js = fs.readFileSync("assets/milos-evia-avatar-v276.js", "utf8");
 const index = fs.readFileSync("index.html", "utf8");
 const sw = fs.readFileSync("sw.js", "utf8");
 
-test("Milos uses current Evia avatar geometry and glow with only yellow changed to blue", () => {
+test("Milos uses the visible Evia avatar component with only the hue changed to blue", () => {
   assert.match(js, /float\.innerHTML/);
   assert.match(js, /class="evia-character" id="milosEviaCharacter"/);
   assert.match(js, /class="evia-body"/);
   assert.match(js, /class="eyes"/);
   assert.equal((js.match(/class="eye"/g) || []).length, 2);
+  assert.match(js, /exactVisibleEviaPolish:\s*true/);
 
   assert.match(css, /--evia-yellow:\s*#2c85f7/i);
   assert.match(css, /font-size:\s*clamp\(123\.75px, 34\.5vw, 165px\)/);
   assert.match(css, /font-size:\s*clamp\(61\.875px, 17\.25vw, 82\.5px\)/);
-  assert.match(css, /border:\s*0\.026em solid var\(--evia-yellow\)/);
-  assert.match(css, /width:\s*0\.235em;/);
-  assert.match(css, /height:\s*0\.235em;/);
-  assert.match(css, /border:\s*0\.022em solid var\(--evia-yellow\)/);
-  assert.match(css, /gap:\s*0\.105em;/);
 
-  assert.match(css, /inset:\s*0\.10em/);
-  assert.match(css, /radial-gradient\(circle at center, rgba\(44, 133, 247, 0\.22\), rgba\(44, 133, 247, 0\.08\) 46%, rgba\(44, 133, 247, 0\) 76%\)/);
-  assert.match(css, /filter:\s*blur\(0\.10em\)/);
-  assert.match(css, /transform:\s*scale\(1\.12\)/);
-  assert.match(css, /animation:\s*glowPulse 8s ease-in-out infinite/);
-  assert.match(css, /drop-shadow\(0 0 0\.038em rgba\(44, 133, 247, 0\.55\)\)/);
-  assert.match(css, /drop-shadow\(0 0 0\.105em rgba\(44, 133, 247, 0\.28\)\)/);
-  assert.match(css, /drop-shadow\(0 0 0\.22em rgba\(44, 133, 247, 0\.13\)\)/);
+  // These values are the active Evia visible-polish layer, not the smaller base avatar underneath it.
+  assert.match(css, /evia-float::before[\s\S]*inset:\s*-0\.58em/i);
+  assert.match(css, /evia-float::after[\s\S]*inset:\s*-\.32em/i);
+  assert.match(css, /evia-character::before[\s\S]*inset:\s*-\.82em/i);
+  assert.match(css, /evia-character::after[\s\S]*inset:\s*-\.28em/i);
+  assert.match(css, /filter:\s*blur\(\.10em\)/i);
+  assert.match(css, /isolation:\s*isolate/i);
+
+  assert.match(css, /\.evia-body[\s\S]*background:\s*radial-gradient\(circle at 50% 43%/i);
+  assert.match(css, /\.evia-body[\s\S]*box-shadow:\s*0 0 \.05em[\s\S]*0 0 \.35em/i);
+  assert.match(css, /\.evia-body::before/);
+  assert.match(css, /\.evia-body::after/);
+
+  assert.match(css, /\.eyes[\s\S]*width:\s*82%\s*!important/i);
+  assert.match(css, /\.eyes[\s\S]*height:\s*46%\s*!important/i);
+  assert.match(css, /\.eyes[\s\S]*gap:\s*12%\s*!important/i);
+  assert.match(css, /\.eye[\s\S]*width:\s*42%\s*!important/i);
+  assert.match(css, /\.eye[\s\S]*aspect-ratio:\s*1/i);
+  assert.match(css, /\.eye[\s\S]*border:\s*1\.5px solid/i);
 
   assert.match(css, /top:\s*calc\(50% \+ clamp\(88px, 24vw, 108px\)\)/);
+  assert.doesNotMatch(css, /width:\s*0\.235em/);
+  assert.doesNotMatch(css, /inset:\s*0\.10em/);
 });
 
-test("Milos mirrors current Evia idle, blink, gaze, glow and accent movement exactly", () => {
+test("Milos mirrors Evia idle blink gaze glow and accent movement", () => {
   assert.match(js, /x:\s*-0\.038/);
   assert.match(js, /x:\s*0\.038/);
   assert.match(js, /y:\s*-0\.029/);
@@ -61,11 +70,11 @@ test("Milos mirrors current Evia idle, blink, gaze, glow and accent movement exa
   assert.match(css, /@keyframes accentLean/);
 });
 
-test("the exact-avatar files are cache-busted without changing the Milos app release", () => {
-  assert.match(index, /milos-app-version" content="2\.79"/);
-  assert.match(index, /milos-evia-avatar-v276\.css\?v=2\.79-evia-exact/);
-  assert.match(index, /milos-evia-avatar-v276\.js\?v=2\.79-evia-exact/);
-  assert.match(sw, /milos-assessor-shell-v2\.79/);
+test("Milos 2.80 forces installed apps to receive the corrected avatar", () => {
+  assert.match(index, /milos-app-version" content="2\.80"/);
+  assert.match(index, /milos-evia-avatar-v276\.css\?v=2\.80-evia-visible-polish/);
+  assert.match(index, /milos-evia-avatar-v276\.js\?v=2\.80-evia-visible-polish/);
+  assert.match(sw, /milos-assessor-shell-v2\.80/);
   assert.match(sw, /milos-evia-avatar-v276\.css/);
   assert.match(sw, /milos-evia-avatar-v276\.js/);
 });

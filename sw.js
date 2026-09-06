@@ -1,5 +1,5 @@
-// Milos 2.79 exact current Evia avatar, recoloured only to Milos blue
-const CACHE_NAME = "milos-assessor-shell-v2.79";
+// Milos 2.80 exact visible Evia avatar polish, recoloured only to Milos blue
+const CACHE_NAME = "milos-assessor-shell-v2.80";
 const CACHE_PREFIX = "milos-assessor-shell-";
 const APP_SHELL = [
   "./",

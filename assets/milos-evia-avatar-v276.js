@@ -1,7 +1,7 @@
 (function (global) {
   "use strict";
 
-  const VERSION = "2.79-evia-exact";
+  const VERSION = "2.80-evia-visible-polish";
   const looks = [
     { x: 0, y: 0, tilt: 0 },
     { x: -0.038, y: 0, tilt: -1.2 },
@@ -32,7 +32,7 @@
     if (!app || !anchor || !float || anchor.dataset.eviaAvatarParity === VERSION) return;
     anchor.dataset.eviaAvatarParity = VERSION;
 
-    /* Exact current Evia avatar DOM structure. */
+    /* Current Evia avatar DOM structure; Milos changes only the visual hue in CSS. */
     float.innerHTML = `
       <span class="evia-character" id="milosEviaCharacter" aria-hidden="true">
         <span class="evia-body">
@@ -104,6 +104,7 @@
       version: VERSION,
       blue: "#2C85F7",
       exactCurrentEviaStructure: true,
+      exactVisibleEviaPolish: true,
       look: applyLook,
       blink,
       accent: runAccent,
