@@ -119,8 +119,8 @@ test("v2.77 viewer is loaded after v2.72 and before the timeline, and is cached 
   const newViewer = index.indexOf("milos-evidence-viewer-v277.js");
   const timeline = index.indexOf("milos-evidence-timeline-v242.js");
   assert.ok(oldViewer >= 0 && newViewer > oldViewer && timeline > newViewer);
-  assert.match(index, /milos-evidence-viewer-v277\.js\?v=2\.77/);
+  assert.match(index, /milos-evidence-viewer-v277\.js\?v=2\.78/);
   assert.match(sw, /milos-evidence-viewer-v277\.js/);
-  assert.match(index, /milos-app-version" content="2\.77/);
-  assert.match(sw, /milos-assessor-shell-v2\.77/);
+  assert.match(index, /milos-app-version" content="2\.78/);
+  assert.match(sw, /milos-assessor-shell-v2\.78/);
 });
