@@ -1,9 +1,9 @@
 {
-  "version": "2.79",
-  "title": "Milos avatar now visually matches Evia",
+  "version": "2.80",
+  "title": "Milos avatar now uses Evia's visible polish",
   "details": [
     "Only the Milos avatar presentation has changed",
-    "The circle, large eyes, spacing, soft halo and movement now match the Evia avatar visually",
+    "The avatar now uses the same large OO eyes, luminous filled face, layered halo and movement as the visible Evia avatar",
     "Evia yellow is replaced with Milos blue #2C85F7",
     "Milos header, background, calendar, menus, evidence viewer and assessor workflows are unchanged"
   ]
