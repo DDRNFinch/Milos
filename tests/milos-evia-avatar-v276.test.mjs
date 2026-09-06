@@ -16,10 +16,10 @@ test("Milos uses the exact current Evia avatar structure in Milos blue", () => {
   assert.match(css, /font-size:\s*clamp\(123\.75px, 34\.5vw, 165px\)/);
   assert.match(css, /font-size:\s*clamp\(61\.875px, 17\.25vw, 82\.5px\)/);
   assert.match(css, /border:\s*0\.026em solid var\(--milos-avatar-blue\)/);
-  assert.match(css, /width:\s*0\.235em;/);
-  assert.match(css, /height:\s*0\.235em;/);
+  assert.match(css, /width:\s*0\.32em;/);
+  assert.match(css, /height:\s*0\.32em;/);
   assert.match(css, /gap:\s*0\.105em;/);
-  assert.match(css, /rgba\(44, 133, 247, 0\.22\)/);
+  assert.match(css, /rgba\(44, 133, 247, 0\.28\)/);
   assert.match(css, /#2c85f7/i);
 });
 
@@ -42,10 +42,10 @@ test("Milos mirrors current Evia gaze blink and accent behaviour", () => {
 });
 
 test("avatar-only release is production-loaded and cached", () => {
-  assert.match(index, /milos-app-version" content="2\.78"/);
-  assert.match(index, /milos-evia-avatar-v276\.css\?v=2\.78/);
-  assert.match(index, /milos-evia-avatar-v276\.js\?v=2\.78/);
-  assert.match(sw, /milos-assessor-shell-v2\.78/);
+  assert.match(index, /milos-app-version" content="2\.79"/);
+  assert.match(index, /milos-evia-avatar-v276\.css\?v=2\.79/);
+  assert.match(index, /milos-evia-avatar-v276\.js\?v=2\.79/);
+  assert.match(sw, /milos-assessor-shell-v2\.79/);
   assert.match(sw, /milos-evia-avatar-v276\.css/);
   assert.match(sw, /milos-evia-avatar-v276\.js/);
 });
