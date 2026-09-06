@@ -1,11 +1,10 @@
 {
-  "version": "2.77",
-  "title": "Milos evidence exports are now self-contained",
+  "version": "2.78",
+  "title": "Milos now uses Evia's exact current avatar",
   "details": [
-    "The Evidence Viewer now follows the Evia self-contained viewer pattern in Milos blue",
-    "The observation PDF and evidence media are embedded inside the viewer while the original files remain separately in the ZIP",
-    "Assessment criteria remain grouped and searchable, with recorded timestamps opening the correct evidence point",
-    "Learner, assessor, witness, mapping and observation context are preserved in the exported viewer",
-    "Learners, reviews, observations, QR exchange and evidence capture behaviour are otherwise unchanged"
+    "Only the Milos avatar has changed",
+    "The avatar now uses the same current structure, proportions, eyes, glow, float, drift, gaze, blink and subtle accent movement as Evia",
+    "Evia yellow is replaced with Milos blue #2C85F7",
+    "The Milos background, header, calendar, menus, evidence viewer and assessor workflows are unchanged"
   ]
 }
