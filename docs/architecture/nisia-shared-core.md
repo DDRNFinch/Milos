@@ -197,7 +197,6 @@ erDiagram
 | **LearningHoursEntry** (OTJ/GLH) | Evia, Symi | enrolment, date, minutes, activity type, description, verified by | Rolled up for OTJ tracking |
 | **Session** + **Attendance** | Symi | group or individual session, register | Tutor-delivered off-the-job training |
 | **Visit** | Milos | enrolment, planned/actual time, site address, purpose, travel | Current calendar, travel and mileage features |
-| **WellbeingCheck** / **SupportNeed** | Milos, Evia | enrolment, response, note, follow-up | **Special category.** Separate table, narrower access (§6) |
 | **AuditEvent** | backend only | actor, action, entity, before/after hash, time, device | Append-only, written by database triggers |
 
 ### 5.3 Where current Milos data goes
@@ -248,7 +247,6 @@ Enforced by Postgres row-level security, so an app bug cannot leak another colle
 | Reviews | ✅ read + sign | ✅ write + sign | 👁 read | ✅ read + sign | ✅ read |
 | Observations | ✅ read | ✅ write | 👁 read | 👁 summary | ✅ read |
 | OTJ entries | ✅ write | ✅ verify | ✅ write + verify | 👁 totals | ✅ read |
-| Wellbeing / support needs | ✅ own | ✅ assigned | ❌ unless shared | ❌ | Safeguarding lead only |
 | Audit log | ❌ | ❌ | ❌ | ❌ | ✅ quality/admin |
 
 ---
@@ -278,7 +276,8 @@ sequenceDiagram
 
 - **Push** is idempotent: re-sending a mutation with the same ID is harmless, so flaky signal cannot duplicate records.
 - **Pull** only returns what the user may see (RLS), so an assessor's phone holds their caseload, not the whole college.
-- **Media** uploads separately in a resumable queue (Supabase Storage supports the TUS protocol). A 200 MB site video can upload over several sessions. Records reference media by ID and show "uploading" until done.
+- **Data sync** (text, scores, metadata, actions, judgements) happens on any connection. The outbox flushes whenever online, including mobile data.
+- **Media uploads** (videos, photos, audio) queue separately and only proceed over **WiFi**. In companion mode, Evia shows "waiting for WiFi" when it has unsynced videos. A 200 MB site video can upload over several sessions using Supabase Storage's TUS protocol. Records reference media by ID and show "uploading" until done.
 - The app calls `navigator.storage.persist()` and shows an **unsynced changes** badge, so nobody leaves a site thinking a review is saved centrally when it isn't.
 
 ### 7.2 Conflict rules
@@ -411,7 +410,6 @@ The v1 `NISI:EVIA:PROGRESS:1` and `NISI:MILOS:OBS:1` formats keep working during
 
 - **UK data residency:** Supabase London region for database, storage and functions. Documented in the data processing agreement.
 - **Encryption:** TLS in transit; encrypted at rest (platform default). Local device data sits inside the browser's origin storage; the app signs out and clears it on request or when an admin removes a device.
-- **Special-category data** (wellbeing, support needs, learning difficulties) lives in separate tables with narrower RLS and its own retention period.
 - **Retention:** per-organisation settings (for example, six years after completion for funding audit), with scheduled deletion jobs.
 - **Third parties:** no personal data leaves Nisia without consent. Address lookup and distances move from public OpenStreetMap servers to a **self-hosted postcode dataset** (ONS Postcode Directory or a self-hosted postcodes.io).
 - **Accessibility:** WCAG 2.2 AA across all apps. `packages/ui` components are built and tested for it once (automated axe checks in CI).
